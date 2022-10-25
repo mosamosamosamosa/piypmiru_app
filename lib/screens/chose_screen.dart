@@ -65,7 +65,7 @@ class _ChoseScreenState extends State<ChoseScreen> {
                         roleimg: "parent.png",
                         selected: selected_parent,
                       )),
-                  SizedBox(width: deviceW * 1 / 9),
+                  SizedBox(width: deviceW * 1 / 12),
                   GestureDetector(
                       onTap: () {
                         setState(() {

@@ -21,7 +21,7 @@ class _ChoseScreenState extends State<ChoseScreen> {
     double deviceH = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: kAppbarColor,
+      backgroundColor: kSubBackgroundColor,
       body: Stack(
         children: [
           Column(
@@ -65,7 +65,7 @@ class _ChoseScreenState extends State<ChoseScreen> {
                         roleimg: "parent.png",
                         selected: selected_parent,
                       )),
-                  SizedBox(width: deviceW * 1 / 9),
+                  SizedBox(width: deviceW * 1 / 12),
                   GestureDetector(
                       onTap: () {
                         setState(() {
@@ -84,7 +84,7 @@ class _ChoseScreenState extends State<ChoseScreen> {
           ),
           selected_parent || selected_driver
               ? Positioned(
-                  bottom: deviceH * 1 / 8,
+                  bottom: deviceH * 1 / 12,
                   left: 0,
                   right: 0,
                   child: GestureDetector(
@@ -97,7 +97,7 @@ class _ChoseScreenState extends State<ChoseScreen> {
                       )),
                 )
               : Positioned(
-                  bottom: deviceH * 1 / 8,
+                  bottom: deviceH * 1 / 12,
                   left: 0,
                   right: 0,
                   child: GestureDetector(

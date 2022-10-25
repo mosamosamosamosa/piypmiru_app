@@ -7,12 +7,14 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double deviceW = MediaQuery.of(context).size.width;
+    double deviceH = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: kAppbarColor,
       body: Column(
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 140),
+            margin: EdgeInsets.only(top: deviceH * 1 / 6),
             alignment: Alignment.center,
             child: const Text(
               "Loading...",
@@ -23,7 +25,7 @@ class SplashScreen extends StatelessWidget {
                   fontFamily: 'Kiwi_Maru'),
             ),
           ),
-          const SizedBox(height: 150),
+          SizedBox(height: deviceH * 1 / 6),
           Image.asset('assets/images/hiyoko_flag.png'),
         ],
       ),

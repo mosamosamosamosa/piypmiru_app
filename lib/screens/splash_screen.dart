@@ -17,10 +17,10 @@ class SplashScreen extends StatelessWidget {
             child: const Text(
               "Loading...",
               style: TextStyle(
-                fontSize: 70,
-                fontWeight: FontWeight.bold,
-                color: kTitleColor,
-              ),
+                  fontSize: 70,
+                  fontWeight: FontWeight.bold,
+                  color: kTitleColor,
+                  fontFamily: 'Kiwi_Maru'),
             ),
           ),
           const SizedBox(height: 150),

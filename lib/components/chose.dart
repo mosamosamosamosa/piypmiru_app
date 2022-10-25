@@ -23,7 +23,7 @@ class Chose extends StatelessWidget {
                 height: 170,
                 width: 140,
                 decoration: BoxDecoration(
-                    color: Color(0xFFFFEEC2),
+                    color: kInputColor,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(width: 5, color: Color(0xFF90D7EC))),
               )
@@ -31,7 +31,7 @@ class Chose extends StatelessWidget {
                 height: 170,
                 width: 140,
                 decoration: BoxDecoration(
-                  color: Color(0xFFFFEEC2),
+                  color: kInputColor,
                   borderRadius: BorderRadius.circular(20),
                 )),
         Column(

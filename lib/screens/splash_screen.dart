@@ -10,7 +10,7 @@ class SplashScreen extends StatelessWidget {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: kAppbarColor,
+      backgroundColor: kSubBackgroundColor,
       body: Column(
         children: [
           Container(

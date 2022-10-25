@@ -55,6 +55,11 @@ flutter:
   
   uses-material-design: true
 
+  fonts:
+    - family: Kiwi_Maru
+      fonts:
+        - asset: assets/fonts/KiwiMaru-Light.ttf
+        
   assets:
     - assets/images/
   

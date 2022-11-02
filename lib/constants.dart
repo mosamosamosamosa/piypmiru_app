@@ -7,3 +7,6 @@ const kBackgroundColor = Color(0xFFFFFAE3);
 const kSubBackgroundColor = Color(0xFFFBD579);
 const kFontColor = Color(0xFF666666);
 const kInputColor = Color(0xFFFFEEC2);
+const kBusItemColor = Color(0xFFFFE39E);
+const kCanselColor = Color(0XFFE3EEF9);
+const kEndColor = Color(0XFF90D7EC);

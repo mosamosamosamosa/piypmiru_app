@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:piyomiru_application/constants.dart';
 
-class LogoutModal extends StatefulWidget {
+class LogoutModal extends StatelessWidget {
   LogoutModal({Key? key}) : super(key: key);
 
-  @override
-  State<LogoutModal> createState() => _LogoutModalState();
-}
-
-class _LogoutModalState extends State<LogoutModal> {
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;

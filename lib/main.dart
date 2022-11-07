@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:piyomiru_application/components/listitem.dart';
+import 'package:piyomiru_application/screens/chose_screen.dart';
+import 'package:piyomiru_application/screens/home/home_driver_screen.dart';
+import 'package:piyomiru_application/screens/home/register_kids/registeredkids_screen.dart';
 import 'package:piyomiru_application/screens/splash_screen.dart';
 
 void main() {
@@ -16,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SplashScreen(),
+      home: HomeDriverScreen(),
     );
   }
 }

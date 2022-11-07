@@ -1,0 +1,134 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:piyomiru_application/constants.dart';
+
+class AddlistModal extends StatefulWidget {
+  AddlistModal({Key? key}) : super(key: key);
+
+  @override
+  State<AddlistModal> createState() => _AddlistModalState();
+}
+
+class _AddlistModalState extends State<AddlistModal> {
+  @override
+  Widget build(BuildContext context) {
+    double deviceW = MediaQuery.of(context).size.width;
+    double deviceH = MediaQuery.of(context).size.height;
+
+    return Dialog(
+      alignment: Alignment.center,
+      insetPadding: const EdgeInsets.only(
+        bottom: 250,
+        top: 250,
+        left: 28,
+        right: 28,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            height: deviceH,
+            width: deviceW,
+            decoration: BoxDecoration(
+              color: Color(0XFFFFFFFF),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(width: 3, color: kSubBackgroundColor),
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              //SizedBox(height: 30),
+              const Text(
+                "名前を入力してください",
+                style: TextStyle(
+                  fontSize: 22,
+                  color: kFontColor,
+                ),
+              ),
+              //SizedBox(height: 10),
+              Container(
+                height: 50,
+                width: 250,
+                decoration: BoxDecoration(
+                  color: kInputColor,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: const TextField(
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: kFontColor,
+                  ),
+                  cursorColor: kFontColor,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 24),
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          height: 64,
+                          width: 120,
+                          decoration: BoxDecoration(
+                            color: kCanselColor,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        const Text(
+                          "キャンセル",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: kFontColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      //追加処理
+                    },
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          height: 64,
+                          width: 120,
+                          decoration: BoxDecoration(
+                            color: kStartColor,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        const Text(
+                          "追加",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Color(0XFFFFFFFF),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}

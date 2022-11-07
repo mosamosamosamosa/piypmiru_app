@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/screens/home/start_drive/driving_screen.dart';
 
-class LogoutModal extends StatelessWidget {
-  LogoutModal({Key? key}) : super(key: key);
+class StartDriveModal extends StatelessWidget {
+  StartDriveModal({
+    Key? key,
+    required this.name,
+  }) : super(key: key);
 
+  final String name;
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
@@ -37,7 +42,7 @@ class LogoutModal extends StatelessWidget {
             children: [
               SizedBox(height: 38),
               const Text(
-                "本当にログアウトしますか？",
+                "本当に運転を開始しますか？",
                 style: TextStyle(
                   fontSize: 22,
                   color: kFontColor,
@@ -74,7 +79,11 @@ class LogoutModal extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      //ログアウト処理
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DrivingScreen(name: name)),
+                      );
                     },
                     child: Stack(
                       alignment: Alignment.center,
@@ -83,15 +92,15 @@ class LogoutModal extends StatelessWidget {
                           height: 50,
                           width: 120,
                           decoration: BoxDecoration(
-                            color: kEndColor,
+                            color: kStartColor,
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                         const Text(
-                          "ログアウト",
+                          "開始",
                           style: TextStyle(
                             fontSize: 18,
-                            color: kFontColor,
+                            color: Color(0XFFFFFFFF),
                           ),
                         ),
                       ],

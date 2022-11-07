@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
+
 import 'package:piyomiru_application/screens/home/logout_modal.dart';
 import 'package:piyomiru_application/screens/home/register_kids/registeredkids_screen.dart';
+import 'package:piyomiru_application/screens/home/start_drive/start_drive_screen.dart';
 
 class HomeDriverScreen extends StatefulWidget {
   const HomeDriverScreen({
@@ -96,7 +98,14 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                     (index) => GestureDetector(
                       onTap: () {
                         setState(() {
-                          //selectedCosId = buses_list[index].id;
+                          if (operations_list[index].start == 0) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => StartDriveScreen(
+                                      name: buses_list[index].name)),
+                            );
+                          }
                         });
                       },
                       child: Container(

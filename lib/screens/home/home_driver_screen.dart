@@ -3,6 +3,7 @@ import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
 import 'package:piyomiru_application/screens/home/logout_modal.dart';
+import 'package:piyomiru_application/screens/home/register_kids/registeredkids_screen.dart';
 
 class HomeDriverScreen extends StatefulWidget {
   const HomeDriverScreen({
@@ -28,6 +29,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
       appBar: AppBar(
         toolbarHeight: deviceH * 0.1,
         centerTitle: false,
+
         title: const Text(
           "PiyoMiru",
           style: TextStyle(
@@ -42,11 +44,9 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
         actions: [
           GestureDetector(
             onTap: () {
-              showDialog(
-                // Dialogの周囲の黒い部分をタップしても閉じないようにする
-                barrierDismissible: false,
-                context: context,
-                builder: (BuildContext context) => LogoutModal(),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RegisterkidsScreen()),
               );
             },
             child: const ActionButton(
@@ -57,13 +57,10 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
           GestureDetector(
             onTap: () {
               showDialog(
-                // Dialogの周囲の黒い部分をタップしても閉じないようにする
-
                 barrierDismissible: false,
                 context: context,
                 builder: (BuildContext context) => LogoutModal(),
               );
-              print("Tap");
             },
             child: const ActionButton(
               text: "ログアウト",

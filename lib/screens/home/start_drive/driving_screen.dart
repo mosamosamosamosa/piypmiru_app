@@ -37,15 +37,9 @@ class DrivingScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           toolbarHeight: deviceH * 0.1,
           centerTitle: false,
-
-          leading: GestureDetector(
-              onTap: () {
-                int count = 0;
-                Navigator.popUntil(context, (_) => count++ >= 2);
-              },
-              child: Image.asset('assets/images/backmark.png')),
 
           title: const Text(
             "PiyoMiru",

@@ -106,7 +106,11 @@ class StartDriveScreen extends StatelessWidget {
                                   StartDriveModal(name: name),
                             );
                           },
-                          child: const AppButton(text: "運転開始", start: true))),
+                          child: const AppButton(
+                            text: "運転開始",
+                            start: true,
+                            pushable: true,
+                          ))),
                   Positioned(
                       bottom: deviceH * 0.2,
                       right: deviceW * 0.23,

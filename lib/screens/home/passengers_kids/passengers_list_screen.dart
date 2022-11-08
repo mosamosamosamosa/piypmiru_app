@@ -6,6 +6,7 @@ import 'package:piyomiru_application/components/listitem.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
 import 'package:intl/intl.dart';
+import 'package:piyomiru_application/screens/home/passengers_kids/stop_drive_modal.dart';
 import 'package:piyomiru_application/screens/home/register_kids/addlist_modal.dart';
 import 'package:piyomiru_application/screens/home/register_kids/registeredkids_screen.dart';
 
@@ -20,7 +21,7 @@ class PassengerListScreen extends StatefulWidget {
 }
 
 class _PassengerListScreenState extends State<PassengerListScreen> {
-  int? selectedId;
+  late bool pushable;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,14 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
     double deviceH = MediaQuery.of(context).size.height;
 
     DateFormat outputFormat = DateFormat('yyyy/MM/dd H:m');
+
+    setState(() {
+      if (passengers_list.isEmpty == false) {
+        pushable = false;
+      } else {
+        pushable = true;
+      }
+    });
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -65,37 +74,73 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
               ),
             ),
           ]),
-      body: Column(
+      body: Stack(
         children: [
-          Container(
-            height: deviceH * 0.65,
-            width: deviceW,
-            child: ListView.builder(
-              padding: EdgeInsets.only(top: deviceH * 0.05),
-              itemCount: passengers_list.length + 1,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, index) {
-                if (index == passengers_list.length) {
-                  return GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (BuildContext context) => AddlistModal(),
-                        );
-                      },
-                      child: const Addlistitem());
-                }
+          passengers_list.isEmpty == false
+              ? SizedBox(
+                  height: deviceH * 0.65,
+                  width: deviceW,
+                  child: ListView.builder(
+                    padding: EdgeInsets.only(top: deviceH * 0.05),
+                    itemCount: passengers_list.length + 1,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, index) {
+                      if (index == passengers_list.length) {
+                        return GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    AddlistModal(),
+                              );
+                            },
+                            child: const Addlistitem());
+                      }
 
-                return Listitem(
-                    image: passengers_list[index].image,
-                    name: passengers_list[index].name,
-                    datetime: outputFormat.format(DateTime.now()));
-              },
-            ),
-          ),
-          SizedBox(height: deviceH * 0.05),
-          AppButton(text: "運転終了", start: false),
+                      return Listitem(
+                          image: passengers_list[index].image,
+                          name: passengers_list[index].name,
+                          datetime: outputFormat.format(DateTime.now()));
+                    },
+                  ),
+                )
+              : SizedBox(
+                  height: deviceH,
+                  width: deviceW,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: deviceH * 0.12),
+                      const Text(
+                        "現在乗車中の園児はいません",
+                        style: TextStyle(
+                          color: kFontColor,
+                          fontSize: 20,
+                        ),
+                      ),
+                      SizedBox(height: deviceH * 0.12),
+                      Image.asset('assets/images/kids.png'),
+                    ],
+                  ),
+                ),
+          Container(
+              alignment: Alignment.bottomCenter,
+              margin: EdgeInsets.only(bottom: deviceH * 0.1),
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (BuildContext context) => StopDriveModal(),
+                  );
+                },
+                child: AppButton(
+                  text: "運転終了",
+                  start: false,
+                  pushable: pushable,
+                ),
+              )),
         ],
       ),
     );

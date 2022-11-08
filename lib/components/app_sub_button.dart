@@ -26,7 +26,7 @@ class AppSubButton extends StatelessWidget {
               // ボタン下
               BoxShadow(
                 color: Color(0xFFDAB357),
-                offset: Offset(0, 15),
+                offset: Offset(0, 13),
               ),
 
               // ボタン上

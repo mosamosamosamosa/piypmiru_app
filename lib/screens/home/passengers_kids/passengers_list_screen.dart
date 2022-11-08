@@ -15,8 +15,10 @@ import 'package:piyomiru_application/screens/home/start_drive/start_drive_screen
 class PassengerListScreen extends StatefulWidget {
   const PassengerListScreen({
     Key? key,
+    required this.drive,
   }) : super(key: key);
 
+  final bool drive;
   // createState()　で"State"（Stateを継承したクラス）を返す
   @override
   _PassengerListScreenState createState() => _PassengerListScreenState();
@@ -126,23 +128,25 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                     ],
                   ),
                 ),
-          Container(
-              alignment: Alignment.bottomCenter,
-              margin: EdgeInsets.only(bottom: deviceH * 0.1),
-              child: GestureDetector(
-                onTap: () {
-                  showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (BuildContext context) => StopDriveModal(),
-                  );
-                },
-                child: AppButton(
-                  text: "運転終了",
-                  start: false,
-                  pushable: pushable,
-                ),
-              )),
+          widget.drive
+              ? Container(
+                  alignment: Alignment.bottomCenter,
+                  margin: EdgeInsets.only(bottom: deviceH * 0.1),
+                  child: GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) => StopDriveModal(),
+                      );
+                    },
+                    child: AppButton(
+                      text: "運転終了",
+                      start: false,
+                      pushable: pushable,
+                    ),
+                  ))
+              : Container(),
         ],
       ),
     );

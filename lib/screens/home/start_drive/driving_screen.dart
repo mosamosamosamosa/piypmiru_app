@@ -5,6 +5,8 @@ import 'package:piyomiru_application/components/app_sub_button.dart';
 import 'package:piyomiru_application/constants.dart';
 
 import 'package:piyomiru_application/screens/home/logout_modal.dart';
+import 'package:piyomiru_application/screens/home/nfc/nfc_scan_modal.dart';
+import 'package:piyomiru_application/screens/home/nfc/nfc_success_modal.dart';
 import 'package:piyomiru_application/screens/home/passengers_kids/passengers_list_screen.dart';
 import 'package:piyomiru_application/screens/home/register_kids/registeredkids_screen.dart';
 import 'package:piyomiru_application/screens/home/start_drive/start_drive_modal.dart';
@@ -135,7 +137,17 @@ class DrivingScreen extends StatelessWidget {
                       },
                       child:
                           AppSubButton(text: "乗車中園児確認", image: "chulip.png")),
-                  AppSubButton(text: "NFCスキャナー", image: "hiyoko.png"),
+                  GestureDetector(
+                      onTap: () {
+                        //押した時の処理
+                        showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (BuildContext context) => NfcScanModal(),
+                        );
+                      },
+                      child:
+                          AppSubButton(text: "NFCスキャナー", image: "hiyoko.png")),
                 ],
               ),
             )

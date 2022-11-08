@@ -40,12 +40,6 @@ class DrivingScreen extends StatelessWidget {
           toolbarHeight: deviceH * 0.1,
           centerTitle: false,
 
-          leading: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Image.asset('assets/images/backmark.png')),
-
           title: const Text(
             "PiyoMiru",
             style: TextStyle(
@@ -135,7 +129,8 @@ class DrivingScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PassengerListScreen()),
+                              builder: (context) =>
+                                  PassengerListScreen(drive: true)),
                         );
                       },
                       child:

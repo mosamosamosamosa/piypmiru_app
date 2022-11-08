@@ -5,10 +5,10 @@ import 'package:piyomiru_application/screens/home/start_drive/driving_screen.dar
 class StartDriveModal extends StatelessWidget {
   StartDriveModal({
     Key? key,
-    required this.name,
+    //required this.name,
   }) : super(key: key);
 
-  final String name;
+  //final String name;
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
@@ -82,7 +82,7 @@ class StartDriveModal extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DrivingScreen(name: name)),
+                            builder: (context) => DrivingScreen()),
                       );
                     },
                     child: Stack(

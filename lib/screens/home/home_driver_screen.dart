@@ -29,6 +29,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: deviceH * 0.1,
         centerTitle: false,
 

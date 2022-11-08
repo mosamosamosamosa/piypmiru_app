@@ -14,10 +14,7 @@ import 'package:piyomiru_application/screens/home/start_drive/start_drive_modal.
 class DrivingScreen extends StatelessWidget {
   DrivingScreen({
     Key? key,
-    required this.name,
   }) : super(key: key);
-
-  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +39,12 @@ class DrivingScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
           toolbarHeight: deviceH * 0.1,
           centerTitle: false,
+
+          leading: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Image.asset('assets/images/backmark.png')),
 
           title: const Text(
             "PiyoMiru",
@@ -106,7 +109,7 @@ class DrivingScreen extends StatelessWidget {
                     children: [
                       SizedBox(height: deviceH * 0.18),
                       Text(
-                        "$name運転中. . .",
+                        "運転中. . .",
                         style: const TextStyle(
                           fontSize: 40,
                           //fontWeight: FontWeight.bold,

@@ -75,7 +75,7 @@ class StopDriveModal extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      //　start_drive_screenに戻る処理
+                      Navigator.popUntil(context, ModalRoute.withName('/'));
                     },
                     child: Stack(
                       alignment: Alignment.center,

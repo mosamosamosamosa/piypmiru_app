@@ -5,6 +5,7 @@ import 'package:piyomiru_application/data/database.dart';
 
 import 'package:piyomiru_application/screens/home/logout_modal.dart';
 import 'package:piyomiru_application/screens/home/register_kids/registeredkids_screen.dart';
+import 'package:piyomiru_application/screens/home/start_drive/driving_screen.dart';
 import 'package:piyomiru_application/screens/home/start_drive/start_drive_screen.dart';
 
 class HomeDriverScreen extends StatefulWidget {
@@ -103,8 +104,13 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => StartDriveScreen(
-                                      name: buses_list[index].name)),
+                                  builder: (context) => StartDriveScreen()),
+                            );
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DrivingScreen()),
                             );
                           }
                         });

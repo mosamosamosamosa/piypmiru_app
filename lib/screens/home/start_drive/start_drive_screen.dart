@@ -10,10 +10,10 @@ import 'package:piyomiru_application/screens/home/start_drive/start_drive_modal.
 class StartDriveScreen extends StatelessWidget {
   StartDriveScreen({
     Key? key,
-    required this.name,
+    //required this.name,
   }) : super(key: key);
 
-  final String name;
+  //final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class StartDriveScreen extends StatelessWidget {
                 children: [
                   SizedBox(height: deviceH * 0.18),
                   Text(
-                    "$name停車中",
+                    "停車中",
                     style: const TextStyle(
                       fontSize: 40,
                       //fontWeight: FontWeight.bold,
@@ -103,7 +103,7 @@ class StartDriveScreen extends StatelessWidget {
                               barrierDismissible: false,
                               context: context,
                               builder: (BuildContext context) =>
-                                  StartDriveModal(name: name),
+                                  StartDriveModal(),
                             );
                           },
                           child: const AppButton(

@@ -6,19 +6,19 @@ import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
 import 'package:intl/intl.dart';
 import 'package:piyomiru_application/screens/home/register_kids/addlist_modal.dart';
-import 'package:piyomiru_application/screens/home/register_kids/editlist_screen.dart';
+import 'package:piyomiru_application/screens/home/register_kids/registeredkids_screen.dart';
 
-class RegisterkidsScreen extends StatefulWidget {
-  const RegisterkidsScreen({
+class EditlistScreen extends StatefulWidget {
+  const EditlistScreen({
     Key? key,
   }) : super(key: key);
 
   // createState()　で"State"（Stateを継承したクラス）を返す
   @override
-  _RegisterkidsScreenState createState() => _RegisterkidsScreenState();
+  _EditlistScreenState createState() => _EditlistScreenState();
 }
 
-class _RegisterkidsScreenState extends State<RegisterkidsScreen> {
+class _EditlistScreenState extends State<EditlistScreen> {
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
@@ -53,13 +53,10 @@ class _RegisterkidsScreenState extends State<RegisterkidsScreen> {
           actions: [
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => EditlistScreen()),
-                );
+                Navigator.pop(context);
               },
               child: ActionButton(
-                text: text,
+                text: "完了",
                 img: "hiyoko_pencil.png",
               ),
             ),
@@ -71,14 +68,12 @@ class _RegisterkidsScreenState extends State<RegisterkidsScreen> {
         itemBuilder: (BuildContext context, index) {
           if (index == passengers_list.length) {
             return GestureDetector(
-                onTap: () async {
-                  String name = await showDialog(
+                onTap: () {
+                  showDialog(
                     barrierDismissible: false,
                     context: context,
                     builder: (BuildContext context) => AddlistModal(),
                   );
-                  //リストに追加
-                  print(name);
                 },
                 child: Container(
                     padding: EdgeInsets.only(top: deviceH * 0.012),
@@ -86,7 +81,7 @@ class _RegisterkidsScreenState extends State<RegisterkidsScreen> {
           }
 
           return Listitem(
-              editable: editable,
+              editable: true,
               image: passengers_list[index].image,
               name: passengers_list[index].name,
               datetime: outputFormat.format(DateTime.now()));

@@ -17,8 +17,8 @@ class _LoginScreenState extends State<LoginScreen> {
     double deviceH = MediaQuery.of(context).size.height;
     final controllerN = TextEditingController();
     final controllerP = TextEditingController();
-    bool pushN = false;
-    bool pushP = false;
+    bool pushN = true;
+    bool pushP = true;
 
     bool pushble = false;
     return Scaffold(
@@ -144,8 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   right: 0,
                   child: GestureDetector(
                       onTap: () {
-                        print(pushP);
-                        print(pushN);
+                        Navigator.of(context).pushReplacementNamed("/home");
                       },
                       child: NomalButton(
                         text: "ログイン",

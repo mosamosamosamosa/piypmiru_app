@@ -32,6 +32,9 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
 
+    String text = "編集";
+    bool editable = false;
+
     DateFormat outputFormat = DateFormat('yyyy/MM/dd H:m');
 
     setState(() {
@@ -67,13 +70,14 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
           actions: [
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RegisterkidsScreen()),
-                );
+                setState(() {
+                  editable = true;
+                  text = "完了";
+                  print(editable);
+                });
               },
-              child: const ActionButton(
-                text: "編集する",
+              child: ActionButton(
+                text: text,
                 img: "hiyoko_pencil.png",
               ),
             ),
@@ -103,6 +107,7 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                       }
 
                       return Listitem(
+                          editable: editable,
                           image: passengers_list[index].image,
                           name: passengers_list[index].name,
                           datetime: outputFormat.format(DateTime.now()));

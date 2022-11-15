@@ -14,31 +14,30 @@ class _AddlistModalState extends State<AddlistModal> {
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
+    final controller = TextEditingController();
+    String name;
 
-    return Dialog(
-      alignment: Alignment.center,
-      insetPadding: const EdgeInsets.only(
-        bottom: 250,
-        top: 250,
-        left: 28,
-        right: 28,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Stack(
+    return SingleChildScrollView(
+      child: Dialog(
         alignment: Alignment.center,
-        children: [
-          Container(
-            height: deviceH,
-            width: deviceW,
-            decoration: BoxDecoration(
-              color: Color(0XFFFFFFFF),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(width: 3, color: kSubBackgroundColor),
-            ),
+        insetPadding: const EdgeInsets.only(
+          bottom: 250,
+          top: 250,
+          left: 28,
+          right: 28,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Container(
+          height: 260,
+          width: 350,
+          decoration: BoxDecoration(
+            color: Color(0XFFFFFFFF),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(width: 3, color: kSubBackgroundColor),
           ),
-          Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               //SizedBox(height: 30),
@@ -49,7 +48,7 @@ class _AddlistModalState extends State<AddlistModal> {
                   color: kFontColor,
                 ),
               ),
-              //SizedBox(height: 10),
+
               Container(
                 height: 50,
                 width: 250,
@@ -57,13 +56,14 @@ class _AddlistModalState extends State<AddlistModal> {
                   color: kInputColor,
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child: const TextField(
-                  style: TextStyle(
+                child: TextField(
+                  controller: controller,
+                  style: const TextStyle(
                     fontSize: 24,
                     color: kFontColor,
                   ),
                   cursorColor: kFontColor,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     contentPadding: EdgeInsets.only(left: 24),
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
@@ -101,6 +101,12 @@ class _AddlistModalState extends State<AddlistModal> {
                   GestureDetector(
                     onTap: () {
                       //追加処理
+                      name = controller.text;
+                      if (name != null) {
+                        Navigator.pop<String>(context, name);
+                      } else {
+                        Navigator.pop(context);
+                      }
                     },
                     child: Stack(
                       alignment: Alignment.center,
@@ -127,7 +133,7 @@ class _AddlistModalState extends State<AddlistModal> {
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

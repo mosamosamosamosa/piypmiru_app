@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/screens/home/register_kids/delete_modal.dart';
 
 class Listitem extends StatelessWidget {
-  const Listitem({
-    Key? key,
-    required this.image,
-    required this.name,
-    required this.datetime,
-  }) : super(key: key);
+  const Listitem(
+      {Key? key,
+      required this.image,
+      required this.name,
+      required this.datetime,
+      required this.editable})
+      : super(key: key);
 
   final String image;
   final String name;
   final String datetime;
+  final bool editable;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +23,10 @@ class Listitem extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
+        Container(
+          height: deviceH * 0.12 + 15,
+          width: deviceW * 0.87,
+        ),
         Container(
           height: deviceH * 0.12,
           width: deviceW * 0.87,
@@ -71,7 +78,22 @@ class Listitem extends StatelessWidget {
               ],
             ),
           ],
-        )
+        ),
+        editable
+            ? Positioned(
+                top: -8,
+                right: 0,
+                child: GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) =>
+                            DeleteModal(name: name, image: image),
+                      );
+                    },
+                    child: Image.asset('assets/images/batsu.png')))
+            : Container(),
       ],
     );
   }

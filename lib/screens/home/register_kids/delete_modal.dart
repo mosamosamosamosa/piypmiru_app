@@ -42,13 +42,13 @@ class DeleteModal extends StatelessWidget {
             ),
           ),
           Column(
-            //crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 28),
-              const Text(
-                "本当に削除しますか？",
-                style: TextStyle(
-                  fontSize: 25,
+              Text(
+                "園児リストから削除しますか？",
+                style: const TextStyle(
+                  fontSize: 23,
                   color: kFontColor,
                 ),
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/screens/login/login_screeen.dart';
 
 class LogoutModal extends StatelessWidget {
   LogoutModal({Key? key}) : super(key: key);
@@ -75,6 +76,11 @@ class LogoutModal extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       //ログアウト処理
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new LoginScreen()),
+                          (_) => false);
                     },
                     child: Stack(
                       alignment: Alignment.center,

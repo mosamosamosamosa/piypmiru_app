@@ -89,14 +89,6 @@ List<Passengers> passengers_list = [
       timestamp: DateTime.now(),
       status: true),
   Passengers(
-      id: 3,
-      name: "ぴよ ぴよみ",
-      image: "piyo_piyomi.png",
-      operation_id: 1,
-      user_id: 1,
-      timestamp: DateTime.now(),
-      status: true),
-  Passengers(
       id: 4,
       name: "みる みるこ",
       image: "miru_miruko.png",
@@ -112,22 +104,78 @@ List<Passengers> passengers_list = [
       user_id: 1,
       timestamp: DateTime.now(),
       status: true),
-  Passengers(
-      id: 6,
-      name: "みる みるみ",
-      image: "miru_mirumi.png",
-      operation_id: 1,
-      user_id: 1,
-      timestamp: DateTime.now(),
-      status: true),
 ];
 
-class P {
-  final String name;
+class Users {
+  final String name, email, password, image;
+  final int id, group_id;
+  final DateTime timestamp;
+  final bool driver;
 
-  P({
-    required this.name,
-  });
+  Users(
+      {required this.name,
+      required this.email,
+      required this.id,
+      required this.timestamp,
+      required this.group_id,
+      required this.password,
+      required this.driver,
+      required this.image});
 }
 
-List<P> p_list = [P(name: "ぴよ　ぴよこ")];
+List<Users> users_list = [
+  Users(
+      id: 1,
+      name: "ぴよ ぴよこ",
+      email: "abc@mail.com",
+      image: "piyo_piyoko.png",
+      group_id: 1,
+      password: "abc111",
+      timestamp: DateTime.now(),
+      driver: false),
+  Users(
+      id: 2,
+      name: "ぴよ ぴよみ",
+      email: "abc@mail.com",
+      image: "piyo_piyomi.png",
+      group_id: 1,
+      password: "abc222",
+      timestamp: DateTime.now(),
+      driver: false),
+  Users(
+      id: 3,
+      name: "ぴよ ぴよ太郎",
+      email: "abc@mail.com",
+      image: "piyo_piyotaro.png",
+      group_id: 1,
+      password: "abc111",
+      timestamp: DateTime.now(),
+      driver: false),
+  Users(
+      id: 4,
+      name: "みる　みるこ",
+      email: "abc@mail.com",
+      image: "miru_miruko.png",
+      group_id: 1,
+      password: "abc111",
+      timestamp: DateTime.now(),
+      driver: false),
+  Users(
+      id: 5,
+      name: "みる　みる太郎",
+      email: "abc@mail.com",
+      image: "miru_mirutaro.png",
+      group_id: 1,
+      password: "abc111",
+      timestamp: DateTime.now(),
+      driver: false),
+  Users(
+      id: 6,
+      name: "みる　みるみ",
+      email: "abc@mail.com",
+      image: "miru_mirutaro.png",
+      group_id: 1,
+      password: "abc111",
+      timestamp: DateTime.now(),
+      driver: false),
+];

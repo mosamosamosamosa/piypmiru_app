@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/screens/home/start_drive/driving_screen.dart';
 
-class DeleteModal extends StatelessWidget {
-  DeleteModal({
+class CompletionModal extends StatelessWidget {
+  CompletionModal({
     Key? key,
     required this.name,
     required this.image,
@@ -46,7 +46,7 @@ class DeleteModal extends StatelessWidget {
             children: [
               SizedBox(height: 28),
               Text(
-                "園児リストから削除しますか？",
+                "降車完了しましたか？",
                 style: const TextStyle(
                   fontSize: 23,
                   color: kFontColor,
@@ -131,12 +131,12 @@ class DeleteModal extends StatelessWidget {
                           height: 60,
                           width: 120,
                           decoration: BoxDecoration(
-                            color: kStartColor,
+                            color: Color(0XFF61CD7F),
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                         const Text(
-                          "削除",
+                          "完了",
                           style: TextStyle(
                             fontSize: 18,
                             color: Color(0XFFFFFFFF),

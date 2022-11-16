@@ -11,16 +11,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool pushN = false;
+  bool pushP = false;
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
     final controllerN = TextEditingController();
     final controllerP = TextEditingController();
-    bool pushN = true;
-    bool pushP = true;
 
-    bool pushble = false;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: kSubBackgroundColor,
@@ -66,13 +65,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           focusedBorder: InputBorder.none,
                         ),
                         onChanged: (value) {
-                          setState(() {
-                            if (value.isNotEmpty) {
+                          if (value.isNotEmpty) {
+                            setState(() {
                               pushN = true;
-                            }
-                          });
-
-                          ;
+                            });
+                          } else {
+                            setState(() {
+                              pushN = false;
+                            });
+                          }
                         },
                       ),
                     ),
@@ -114,11 +115,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           focusedBorder: InputBorder.none,
                         ),
                         onChanged: (value) {
-                          setState(() {
-                            if (value.isNotEmpty) {
+                          if (value.isNotEmpty) {
+                            setState(() {
                               pushP = true;
-                            }
-                          });
+                            });
+                          } else {
+                            setState(() {
+                              pushP = false;
+                            });
+                          }
 
                           ;
                         },

@@ -60,9 +60,7 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
         title: const Text(
           "乗車中園児一覧",
           style: TextStyle(
-            color: kFontColor,
-            fontSize: 26,
-          ),
+              color: kFontColor, fontSize: 26, fontFamily: 'KiwiMaru-R'),
         ),
         backgroundColor: kSubBackgroundColor,
         //影消す
@@ -121,50 +119,34 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                       const Text(
                         "現在乗車中の園児はいません",
                         style: TextStyle(
-                          color: kFontColor,
-                          fontSize: 20,
-                        ),
+                            color: kFontColor,
+                            fontSize: 20,
+                            fontFamily: 'KiwiMaru-L'),
                       ),
                       SizedBox(height: deviceH * 0.12),
                       Image.asset('assets/images/kids.png'),
                     ],
                   ),
                 ),
-          widget.drive
-              ? Container(
-                  alignment: Alignment.bottomCenter,
-                  margin: EdgeInsets.only(bottom: deviceH * 0.08),
-                  child: GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (BuildContext context) => StopDriveModal(),
-                      );
-                    },
-                    child: AppButton(
-                      text: "運転終了",
-                      start: false,
-                      pushable: pushable,
-                    ),
-                  ))
-              : Container(
-                  alignment: Alignment.bottomCenter,
-                  margin: EdgeInsets.only(bottom: deviceH * 0.08),
-                  child: GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (BuildContext context) => StopDriveModal(),
-                      );
-                    },
-                    child: AppButton(
-                      text: "運転終了",
-                      start: false,
-                      pushable: pushable,
-                    ),
-                  )),
+          Container(
+              alignment: Alignment.bottomCenter,
+              margin: EdgeInsets.only(bottom: deviceH * 0.08),
+              child: GestureDetector(
+                onTap: () {
+                  if (pushable) {
+                    showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (BuildContext context) => StopDriveModal(),
+                    );
+                  }
+                },
+                child: AppButton(
+                  text: "運転終了",
+                  start: false,
+                  pushable: pushable,
+                ),
+              )),
         ],
       ),
     );

@@ -17,8 +17,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
-    final controllerN = TextEditingController();
-    final controllerP = TextEditingController();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -33,10 +31,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: const Text(
                   "PiyoMiru",
                   style: TextStyle(
-                      fontSize: 70,
-                      fontWeight: FontWeight.bold,
-                      color: kTitleColor,
-                      fontFamily: 'Kiwi_Maru'),
+                    fontSize: 70,
+                    fontWeight: FontWeight.bold,
+                    color: kTitleColor,
+                  ),
                 ),
               ),
               SizedBox(height: deviceH * 0.06),
@@ -83,7 +81,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     left: 20,
                     child: Text(
                       "ユーザーネーム",
-                      style: TextStyle(fontSize: 12, color: kFontColor),
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: kFontColor,
+                          fontFamily: 'KiwiMaru-L'),
                     ),
                   ),
                 ],
@@ -107,6 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: const TextStyle(
                           fontSize: 24,
                           color: kFontColor,
+                          fontFamily: 'KiwiMaru-R',
                         ),
                         cursorColor: kFontColor,
                         decoration: const InputDecoration(
@@ -135,7 +137,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     left: 20,
                     child: Text(
                       "パスワード",
-                      style: TextStyle(fontSize: 12, color: kFontColor),
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: kFontColor,
+                          fontFamily: 'KiwiMaru-L'),
                     ),
                   ),
                 ],

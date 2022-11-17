@@ -43,9 +43,7 @@ class _RegisterkidsScreenState extends State<RegisterkidsScreen> {
         title: const Text(
           "園児一覧",
           style: TextStyle(
-            color: kFontColor,
-            fontSize: 26,
-          ),
+              color: kFontColor, fontSize: 26, fontFamily: 'KiwiMaru-R'),
         ),
         backgroundColor: kSubBackgroundColor,
         elevation: 0.0,

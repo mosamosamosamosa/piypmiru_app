@@ -39,9 +39,7 @@ class NomalButton extends StatelessWidget {
         Text(
           "$text",
           style: TextStyle(
-            fontSize: 30,
-            color: kFontColor,
-          ),
+              fontSize: 30, color: kFontColor, fontFamily: 'KiwiMaru-R'),
         ),
       ],
     );

@@ -66,6 +66,7 @@ class AppButton extends StatelessWidget {
             text,
             style: TextStyle(
               fontSize: 26,
+              fontFamily: 'KiwiMaru-R',
               color: start == true ? const Color(0XFFFFFFFF) : kFontColor,
             ),
           ),

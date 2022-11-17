@@ -102,13 +102,13 @@ class DrivingScreen extends StatelessWidget {
                   Column(
                     children: [
                       SizedBox(height: deviceH * 0.18),
-                      Text(
+                      const Text(
                         "運転中. . .",
-                        style: const TextStyle(
-                          fontSize: 40,
-                          //fontWeight: FontWeight.bold,
-                          color: kFontColor,
-                        ),
+                        style: TextStyle(
+                            fontSize: 40,
+                            //fontWeight: FontWeight.bold,
+                            color: kFontColor,
+                            fontFamily: 'KiwiMaru-M'),
                       ),
                       SizedBox(height: deviceH * 0.04),
                       Image.asset('assets/images/bus_drive_home.png'),

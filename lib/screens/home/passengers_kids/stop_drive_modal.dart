@@ -40,9 +40,7 @@ class StopDriveModal extends StatelessWidget {
               const Text(
                 "本当に運転を終了しますか？",
                 style: TextStyle(
-                  fontSize: 22,
-                  color: kFontColor,
-                ),
+                    fontSize: 22, color: kFontColor, fontFamily: 'KiwiMaru-R'),
               ),
               SizedBox(height: 42),
               Row(
@@ -66,16 +64,16 @@ class StopDriveModal extends StatelessWidget {
                         const Text(
                           "キャンセル",
                           style: TextStyle(
-                            fontSize: 18,
-                            color: kFontColor,
-                          ),
+                              fontSize: 18,
+                              color: kFontColor,
+                              fontFamily: 'KiwiMaru-R'),
                         ),
                       ],
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.popUntil(context, ModalRoute.withName('/'));
+                      Navigator.popUntil(context, ModalRoute.withName('/home'));
                     },
                     child: Stack(
                       alignment: Alignment.center,
@@ -91,9 +89,9 @@ class StopDriveModal extends StatelessWidget {
                         const Text(
                           "終了",
                           style: TextStyle(
-                            fontSize: 18,
-                            color: kFontColor,
-                          ),
+                              fontSize: 18,
+                              color: kFontColor,
+                              fontFamily: 'KiwiMaru-R'),
                         ),
                       ],
                     ),

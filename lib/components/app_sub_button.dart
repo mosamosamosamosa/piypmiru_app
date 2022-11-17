@@ -43,9 +43,7 @@ class AppSubButton extends StatelessWidget {
           Text(
             text,
             style: const TextStyle(
-              fontSize: 18,
-              color: kFontColor,
-            ),
+                fontSize: 18, color: kFontColor, fontFamily: 'KiwiMaru-M'),
           ),
           SizedBox(height: 5),
           Image.asset('assets/images/$image'),

@@ -113,7 +113,7 @@ class OperationScreen extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 40,
                           //fontWeight: FontWeight.bold,
-                          color: kFontColor,
+                          fontFamily: 'KiwiMaru-M', color: kFontColor,
                         ),
                       ),
                       SizedBox(height: deviceH * 0.04),

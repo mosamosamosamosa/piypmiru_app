@@ -83,10 +83,10 @@ class StartDriveScreen extends StatelessWidget {
                   Text(
                     "停車中",
                     style: const TextStyle(
-                      fontSize: 40,
-                      //fontWeight: FontWeight.bold,
-                      color: kFontColor,
-                    ),
+                        fontSize: 40,
+                        //fontWeight: FontWeight.bold,
+                        color: kFontColor,
+                        fontFamily: 'KiwiMaru-M'),
                   ),
                   SizedBox(height: deviceH * 0.04),
                   Image.asset('assets/images/bus_stop_home.png'),

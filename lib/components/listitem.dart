@@ -61,9 +61,9 @@ class Listitem extends StatelessWidget {
                 Text(
                   "$name さん",
                   style: const TextStyle(
-                    fontSize: 24,
-                    color: kFontColor,
-                  ),
+                      fontSize: 24,
+                      color: kFontColor,
+                      fontFamily: 'KiwiMaru-L'),
                 ),
                 SizedBox(
                   height: 6,

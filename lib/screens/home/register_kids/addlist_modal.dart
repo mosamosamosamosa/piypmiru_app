@@ -44,9 +44,7 @@ class _AddlistModalState extends State<AddlistModal> {
               const Text(
                 "名前を入力してください",
                 style: TextStyle(
-                  fontSize: 22,
-                  color: kFontColor,
-                ),
+                    fontSize: 22, color: kFontColor, fontFamily: 'KiwiMaru-R'),
               ),
 
               Container(
@@ -91,9 +89,9 @@ class _AddlistModalState extends State<AddlistModal> {
                         const Text(
                           "キャンセル",
                           style: TextStyle(
-                            fontSize: 18,
-                            color: kFontColor,
-                          ),
+                              fontSize: 18,
+                              color: kFontColor,
+                              fontFamily: 'KiwiMaru-R'),
                         ),
                       ],
                     ),
@@ -122,9 +120,9 @@ class _AddlistModalState extends State<AddlistModal> {
                         const Text(
                           "追加",
                           style: TextStyle(
-                            fontSize: 18,
-                            color: Color(0XFFFFFFFF),
-                          ),
+                              fontSize: 18,
+                              color: Color(0XFFFFFFFF),
+                              fontFamily: 'KiwiMaru-R'),
                         ),
                       ],
                     ),

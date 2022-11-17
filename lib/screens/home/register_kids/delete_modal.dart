@@ -48,9 +48,7 @@ class DeleteModal extends StatelessWidget {
               Text(
                 "園児リストから削除しますか？",
                 style: const TextStyle(
-                  fontSize: 23,
-                  color: kFontColor,
-                ),
+                    fontSize: 23, color: kFontColor, fontFamily: 'KiwiMaru-R'),
               ),
               SizedBox(height: 14),
               Row(
@@ -83,9 +81,9 @@ class DeleteModal extends StatelessWidget {
                       Text(
                         "$name",
                         style: const TextStyle(
-                          fontSize: 24,
-                          color: kFontColor,
-                        ),
+                            fontSize: 24,
+                            color: kFontColor,
+                            fontFamily: 'KiwiMaru-L'),
                       ),
                     ],
                   ),
@@ -113,9 +111,9 @@ class DeleteModal extends StatelessWidget {
                         const Text(
                           "キャンセル",
                           style: TextStyle(
-                            fontSize: 18,
-                            color: kFontColor,
-                          ),
+                              fontSize: 18,
+                              color: kFontColor,
+                              fontFamily: 'KiwiMaru-R'),
                         ),
                       ],
                     ),
@@ -138,9 +136,9 @@ class DeleteModal extends StatelessWidget {
                         const Text(
                           "削除",
                           style: TextStyle(
-                            fontSize: 18,
-                            color: Color(0XFFFFFFFF),
-                          ),
+                              fontSize: 18,
+                              color: Color(0XFFFFFFFF),
+                              fontFamily: 'KiwiMaru-R'),
                         ),
                       ],
                     ),

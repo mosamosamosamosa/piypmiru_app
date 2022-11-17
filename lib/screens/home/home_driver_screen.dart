@@ -85,7 +85,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
               Text(
                 '--$group_name--',
                 style: TextStyle(
-                    fontSize: 31, color: kFontColor, fontFamily: 'Kiwi_Maru'),
+                    fontSize: 31, color: kFontColor, fontFamily: 'KiwiMaru-R'),
               ),
               Container(
                 height: deviceH * 0.6,
@@ -132,8 +132,9 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                   child: Text(
                                     buses_list[index].name,
                                     style: const TextStyle(
-                                      fontSize: 18,
-                                    ),
+                                        fontSize: 18,
+                                        fontFamily: 'KiwiMaru-R',
+                                        color: kFontColor),
                                   ),
                                 ),
                                 operations_list[index].start == 1

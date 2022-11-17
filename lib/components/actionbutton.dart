@@ -32,7 +32,7 @@ class ActionButton extends StatelessWidget {
               Text(
                 '$text',
                 style: TextStyle(
-                    fontSize: 10, color: kFontColor, fontFamily: 'Kiwi_Maru'),
+                    fontSize: 10, color: kFontColor, fontFamily: 'Kiwi_Maru-L'),
               ),
               SizedBox(height: 3),
               Image.asset('assets/images/$img'),

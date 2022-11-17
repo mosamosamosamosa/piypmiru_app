@@ -44,9 +44,7 @@ class StartDriveModal extends StatelessWidget {
               const Text(
                 "本当に運転を開始しますか？",
                 style: TextStyle(
-                  fontSize: 22,
-                  color: kFontColor,
-                ),
+                    fontSize: 22, color: kFontColor, fontFamily: 'KiwiMaru-R'),
               ),
               SizedBox(height: 42),
               Row(
@@ -70,9 +68,9 @@ class StartDriveModal extends StatelessWidget {
                         const Text(
                           "キャンセル",
                           style: TextStyle(
-                            fontSize: 18,
-                            color: kFontColor,
-                          ),
+                              fontSize: 18,
+                              color: kFontColor,
+                              fontFamily: 'KiwiMaru-R'),
                         ),
                       ],
                     ),
@@ -99,9 +97,9 @@ class StartDriveModal extends StatelessWidget {
                         const Text(
                           "開始",
                           style: TextStyle(
-                            fontSize: 18,
-                            color: Color(0XFFFFFFFF),
-                          ),
+                              fontSize: 18,
+                              color: Color(0XFFFFFFFF),
+                              fontFamily: 'KiwiMaru-R'),
                         ),
                       ],
                     ),

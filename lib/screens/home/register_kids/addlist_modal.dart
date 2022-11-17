@@ -10,12 +10,12 @@ class AddlistModal extends StatefulWidget {
 }
 
 class _AddlistModalState extends State<AddlistModal> {
+  String name = '';
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
-    final controller = TextEditingController();
-    String name;
+    //final controller = TextEditingController();
 
     return SingleChildScrollView(
       child: Dialog(
@@ -55,7 +55,7 @@ class _AddlistModalState extends State<AddlistModal> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: TextField(
-                  controller: controller,
+                  //controller: controller,
                   style: const TextStyle(
                     fontSize: 24,
                     color: kFontColor,
@@ -66,6 +66,11 @@ class _AddlistModalState extends State<AddlistModal> {
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      name = value;
+                    });
+                  },
                 ),
               ),
               Row(
@@ -99,11 +104,13 @@ class _AddlistModalState extends State<AddlistModal> {
                   GestureDetector(
                     onTap: () {
                       //追加処理
-                      name = controller.text;
-                      if (name != null) {
+                      //name = controller.text;
+                      if (name.isNotEmpty) {
                         Navigator.pop<String>(context, name);
+                        print(name);
                       } else {
                         Navigator.pop(context);
+                        //print("false");
                       }
                     },
                     child: Stack(

@@ -28,12 +28,14 @@ class PassengerListScreen extends StatefulWidget {
 class _PassengerListScreenState extends State<PassengerListScreen> {
   late bool pushable;
 
+  bool editable = false;
+  int edit_flag = 0;
+  String action = "編集";
+
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
-
-    bool editable = false;
 
     DateFormat outputFormat = DateFormat('yyyy/MM/dd H:m');
 
@@ -65,6 +67,25 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
         backgroundColor: kSubBackgroundColor,
         //影消す
         elevation: 0.0,
+        actions: [
+          GestureDetector(
+              onTap: () {
+                if (edit_flag % 2 == 0) {
+                  setState(() {
+                    editable = true;
+                    action = "完了";
+                    edit_flag++;
+                  });
+                } else {
+                  setState(() {
+                    editable = false;
+                    action = "編集";
+                    edit_flag++;
+                  });
+                }
+              },
+              child: ActionButton(text: action, img: 'hiyoko_pencil.png')),
+        ],
       ),
       body: Stack(
         children: [
@@ -104,6 +125,7 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                             editable: editable,
                             image: passengers_list[index].image,
                             name: passengers_list[index].name,
+                            ride: true,
                             datetime: outputFormat.format(DateTime.now())),
                       );
                     },

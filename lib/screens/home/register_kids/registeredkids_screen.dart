@@ -19,12 +19,14 @@ class RegisterkidsScreen extends StatefulWidget {
 }
 
 class _RegisterkidsScreenState extends State<RegisterkidsScreen> {
+  bool editable = false;
+  int edit_flag = 0;
+  String action = "編集";
+
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
-
-    bool editable = false;
 
     DateFormat outputFormat = DateFormat('yyyy/MM/dd H:m');
 
@@ -47,6 +49,25 @@ class _RegisterkidsScreenState extends State<RegisterkidsScreen> {
         ),
         backgroundColor: kSubBackgroundColor,
         elevation: 0.0,
+        actions: [
+          GestureDetector(
+              onTap: () {
+                if (edit_flag % 2 == 0) {
+                  setState(() {
+                    editable = true;
+                    action = "完了";
+                    edit_flag++;
+                  });
+                } else {
+                  setState(() {
+                    editable = false;
+                    action = "編集";
+                    edit_flag++;
+                  });
+                }
+              },
+              child: ActionButton(text: action, img: 'hiyoko_pencil.png')),
+        ],
       ),
       body: ListView.builder(
         padding: EdgeInsets.only(top: deviceH * 0.012),
@@ -69,22 +90,12 @@ class _RegisterkidsScreenState extends State<RegisterkidsScreen> {
                     child: const Addlistitem()));
           }
 
-          return GestureDetector(
-            onTap: () {
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (BuildContext context) => DeleteModal(
-                    name: users_list[index].name,
-                    image: users_list[index].image),
-              );
-            },
-            child: Listitem(
-                editable: editable,
-                image: users_list[index].image,
-                name: users_list[index].name,
-                datetime: outputFormat.format(DateTime.now())),
-          );
+          return Listitem(
+              editable: editable,
+              image: users_list[index].image,
+              name: users_list[index].name,
+              ride: false,
+              datetime: outputFormat.format(DateTime.now()));
         },
       ),
     );

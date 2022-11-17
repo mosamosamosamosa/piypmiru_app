@@ -3,15 +3,15 @@ import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/screens/home/start_drive/driving_screen.dart';
 
 class DeleteModal extends StatelessWidget {
-  DeleteModal({
-    Key? key,
-    required this.name,
-    required this.image,
-    //required this.name,
-  }) : super(key: key);
+  DeleteModal(
+      {Key? key, required this.name, required this.image, required this.ride
+      //required this.name,
+      })
+      : super(key: key);
 
   final String name;
   final String image;
+  final bool ride;
   //final String name;
   @override
   Widget build(BuildContext context) {
@@ -45,11 +45,21 @@ class DeleteModal extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 28),
-              Text(
-                "園児リストから削除しますか？",
-                style: const TextStyle(
-                    fontSize: 23, color: kFontColor, fontFamily: 'KiwiMaru-R'),
-              ),
+              ride
+                  ? const Text(
+                      "乗車を完了しますか？",
+                      style: TextStyle(
+                          fontSize: 23,
+                          color: kFontColor,
+                          fontFamily: 'KiwiMaru-R'),
+                    )
+                  : const Text(
+                      "園児リストから削除しますか？",
+                      style: TextStyle(
+                          fontSize: 23,
+                          color: kFontColor,
+                          fontFamily: 'KiwiMaru-R'),
+                    ),
               SizedBox(height: 14),
               Row(
                 children: [
@@ -125,21 +135,38 @@ class DeleteModal extends StatelessWidget {
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        Container(
-                          height: 60,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            color: kStartColor,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        const Text(
-                          "削除",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Color(0XFFFFFFFF),
-                              fontFamily: 'KiwiMaru-R'),
-                        ),
+                        ride
+                            ? Container(
+                                height: 60,
+                                width: 120,
+                                decoration: BoxDecoration(
+                                  color: Color(0XFF61CD7F),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              )
+                            : Container(
+                                height: 60,
+                                width: 120,
+                                decoration: BoxDecoration(
+                                  color: kStartColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                        ride
+                            ? const Text(
+                                "完了",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color(0XFFFFFFFF),
+                                    fontFamily: 'KiwiMaru-R'),
+                              )
+                            : const Text(
+                                "削除",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color(0XFFFFFFFF),
+                                    fontFamily: 'KiwiMaru-R'),
+                              ),
                       ],
                     ),
                   ),

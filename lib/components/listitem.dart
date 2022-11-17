@@ -8,13 +8,15 @@ class Listitem extends StatelessWidget {
       required this.image,
       required this.name,
       required this.datetime,
-      required this.editable})
+      required this.editable,
+      required this.ride})
       : super(key: key);
 
   final String image;
   final String name;
   final String datetime;
   final bool editable;
+  final bool ride;
 
   @override
   Widget build(BuildContext context) {
@@ -89,10 +91,12 @@ class Listitem extends StatelessWidget {
                         barrierDismissible: false,
                         context: context,
                         builder: (BuildContext context) =>
-                            DeleteModal(name: name, image: image),
+                            DeleteModal(name: name, image: image, ride: ride),
                       );
                     },
-                    child: Image.asset('assets/images/batsu.png')))
+                    child: ride
+                        ? Image.asset('assets/images/minus.png')
+                        : Image.asset('assets/images/batsu.png')))
             : Container(),
       ],
     );

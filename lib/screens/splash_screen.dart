@@ -22,7 +22,7 @@ class SplashScreen extends StatelessWidget {
                   fontSize: 70,
                   fontWeight: FontWeight.bold,
                   color: kTitleColor,
-                  fontFamily: 'Kiwi_Maru'),
+                  fontFamily: 'Rajdhani-B'),
             ),
           ),
           SizedBox(height: deviceH * 1 / 6),

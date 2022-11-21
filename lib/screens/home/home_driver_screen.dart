@@ -41,9 +41,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
         title: const Text(
           "PiyoMiru",
           style: TextStyle(
-            color: kTitleColor,
-            fontSize: 36,
-          ),
+              color: kTitleColor, fontSize: 36, fontFamily: 'Rajdhani-B'),
         ),
         backgroundColor: kSubBackgroundColor,
         //影消す

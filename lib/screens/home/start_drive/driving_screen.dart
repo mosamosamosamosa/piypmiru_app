@@ -43,9 +43,7 @@ class DrivingScreen extends StatelessWidget {
           title: const Text(
             "PiyoMiru",
             style: TextStyle(
-              color: kTitleColor,
-              fontSize: 36,
-            ),
+                color: kTitleColor, fontSize: 36, fontFamily: 'Rajdhani-B'),
           ),
           backgroundColor: kSubBackgroundColor,
           //影消す

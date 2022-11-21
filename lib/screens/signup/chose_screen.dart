@@ -35,7 +35,7 @@ class _ChoseScreenState extends State<ChoseScreen> {
                       fontSize: 70,
                       fontWeight: FontWeight.bold,
                       color: kTitleColor,
-                      fontFamily: 'KiwiMaru'),
+                      fontFamily: 'Rajdhani-B'),
                 ),
               ),
               SizedBox(height: deviceH * 1 / 12),

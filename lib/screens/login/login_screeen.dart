@@ -31,10 +31,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: const Text(
                   "PiyoMiru",
                   style: TextStyle(
-                    fontSize: 70,
-                    fontWeight: FontWeight.bold,
-                    color: kTitleColor,
-                  ),
+                      fontSize: 70,
+                      fontWeight: FontWeight.bold,
+                      color: kTitleColor,
+                      fontFamily: 'Rajdhani-B'),
                 ),
               ),
               SizedBox(height: deviceH * 0.06),

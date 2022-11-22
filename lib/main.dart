@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
 
 import 'package:piyomiru_application/components/listitem.dart';
+import 'package:piyomiru_application/providers/login_provider.dart';
 
-import 'package:piyomiru_application/screens/home/home_driver_screen.dart';
-import 'package:piyomiru_application/screens/home/register_kids/registeredkids_screen.dart';
-import 'package:piyomiru_application/screens/home/start_drive/start_drive_screen.dart';
+import 'package:piyomiru_application/screens/driver/home_driver_screen.dart';
+import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
+import 'package:piyomiru_application/screens/driver/start_drive/start_drive_screen.dart';
 import 'package:piyomiru_application/screens/login/login_screeen.dart';
+import 'package:piyomiru_application/screens/parent/home_parent_screen.dart';
 import 'package:piyomiru_application/screens/splash_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -24,7 +34,7 @@ class MyApp extends StatelessWidget {
       // 遷移する画面を定義する
       routes: <String, WidgetBuilder>{
         '/': (BuildContext context) => LoginScreen(),
-        '/home': (BuildContext context) => HomeDriverScreen(),
+        '/home': (BuildContext context) => HomeParentScreen(),
       },
     );
   }

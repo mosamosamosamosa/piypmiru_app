@@ -7,11 +7,11 @@ import 'package:piyomiru_application/components/listitem.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
 import 'package:intl/intl.dart';
-import 'package:piyomiru_application/screens/home/passengers_kids/completion_modal.dart';
-import 'package:piyomiru_application/screens/home/passengers_kids/stop_drive_modal.dart';
-import 'package:piyomiru_application/screens/home/register_kids/addlist_modal.dart';
-import 'package:piyomiru_application/screens/home/register_kids/registeredkids_screen.dart';
-import 'package:piyomiru_application/screens/home/start_drive/start_drive_screen.dart';
+import 'package:piyomiru_application/screens/driver/passengers_kids/completion_modal.dart';
+import 'package:piyomiru_application/screens/driver/passengers_kids/stop_drive_modal.dart';
+import 'package:piyomiru_application/screens/driver/register_kids/addlist_modal.dart';
+import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
+import 'package:piyomiru_application/screens/driver/start_drive/start_drive_screen.dart';
 
 class PassengerListScreen extends StatefulWidget {
   const PassengerListScreen({

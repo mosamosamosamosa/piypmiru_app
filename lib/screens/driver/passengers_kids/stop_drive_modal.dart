@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piyomiru_application/constants.dart';
-import 'package:piyomiru_application/screens/home/start_drive/start_drive_modal.dart';
+import 'package:piyomiru_application/screens/driver/start_drive/start_drive_modal.dart';
 
 class StopDriveModal extends StatelessWidget {
   StopDriveModal({Key? key}) : super(key: key);

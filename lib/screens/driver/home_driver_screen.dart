@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
-import 'package:piyomiru_application/screens/home/add_bus_modal.dart';
+import 'package:piyomiru_application/screens/driver/add_bus_modal.dart';
 
-import 'package:piyomiru_application/screens/home/logout_modal.dart';
-import 'package:piyomiru_application/screens/home/operation/operation_screen.dart';
-import 'package:piyomiru_application/screens/home/register_kids/registeredkids_screen.dart';
-import 'package:piyomiru_application/screens/home/start_drive/driving_screen.dart';
-import 'package:piyomiru_application/screens/home/start_drive/start_drive_screen.dart';
+import 'package:piyomiru_application/screens/driver/logout_modal.dart';
+import 'package:piyomiru_application/screens/driver/operation/operation_screen.dart';
+import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
+import 'package:piyomiru_application/screens/driver/start_drive/driving_screen.dart';
+import 'package:piyomiru_application/screens/driver/start_drive/start_drive_screen.dart';
 import 'package:dotted_border/dotted_border.dart';
 
 class HomeDriverScreen extends StatefulWidget {

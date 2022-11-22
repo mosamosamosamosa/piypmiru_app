@@ -4,15 +4,15 @@ import 'package:piyomiru_application/components/app_button.dart';
 import 'package:piyomiru_application/components/app_sub_button.dart';
 import 'package:piyomiru_application/constants.dart';
 
-import 'package:piyomiru_application/screens/home/logout_modal.dart';
-import 'package:piyomiru_application/screens/home/nfc/nfc_scan_modal.dart';
-import 'package:piyomiru_application/screens/home/nfc/nfc_success_modal.dart';
-import 'package:piyomiru_application/screens/home/passengers_kids/passengers_list_screen.dart';
-import 'package:piyomiru_application/screens/home/register_kids/registeredkids_screen.dart';
-import 'package:piyomiru_application/screens/home/start_drive/start_drive_modal.dart';
+import 'package:piyomiru_application/screens/driver/logout_modal.dart';
+import 'package:piyomiru_application/screens/driver/nfc/nfc_scan_modal.dart';
+import 'package:piyomiru_application/screens/driver/nfc/nfc_success_modal.dart';
+import 'package:piyomiru_application/screens/driver/passengers_kids/passengers_list_screen.dart';
+import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
+import 'package:piyomiru_application/screens/driver/start_drive/start_drive_modal.dart';
 
-class OperationScreen extends StatelessWidget {
-  OperationScreen({
+class DrivingScreen extends StatelessWidget {
+  DrivingScreen({
     Key? key,
   }) : super(key: key);
 
@@ -39,12 +39,6 @@ class OperationScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
           toolbarHeight: deviceH * 0.1,
           centerTitle: false,
-
-          leading: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Image.asset('assets/images/backmark.png')),
 
           title: const Text(
             "PiyoMiru",
@@ -106,13 +100,13 @@ class OperationScreen extends StatelessWidget {
                   Column(
                     children: [
                       SizedBox(height: deviceH * 0.18),
-                      Text(
-                        "運行中. . .",
-                        style: const TextStyle(
-                          fontSize: 40,
-                          //fontWeight: FontWeight.bold,
-                          fontFamily: 'KiwiMaru-M', color: kFontColor,
-                        ),
+                      const Text(
+                        "運転中. . .",
+                        style: TextStyle(
+                            fontSize: 40,
+                            //fontWeight: FontWeight.bold,
+                            color: kFontColor,
+                            fontFamily: 'KiwiMaru-M'),
                       ),
                       SizedBox(height: deviceH * 0.04),
                       Image.asset('assets/images/bus_drive_home.png'),
@@ -134,7 +128,7 @@ class OperationScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  PassengerListScreen(drive: false)),
+                                  PassengerListScreen(drive: true)),
                         );
                       },
                       child:
@@ -145,7 +139,7 @@ class OperationScreen extends StatelessWidget {
                         showDialog(
                           barrierDismissible: false,
                           context: context,
-                          builder: (BuildContext context) => NfcScanModal(),
+                          builder: (BuildContext context) => NfcSuccessModal(),
                         );
                       },
                       child:

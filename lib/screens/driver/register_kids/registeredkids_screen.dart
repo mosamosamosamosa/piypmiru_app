@@ -5,8 +5,8 @@ import 'package:piyomiru_application/components/listitem.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
 import 'package:intl/intl.dart';
-import 'package:piyomiru_application/screens/home/register_kids/addlist_modal.dart';
-import 'package:piyomiru_application/screens/home/register_kids/delete_modal.dart';
+import 'package:piyomiru_application/screens/driver/register_kids/addlist_modal.dart';
+import 'package:piyomiru_application/screens/driver/register_kids/delete_modal.dart';
 
 class RegisterkidsScreen extends StatefulWidget {
   const RegisterkidsScreen({

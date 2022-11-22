@@ -12,3 +12,4 @@ const kCanselColor = Color(0XFFE3EEF9);
 const kEndColor = Color(0XFF90D7EC);
 const kStartColor = Color(0XFFED6D47);
 const kBackgroundColors = [Color(0XFFA0D8EF), Color(0xFFFFFAE3)];
+const kStopBackgroundColors = [Color(0XFF00679E), Color(0xFFFFFAE3)];

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piyomiru_application/constants.dart';
-import 'package:piyomiru_application/screens/home/register_kids/delete_modal.dart';
+import 'package:piyomiru_application/screens/driver/register_kids/delete_modal.dart';
 
 class Listitem extends StatelessWidget {
   const Listitem(

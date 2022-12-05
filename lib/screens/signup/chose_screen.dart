@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:piyomiru_application/components/chose.dart';
 import 'package:piyomiru_application/components/nomal_button.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/screens/signup/signup_screen.dart';
 import 'package:piyomiru_application/screens/splash_screen.dart';
 
 class ChoseScreen extends StatefulWidget {
@@ -89,11 +90,19 @@ class _ChoseScreenState extends State<ChoseScreen> {
                   right: 0,
                   child: GestureDetector(
                       onTap: () {
+feature/#40/signup
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignupScreen()),
+                        );
+
                         // Navigator.push(
                         //   context,
                         //   MaterialPageRoute(
                         //       builder: (context) => ()),
                         // );
+ master
                       },
                       child: NomalButton(
                         text: "決定",

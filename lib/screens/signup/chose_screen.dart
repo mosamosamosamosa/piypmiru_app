@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:piyomiru_application/components/chose.dart';
 import 'package:piyomiru_application/components/nomal_button.dart';
 import 'package:piyomiru_application/constants.dart';
-import 'package:piyomiru_application/screens/splash_screen.dart';
 import 'package:piyomiru_application/screens/signup/signup_screen.dart';
+import 'package:piyomiru_application/screens/splash_screen.dart';
 
 class ChoseScreen extends StatefulWidget {
   ChoseScreen({Key? key}) : super(key: key);

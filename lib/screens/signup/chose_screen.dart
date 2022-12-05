@@ -90,7 +90,6 @@ class _ChoseScreenState extends State<ChoseScreen> {
                   right: 0,
                   child: GestureDetector(
                       onTap: () {
-feature/#40/signup
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -102,7 +101,6 @@ feature/#40/signup
                         //   MaterialPageRoute(
                         //       builder: (context) => ()),
                         // );
- master
                       },
                       child: NomalButton(
                         text: "決定",

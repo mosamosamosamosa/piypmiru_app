@@ -106,7 +106,9 @@ class _ChoseScreenState extends State<ChoseScreen> {
                   left: 0,
                   right: 0,
                   child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+
+                      },
                       child: NomalButton(
                         text: "決定",
                         pushable: false,

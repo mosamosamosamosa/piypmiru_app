@@ -8,6 +8,7 @@ import 'package:piyomiru_application/screens/driver/register_kids/registeredkids
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_screen.dart';
 import 'package:piyomiru_application/screens/login/login_screeen.dart';
 import 'package:piyomiru_application/screens/parent/home_parent_screen.dart';
+import 'package:piyomiru_application/screens/signup/chose_screen.dart';
 import 'package:piyomiru_application/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -33,8 +34,9 @@ class MyApp extends StatelessWidget {
 
       // 遷移する画面を定義する
       routes: <String, WidgetBuilder>{
-        '/': (BuildContext context) => LoginScreen(),
-        '/home': (BuildContext context) => HomeParentScreen(),
+        '/': (BuildContext context) => ChoseScreen(),
+        '/home': (BuildContext context) => HomeDriverScreen(),
+        '/signup': (BuildContext context) => ChoseScreen(),
       },
     );
   }

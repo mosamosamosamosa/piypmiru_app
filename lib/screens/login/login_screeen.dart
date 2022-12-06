@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         top: 11,
                         left: 20,
                         child: Text(
-                          "ユーザーネーム",
+                          "メールアドレス",
                           style: TextStyle(
                               fontSize: 12,
                               color: kFontColor,
@@ -181,7 +181,32 @@ class _LoginScreenState extends State<LoginScreen> {
                             text: "ログイン",
                             pushable: false,
                           )),
-                    )
+                    ),
+              Container(
+                  alignment: Alignment.bottomCenter,
+                  margin: EdgeInsets.only(bottom: deviceH * 1 / 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("アカウントをお持ちでない場合",
+                          style: TextStyle(
+                            color: kFontColor,
+                            fontFamily: "KiwiMaru-L",
+                            fontSize: 17,
+                          )),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushReplacementNamed("/signup");
+                        },
+                        child: const Text("登録はこちら",
+                            style: TextStyle(
+                                color: kFontColor,
+                                fontFamily: "KiwiMaru-M",
+                                fontSize: 17,
+                                decoration: TextDecoration.underline)),
+                      ),
+                    ],
+                  )),
             ],
           );
         }));

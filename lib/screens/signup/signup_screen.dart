@@ -12,10 +12,8 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreen extends State<SignupScreen> {
-  bool pushN = false;
-  bool pushP = false;
-  bool pushM = false;
-  bool pushPConf = false;
+  bool pushAf = false;
+  bool pushAd = false;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +60,7 @@ class _SignupScreen extends State<SignupScreen> {
                 children: [
                   SizedBox(height: deviceH * 1 / 16),
                   const Text(
-                    '--基本情報入力--',
+                    '--所属情報登録--',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -71,7 +69,7 @@ class _SignupScreen extends State<SignupScreen> {
                   ),
                   SizedBox(height: deviceH * 0.037),
                   Stack(
-                    //ユーザーネーム入力ボックス
+                    //所属入力ボックス
                     clipBehavior: Clip.none,
                     children: [
                       Container(
@@ -99,11 +97,11 @@ class _SignupScreen extends State<SignupScreen> {
                           onChanged: (value) {
                             if (value.isNotEmpty) {
                               setState(() {
-                                pushN = true;
+                                pushAf = true;
                               });
                             } else {
                               setState(() {
-                                pushN = false;
+                                pushAf = false;
                               });
                             }
                           },
@@ -113,7 +111,7 @@ class _SignupScreen extends State<SignupScreen> {
                         top: 11,
                         left: 20,
                         child: Text(
-                          "ユーザーネーム",
+                          "所属",
                           style: TextStyle(
                               fontSize: 12,
                               color: kFontColor,
@@ -129,7 +127,7 @@ class _SignupScreen extends State<SignupScreen> {
                   ),
                   SizedBox(height: deviceH * 0.02),
                   Stack(
-                    //メールアドレス入力ボックス
+                    //所属住所入力ボックス
                     children: [
                       Container(
                         height: deviceH * 0.10,
@@ -157,11 +155,11 @@ class _SignupScreen extends State<SignupScreen> {
                             onChanged: (value) {
                               if (value.isNotEmpty) {
                                 setState(() {
-                                  pushM = true;
+                                  pushAd = true;
                                 });
                               } else {
                                 setState(() {
-                                  pushM = false;
+                                  pushAd = false;
                                 });
                               }
                             },
@@ -172,117 +170,7 @@ class _SignupScreen extends State<SignupScreen> {
                         top: 11,
                         left: 20,
                         child: Text(
-                          "メールアドレス",
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: kFontColor,
-                              fontFamily: 'KiwiMaru-L'),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: deviceH * 0.02),
-                  Stack(
-                    //パスワード入力ボックス
-                    children: [
-                      Container(
-                        height: deviceH * 0.10,
-                        width: deviceW * 0.78,
-                        decoration: BoxDecoration(
-                          color: kInputColor,
-                          borderRadius: BorderRadius.circular(20),
-                          border:
-                              Border.all(width: 3, color: kSubBackgroundColor),
-                        ),
-                        child: Container(
-                          alignment: Alignment.bottomCenter,
-                          child: TextField(
-                            //controller: controllerN,
-                            obscureText: true,
-                            style: const TextStyle(
-                              fontSize: 24,
-                              color: kFontColor,
-                            ),
-                            cursorColor: kFontColor,
-                            decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.only(left: 24),
-                              enabledBorder: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                            ),
-                            onChanged: (value) {
-                              if (value.isNotEmpty) {
-                                setState(() {
-                                  pushP = true;
-                                });
-                              } else {
-                                setState(() {
-                                  pushP = false;
-                                });
-                              }
-                            },
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        top: 11,
-                        left: 20,
-                        child: Text(
-                          "パスワード",
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: kFontColor,
-                              fontFamily: 'KiwiMaru-L'),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: deviceH * 0.02),
-                  Stack(
-                    //パスワード確認入力ボックス
-                    children: [
-                      Container(
-                        height: deviceH * 0.10,
-                        width: deviceW * 0.78,
-                        decoration: BoxDecoration(
-                          color: kInputColor,
-                          borderRadius: BorderRadius.circular(20),
-                          border:
-                              Border.all(width: 3, color: kSubBackgroundColor),
-                        ),
-                        child: Container(
-                          alignment: Alignment.bottomCenter,
-                          child: TextField(
-                            //controller: controllerN,
-                            obscureText: true,
-                            style: const TextStyle(
-                              fontSize: 24,
-                              color: kFontColor,
-                            ),
-                            cursorColor: kFontColor,
-                            decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.only(left: 24),
-                              enabledBorder: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                            ),
-                            onChanged: (value) {
-                              if (value.isNotEmpty) {
-                                setState(() {
-                                  pushPConf = true;
-                                });
-                              } else {
-                                setState(() {
-                                  pushPConf = false;
-                                });
-                              }
-                            },
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        top: 11,
-                        left: 20,
-                        child: Text(
-                          "パスワード確認",
+                          "所属住所",
                           style: TextStyle(
                               fontSize: 12,
                               color: kFontColor,
@@ -294,7 +182,7 @@ class _SignupScreen extends State<SignupScreen> {
                 ],
               ),
             ),
-            pushN && pushP && pushM && pushPConf
+            pushAf && pushAd
                 ? Positioned(
                     bottom: deviceH * 1 / 8,
                     left: 0,
@@ -308,7 +196,7 @@ class _SignupScreen extends State<SignupScreen> {
                           );
                         },
                         child: NomalButton(
-                          text: "ログイン",
+                          text: "つぎへ",
                           pushable: true,
                         )),
                   )
@@ -317,12 +205,7 @@ class _SignupScreen extends State<SignupScreen> {
                     left: 0,
                     right: 0,
                     child: GestureDetector(
-                        onTap: () {
-                          print("P=$pushP");
-                          print("N=$pushN");
-                          print("M=$pushM");
-                          print("Pconf=$pushPConf");
-                        },
+                        onTap: () {},
                         child: NomalButton(
                           text: "つぎへ",
                           pushable: false,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:piyomiru_application/components/listitem.dart';
-import 'package:piyomiru_application/providers/login_provider.dart';
 
 import 'package:piyomiru_application/screens/driver/home_driver_screen.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
@@ -13,14 +12,7 @@ import 'package:piyomiru_application/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => LoginProvider()),
-      ],
-      child: const MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

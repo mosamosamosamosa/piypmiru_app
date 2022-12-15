@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:piyomiru_application/components/chose.dart';
 import 'package:piyomiru_application/components/nomal_button.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/screens/login/login_screeen.dart';
 import 'package:piyomiru_application/screens/signup/signup_screen.dart';
 import 'package:piyomiru_application/screens/splash_screen.dart';
 
@@ -85,7 +86,7 @@ class _ChoseScreenState extends State<ChoseScreen> {
           ),
           selected_parent || selected_driver
               ? Positioned(
-                  bottom: deviceH * 1 / 12,
+                  bottom: deviceH * 1 / 8,
                   left: 0,
                   right: 0,
                   child: GestureDetector(
@@ -93,14 +94,9 @@ class _ChoseScreenState extends State<ChoseScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SignupScreen()),
+                              builder: (context) =>
+                                  SignupScreen(driver: selected_driver)),
                         );
-
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => ()),
-                        // );
                       },
                       child: NomalButton(
                         text: "決定",
@@ -108,7 +104,7 @@ class _ChoseScreenState extends State<ChoseScreen> {
                       )),
                 )
               : Positioned(
-                  bottom: deviceH * 1 / 12,
+                  bottom: deviceH * 1 / 8,
                   left: 0,
                   right: 0,
                   child: GestureDetector(
@@ -117,7 +113,36 @@ class _ChoseScreenState extends State<ChoseScreen> {
                         text: "決定",
                         pushable: false,
                       )),
-                )
+                ),
+          Container(
+              alignment: Alignment.bottomCenter,
+              margin: EdgeInsets.only(bottom: deviceH * 1 / 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("既にアカウントをお持ちの場合",
+                      style: TextStyle(
+                        color: kFontColor,
+                        fontFamily: "KiwiMaru-L",
+                        fontSize: 17,
+                      )),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new LoginScreen()),
+                          (_) => false);
+                    },
+                    child: const Text("ログインはこちら",
+                        style: TextStyle(
+                            color: kFontColor,
+                            fontFamily: "KiwiMaru-M",
+                            fontSize: 17,
+                            decoration: TextDecoration.underline)),
+                  ),
+                ],
+              )),
         ],
       ),
     );

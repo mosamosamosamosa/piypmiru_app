@@ -1,10 +1,17 @@
+// ignore_for_file: await_only_futures
+
 import 'package:flutter/material.dart';
+import 'package:piyomiru_application/api/users.dart';
 
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/components/nomal_button.dart';
 
 class SignupScreen2 extends StatefulWidget {
-  SignupScreen2({Key? key}) : super(key: key);
+  SignupScreen2({Key? key, required this.driver, required this.groupId})
+      : super(key: key);
+
+  final bool driver;
+  final int groupId;
 
   @override
   _SignupScreen2 createState() => _SignupScreen2();
@@ -15,6 +22,10 @@ class _SignupScreen2 extends State<SignupScreen2> {
   bool pushP = false;
   bool pushM = false;
   bool pushPConf = false;
+
+  String name = "";
+  String email = "";
+  String password = "";
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +110,7 @@ class _SignupScreen2 extends State<SignupScreen2> {
                             if (value.isNotEmpty) {
                               setState(() {
                                 pushN = true;
+                                name = value;
                               });
                             } else {
                               setState(() {
@@ -157,6 +169,7 @@ class _SignupScreen2 extends State<SignupScreen2> {
                               if (value.isNotEmpty) {
                                 setState(() {
                                   pushM = true;
+                                  email = value;
                                 });
                               } else {
                                 setState(() {
@@ -212,6 +225,7 @@ class _SignupScreen2 extends State<SignupScreen2> {
                               if (value.isNotEmpty) {
                                 setState(() {
                                   pushP = true;
+                                  password = value;
                                 });
                               } else {
                                 setState(() {
@@ -264,7 +278,7 @@ class _SignupScreen2 extends State<SignupScreen2> {
                               focusedBorder: InputBorder.none,
                             ),
                             onChanged: (value) {
-                              if (value.isNotEmpty) {
+                              if (value.isNotEmpty && password == value) {
                                 setState(() {
                                   pushPConf = true;
                                 });
@@ -299,7 +313,9 @@ class _SignupScreen2 extends State<SignupScreen2> {
                     left: 0,
                     right: 0,
                     child: GestureDetector(
-                        onTap: () {
+                        onTap: () async {
+                          Users().postUser(name, email, password, widget.driver,
+                              widget.groupId);
                           Navigator.of(context).pushReplacementNamed("/home");
                         },
                         child: NomalButton(

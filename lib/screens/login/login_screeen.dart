@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:piyomiru_application/components/nomal_button.dart';
 import 'package:piyomiru_application/constants.dart';
-import 'package:piyomiru_application/providers/login_provider.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -23,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: kSubBackgroundColor,
-        body: Consumer<LoginProvider>(builder: (context, loginProvider, _) {
+        body: Consumer(builder: (context, loginProvider, _) {
           return Stack(
             children: [
               Column(
@@ -68,7 +67,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             onChanged: (value) {
                               if (value.isNotEmpty) {
-                                loginProvider.username = value;
                                 setState(() {
                                   pushN = true;
                                 });
@@ -124,7 +122,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             onChanged: (value) {
                               if (value.isNotEmpty) {
-                                loginProvider.password = value;
                                 setState(() {
                                   pushP = true;
                                 });

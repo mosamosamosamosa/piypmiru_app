@@ -1,12 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:piyomiru_application/api/groups.dart';
+
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/components/nomal_button.dart';
 import 'package:piyomiru_application/screens/signup/signup_screen2.dart';
+import 'package:http/http.dart' as http;
 
 class SignupScreen extends StatefulWidget {
-  SignupScreen({Key? key}) : super(key: key);
+  SignupScreen({Key? key, required this.driver}) : super(key: key);
 
+  final bool driver;
   @override
   _SignupScreen createState() => _SignupScreen();
 }
@@ -14,6 +19,9 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreen extends State<SignupScreen> {
   bool pushAf = false;
   bool pushAd = false;
+  String groupName = "";
+  String groupAdd = "";
+  int groupId = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +106,7 @@ class _SignupScreen extends State<SignupScreen> {
                             if (value.isNotEmpty) {
                               setState(() {
                                 pushAf = true;
+                                groupName = value;
                               });
                             } else {
                               setState(() {
@@ -156,6 +165,7 @@ class _SignupScreen extends State<SignupScreen> {
                               if (value.isNotEmpty) {
                                 setState(() {
                                   pushAd = true;
+                                  groupAdd = value;
                                 });
                               } else {
                                 setState(() {
@@ -189,11 +199,27 @@ class _SignupScreen extends State<SignupScreen> {
                     right: 0,
                     child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SignupScreen2()),
-                          );
+                          //intで確定
+                          var f = Groups().postGroups(groupName, groupAdd);
+                          f.then((value) => {
+                                groupId = value,
+                                print(groupId),
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SignupScreen2(
+                                          driver: widget.driver,
+                                          groupId: groupId)),
+                                ),
+                              });
+
+                          // print(groupId);
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) =>
+                          //           SignupScreen2(driver: widget.driver)),
+                          // );
                         },
                         child: NomalButton(
                           text: "つぎへ",

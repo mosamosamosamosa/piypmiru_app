@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:piyomiru_application/components/listitem.dart';
-
 import 'package:piyomiru_application/screens/driver/home_driver_screen.dart';
-import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
-import 'package:piyomiru_application/screens/driver/start_drive/start_drive_screen.dart';
 import 'package:piyomiru_application/screens/login/login_screeen.dart';
-import 'package:piyomiru_application/screens/parent/home_parent_screen.dart';
+
 import 'package:piyomiru_application/screens/signup/chose_screen.dart';
-import 'package:piyomiru_application/screens/splash_screen.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +20,7 @@ class MyApp extends StatelessWidget {
 
       // 遷移する画面を定義する
       routes: <String, WidgetBuilder>{
-        '/': (BuildContext context) => ChoseScreen(),
+        '/': (BuildContext context) => HomeDriverScreen(),
         '/home': (BuildContext context) => HomeDriverScreen(),
         '/signup': (BuildContext context) => ChoseScreen(),
       },

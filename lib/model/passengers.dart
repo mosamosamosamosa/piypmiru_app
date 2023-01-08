@@ -1,5 +1,4 @@
-class Passengers{
-
+class Passengers {
   final int id;
   final bool status;
   final String created;
@@ -13,7 +12,7 @@ class Passengers{
       required this.operation_id,
       required this.user_id});
 
-  factory Passengers.fromJson(Map<String, dynamic> usersjson) => Users(
+  factory Passengers.fromJson(Map<String, dynamic> usersjson) => Passengers(
         id: usersjson["id"],
         status: usersjson["status"],
         created: usersjson["created"],

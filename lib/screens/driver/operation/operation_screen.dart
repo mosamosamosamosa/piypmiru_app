@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piyomiru_application/api/passenger.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/components/app_button.dart';
 import 'package:piyomiru_application/components/app_sub_button.dart';
@@ -129,13 +130,17 @@ class OperationScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  PassengerListScreen(drive: false)),
-                        );
+                      onTap: () async {
+                        var f = Passenger().getAllPassenger();
+                        f.then((value) => {
+                              debugPrint(value.toString()),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PassengerListScreen(drive: true)),
+                              ),
+                            });
                       },
                       child:
                           AppSubButton(text: "乗車中園児確認", image: "chulip.png")),

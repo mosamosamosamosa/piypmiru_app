@@ -9,8 +9,10 @@ class Passenger {
   int passengerUser = 0;
   //late Map<String, dynamic> passenger;
   late List<Map<String, dynamic>> passengerList;
+  var passengerMap;
+  List<dynamic> idList = [];
 
-  Future<String> getAllPassenger() async {
+  Future<dynamic> getAllPassenger() async {
     var request_all_passenger =
         http.Request('GET', Uri.parse('${Clients().url}/passenger'));
     request_all_passenger.body = '''''';
@@ -20,16 +22,17 @@ class Passenger {
 
     if (response.statusCode == 200) {
       passengerList = jsonDecode(response.body).cast<Map<String, dynamic>>();
-      for (var passengerMap in passengerList) {
-        print(passengerMap['id']);
-      }
-      // for (var i = 0; i <= passenger['id'].length; i++) {
-      //   passengerList = passenger[]
-      // }
-      //passengerList = jsonDecode(response.body).cast<Map<String, dynamic>>();
-      //debugPrint(response.body);
 
-      return "成功";
+      // for (passengerMap in passengerList) {
+      //   if (passengerMap['status'] == true) {
+      //     idList = passengerList.map((e) => e['user_id']).toList();
+      //   }
+      // }
+
+      idList = passengerList.map((e) => e['user_id']).toList();
+
+      print(idList);
+      return idList;
     } else {
       debugPrint(response.reasonPhrase);
 

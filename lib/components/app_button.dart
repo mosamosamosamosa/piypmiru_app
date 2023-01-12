@@ -32,11 +32,12 @@ class AppButton extends StatelessWidget {
                 boxShadow: [
                   // ボタン下
                   BoxShadow(
-                    color: start == true
-                        ? const Color(0xFFDC3C14)
-                        : const Color(0xFF76C8D9),
-                    offset: const Offset(0, 13),
-                  ),
+                      color: start == true
+                          ? const Color(0xFFDC3C14)
+                          : const Color(0xFF76C8D9),
+                      offset: start == true
+                          ? const Offset(0, 13)
+                          : const Offset(0, 0)),
 
                   // ボタン上
                   BoxShadow(

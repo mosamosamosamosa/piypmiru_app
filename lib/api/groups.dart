@@ -8,7 +8,7 @@ class Groups {
   var headers = {'Content-Type': 'application/json'};
   int groupId = 0;
 
-  Future<int> postGroups(
+  postGroups(
     String groupName,
     String groupAdd,
   ) async {

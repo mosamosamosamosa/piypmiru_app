@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/screens/driver/passengers_kids/completion_modal.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/delete_modal.dart';
 
 class Listitem extends StatelessWidget {
   const Listitem(
       {Key? key,
+      required this.userId,
       required this.image,
       required this.name,
       required this.datetime,
@@ -12,6 +14,7 @@ class Listitem extends StatelessWidget {
       required this.ride})
       : super(key: key);
 
+  final int userId;
   final String image;
   final String name;
   final String datetime;
@@ -87,12 +90,24 @@ class Listitem extends StatelessWidget {
                 right: 0,
                 child: GestureDetector(
                     onTap: () {
-                      showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (BuildContext context) =>
-                            DeleteModal(name: name, image: image, ride: ride),
-                      );
+                      if (ride) {
+                        showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (BuildContext context) => CompletionModal(
+                            userId: userId,
+                            name: name,
+                            image: image,
+                          ),
+                        );
+                      } else {
+                        showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (BuildContext context) =>
+                              DeleteModal(name: name, image: image, ride: ride),
+                        );
+                      }
                     },
                     child: ride
                         ? Image.asset('assets/images/minus.png')

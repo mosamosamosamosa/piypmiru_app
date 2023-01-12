@@ -74,6 +74,7 @@ class _PassengerParentScreenState extends State<PassengerParentScreen> {
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, index) {
                       return Listitem(
+                          userId: 1, //仮
                           editable: false,
                           image: passengers_list[index].image,
                           name: passengers_list[index].name,

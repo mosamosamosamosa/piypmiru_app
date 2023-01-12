@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:piyomiru_application/api/passenger.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/driving_screen.dart';
 
 class CompletionModal extends StatelessWidget {
   CompletionModal({
     Key? key,
+    required this.userId,
     required this.name,
     required this.image,
     //required this.name,
   }) : super(key: key);
 
+  final int userId;
   final String name;
   final String image;
   //final String name;
@@ -46,7 +49,7 @@ class CompletionModal extends StatelessWidget {
             children: [
               SizedBox(height: 28),
               Text(
-                "降車完了しましたか？",
+                "降車を完了しますか？",
                 style: const TextStyle(
                   fontSize: 23,
                   color: kFontColor,
@@ -122,7 +125,13 @@ class CompletionModal extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      //削除処理
+                      //降車処理
+
+                      var f = Passenger().compPassenger(userId, false);
+
+                      f.then((value) => {
+                            Navigator.pop(context),
+                          });
                     },
                     child: Stack(
                       alignment: Alignment.center,

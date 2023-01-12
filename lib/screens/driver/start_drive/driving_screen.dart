@@ -127,8 +127,10 @@ class DrivingScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  PassengerListScreen(drive: true)),
+                              builder: (context) => PassengerListScreen(
+                                    drive: true,
+                                    passenger: "test",
+                                  )),
                         );
                       },
                       child:

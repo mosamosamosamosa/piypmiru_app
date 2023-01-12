@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piyomiru_application/api/passenger.dart';
+import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/components/app_button.dart';
 import 'package:piyomiru_application/components/app_sub_button.dart';
@@ -12,13 +13,21 @@ import 'package:piyomiru_application/screens/driver/passengers_kids/passengers_l
 import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_modal.dart';
 
-class OperationScreen extends StatelessWidget {
-  OperationScreen({
-    Key? key,
-  }) : super(key: key);
+//バス運行中画面
+class OperationScreen extends StatefulWidget {
+  OperationScreen({Key? key}) : super(key: key);
+
+  @override
+  _OperationScreenState createState() => _OperationScreenState();
+}
+
+class _OperationScreenState extends State<OperationScreen> {
+  var idList;
+  var nameList;
 
   @override
   Widget build(BuildContext context) {
+    //画面のサイズ取得
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
 
@@ -130,17 +139,22 @@ class OperationScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   GestureDetector(
-                      onTap: () async {
-                        var f = Passenger().getAllPassenger();
-                        f.then((value) => {
-                              debugPrint(value.toString()),
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        PassengerListScreen(drive: true)),
-                              ),
-                            });
+                      onTap: () {
+                        setState(() {
+                          var f = Passenger().getAllPassenger();
+
+                          f.then((value) => {
+                                idList = value,
+                                print(idList),
+                                //nameList[0] = Users().getUser(1),
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PassengerListScreen(
+                                          drive: true, passenger: idList)),
+                                ),
+                              });
+                        });
                       },
                       child:
                           AppSubButton(text: "乗車中園児確認", image: "chulip.png")),

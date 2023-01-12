@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:piyomiru_application/api/passenger.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/components/addlistitem.dart';
 import 'package:piyomiru_application/components/app_button.dart';
@@ -7,19 +8,20 @@ import 'package:piyomiru_application/components/listitem.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
 import 'package:intl/intl.dart';
+import 'package:piyomiru_application/screens/driver/passengers_kids/addpass_modal.dart';
 import 'package:piyomiru_application/screens/driver/passengers_kids/completion_modal.dart';
+import 'package:piyomiru_application/screens/driver/passengers_kids/nostop_drive_modal.dart';
 import 'package:piyomiru_application/screens/driver/passengers_kids/stop_drive_modal.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/addlist_modal.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_screen.dart';
 
 class PassengerListScreen extends StatefulWidget {
-  const PassengerListScreen({
-    Key? key,
-    required this.drive,
-  }) : super(key: key);
+  PassengerListScreen({Key? key, required this.drive, required this.passenger})
+      : super(key: key);
 
   final bool drive;
+  var passenger;
   // createState()　で"State"（Stateを継承したクラス）を返す
   @override
   _PassengerListScreenState createState() => _PassengerListScreenState();
@@ -89,42 +91,36 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
       ),
       body: Stack(
         children: [
-          passengers_list.isEmpty == false
+          widget.passenger.isEmpty == false
               ? SizedBox(
                   height: deviceH * 0.67,
                   width: deviceW,
                   child: ListView.builder(
-                    padding: EdgeInsets.only(top: deviceH * 0.05),
-                    itemCount: passengers_list.length + 1,
+                    padding: EdgeInsets.only(top: deviceH * 0.06),
+                    itemCount: (widget.passenger).length + 1,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, index) {
-                      if (index == passengers_list.length) {
+                      if (index == (widget.passenger).length) {
                         return GestureDetector(
                             onTap: () {
                               showDialog(
                                 barrierDismissible: false,
                                 context: context,
                                 builder: (BuildContext context) =>
-                                    AddlistModal(),
+                                    AddpassModal(),
                               );
                             },
                             child: const Addlistitem());
                       }
 
                       return GestureDetector(
-                        onTap: () {
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (BuildContext context) => CompletionModal(
-                                name: users_list[index].name,
-                                image: users_list[index].image),
-                          );
-                        },
+                        onTap: () {},
                         child: Listitem(
+                            userId: widget.passenger[index]['id'],
                             editable: editable,
                             image: passengers_list[index].image,
-                            name: passengers_list[index].name,
+                            //passenger
+                            name: widget.passenger[index]['name'],
                             ride: true,
                             datetime: outputFormat.format(DateTime.now())),
                       );
@@ -160,6 +156,12 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                       barrierDismissible: false,
                       context: context,
                       builder: (BuildContext context) => StopDriveModal(),
+                    );
+                  } else {
+                    showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (BuildContext context) => NostopDriveModal(),
                     );
                   }
                 },

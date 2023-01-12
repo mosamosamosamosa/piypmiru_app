@@ -91,6 +91,7 @@ class _RegisterkidsScreenState extends State<RegisterkidsScreen> {
           }
 
           return Listitem(
+              userId: 1, //仮
               editable: editable,
               image: users_list[index].image,
               name: users_list[index].name,

@@ -47,7 +47,7 @@ class DeleteModal extends StatelessWidget {
               SizedBox(height: 28),
               ride
                   ? const Text(
-                      "乗車を完了しますか？",
+                      "降車を完了しますか？",
                       style: TextStyle(
                           fontSize: 23,
                           color: kFontColor,

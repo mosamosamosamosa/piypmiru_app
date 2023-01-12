@@ -114,15 +114,7 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                       }
 
                       return GestureDetector(
-                        onTap: () {
-                          // showDialog(
-                          //   barrierDismissible: false,
-                          //   context: context,
-                          //   builder: (BuildContext context) => CompletionModal(
-                          //       name: widget.passenger[index]['name'],
-                          //       image: users_list[index].image),
-                          // );
-                        },
+                        onTap: () {},
                         child: Listitem(
                             userId: widget.passenger[index]['id'],
                             editable: editable,

@@ -94,11 +94,11 @@ class Passenger {
 
   //バス乗車
   //NFCでスキャンしたユーザIDを受け取ってpassengerに追加
-  postPassenger(int userId) async {
+  postPassenger(int userId, bool status) async {
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request('POST', Uri.parse('${Clients().url}/passenger'));
-    request.body =
-        json.encode({"status": true, "operation_id": null, "user_id": userId});
+    request.body = json
+        .encode({"status": status, "operation_id": null, "user_id": userId});
     request.headers.addAll(headers);
 
     http.StreamedResponse stream_response = await request.send();

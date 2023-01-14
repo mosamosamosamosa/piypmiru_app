@@ -114,6 +114,7 @@ class _AddpassModalState extends State<AddpassModal> {
                         f.then((value) => {
                               userId = value,
                               print(userId),
+                              //乗客に追加
                               Passenger().postPassenger(userId, true),
                               Navigator.pop(context)
                             });

@@ -8,7 +8,7 @@ class Users {
   var headers = {'Content-Type': 'application/json'};
 
   //新規登録
-  Future<void> postUser(
+  postUser(
     String name,
     String email,
     String password,
@@ -37,6 +37,56 @@ class Users {
     } else {
       debugPrint(response.reasonPhrase);
       //debugPrint("失敗");
+    }
+  }
+
+  getUser(int userId) async {
+    var request =
+        http.Request('GET', Uri.parse('${Clients().url}/users/$userId'));
+
+    http.StreamedResponse stream_response = await request.send();
+    var response = await http.Response.fromStream(stream_response);
+
+    if (response.statusCode == 201) {
+      Map<String, dynamic> uname = jsonDecode(response.body);
+      String userName = uname['name'];
+      print("失敗");
+      return userName;
+    } else {
+      print(response.reasonPhrase);
+      return "失敗";
+    }
+  }
+
+  //名前からユーザIDを返してくれる
+  getAllUsers(String name) async {
+    int userId = 0;
+    late List<Map<String, dynamic>> userList;
+    List<dynamic> nameList = [];
+
+    var headers = {'Content-Type': 'text/plain'};
+    var request = http.Request('GET', Uri.parse('${Clients().url}/users'));
+    request.body = r'<file contents here>';
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse stream_response = await request.send();
+    var response = await http.Response.fromStream(stream_response);
+
+    if (response.statusCode == 200) {
+      userList = jsonDecode(response.body).cast<Map<String, dynamic>>();
+
+      nameList = userList.map((e) => e['name']).toList();
+
+      for (int i = 0; i <= nameList.length; i++) {
+        if (nameList[i] == name) {
+          userId = userList[i]['id'];
+          break;
+        }
+      }
+      return userId;
+    } else {
+      print(response.reasonPhrase);
     }
   }
 }

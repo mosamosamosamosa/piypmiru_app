@@ -104,8 +104,8 @@ class Listitem extends StatelessWidget {
                         showDialog(
                           barrierDismissible: false,
                           context: context,
-                          builder: (BuildContext context) =>
-                              DeleteModal(name: name, image: image, ride: ride),
+                          builder: (BuildContext context) => DeleteModal(
+                              name: name, image: image, userId: userId),
                         );
                       }
                     },

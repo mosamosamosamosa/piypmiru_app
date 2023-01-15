@@ -52,7 +52,10 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => RegisterkidsScreen()),
+                MaterialPageRoute(
+                    builder: (context) => RegisterkidsScreen(
+                          regiKids: 0,
+                        )),
               );
             },
             child: const ActionButton(

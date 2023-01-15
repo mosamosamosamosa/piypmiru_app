@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/constants.dart';
 
 class AddlistModal extends StatefulWidget {
@@ -104,11 +105,9 @@ class _AddlistModalState extends State<AddlistModal> {
                   GestureDetector(
                     onTap: () {
                       //追加処理
-                      //name = controller.text;
                       if (name.isNotEmpty) {
-                        Navigator.pop<String>(context, name);
-                        print(name);
-                      } else {
+                        Users().propostUser(name);
+
                         Navigator.pop(context);
                         //print("false");
                       }

@@ -23,6 +23,7 @@ class OperationScreen extends StatefulWidget {
 
 class _OperationScreenState extends State<OperationScreen> {
   var idList;
+  var kidsList;
   var nameList;
 
   @override
@@ -68,10 +69,19 @@ class _OperationScreenState extends State<OperationScreen> {
           actions: [
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RegisterkidsScreen()),
-                );
+                var f = Users().getkidsAllUsers();
+
+                f.then((value) => {
+                      kidsList = value,
+                      print(kidsList),
+                      //nameList[0] = Users().getUser(1),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                RegisterkidsScreen(regiKids: kidsList)),
+                      ),
+                    });
               },
               child: const ActionButton(
                 text: "園児",

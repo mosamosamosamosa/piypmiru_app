@@ -40,6 +40,33 @@ class Users {
     }
   }
 
+  //園児の仮登録
+  propostUser(String name) async {
+    var request_users =
+        http.Request('POST', Uri.parse('${Clients().url}/users'));
+    request_users.body = json.encode({
+      "name": name,
+      "email": "aa@gmail.com",
+      "password": "aaaa1111",
+      "driver": false,
+      "serial_number": null,
+      "group_id": null,
+      "family_id": null
+    });
+    //リクエストするときに使うヘッダーに上で定義したものを入れる
+    //まとめて定義
+
+    request_users.headers.addAll(headers);
+    http.StreamedResponse response = await request_users.send();
+
+    if (response.statusCode == 200) {
+      debugPrint(await response.stream.bytesToString());
+    } else {
+      debugPrint(response.reasonPhrase);
+      //debugPrint("失敗");
+    }
+  }
+
   getUser(int userId) async {
     var request =
         http.Request('GET', Uri.parse('${Clients().url}/users/$userId'));
@@ -50,7 +77,7 @@ class Users {
     if (response.statusCode == 201) {
       Map<String, dynamic> uname = jsonDecode(response.body);
       String userName = uname['name'];
-      print("失敗");
+
       return userName;
     } else {
       print(response.reasonPhrase);
@@ -59,7 +86,7 @@ class Users {
   }
 
   //名前からユーザIDを返してくれる
-  getAllUsers(String name) async {
+  getnameAllUsers(String name) async {
     int userId = 0;
     late List<Map<String, dynamic>> userList;
     List<dynamic> nameList = [];
@@ -85,6 +112,82 @@ class Users {
         }
       }
       return userId;
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  getkidsAllUsers() async {
+    late List<Map<String, dynamic>> userList;
+    List<String> nameList = [];
+
+    var headers = {'Content-Type': 'text/plain'};
+    var request = http.Request('GET', Uri.parse('${Clients().url}/users'));
+    request.body = r'<file contents here>';
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse stream_response = await request.send();
+    var response = await http.Response.fromStream(stream_response);
+
+    if (response.statusCode == 200) {
+      //userList = jsonDecode(response.body).cast<Map<String, dynamic>>();
+      userList = [
+        {
+          "id": 1,
+          "name": "jill",
+          "email": "jill@gmail.com",
+          "driver": true,
+          "passenger": false,
+          "created": "2022-12-01T14:23:31.818852+09:00",
+          "group_id": 1,
+          "family_id": 1
+        },
+        {
+          "id": 2,
+          "name": "test3",
+          "email": "test3@gmail.com",
+          "driver": false,
+          "passenger": true,
+          "created": "2022-12-08T13:44:14.328146+09:00",
+          "group_id": null,
+          "family_id": null
+        },
+        {
+          "id": 3,
+          "name": "test4",
+          "email": "test4@gmail.com",
+          "driver": false,
+          "passenger": true,
+          "created": "2022-12-08T13:44:14.328146+09:00",
+          "group_id": null,
+          "family_id": null
+        }
+      ];
+
+      userList.forEach((element) {
+        if (element['passenger']) {
+          nameList.add(element['name']);
+        }
+      });
+      //mapのリスト
+
+      return nameList;
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  //登録園児削除
+  deleteUser(int userId) async {
+    var request =
+        http.Request('DELETE', Uri.parse('${Clients().url}/users/$userId'));
+
+    http.StreamedResponse stream_response = await request.send();
+    var response = await http.Response.fromStream(stream_response);
+
+    if (response.statusCode == 200) {
+      print(response.body);
     } else {
       print(response.reasonPhrase);
     }

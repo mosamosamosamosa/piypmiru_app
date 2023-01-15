@@ -109,7 +109,7 @@ class _AddpassModalState extends State<AddpassModal> {
                       //追加処理
 
                       if (name.isNotEmpty) {
-                        var f = Users().getAllUsers(name);
+                        var f = Users().getnameAllUsers(name);
 
                         f.then((value) => {
                               userId = value,

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/driving_screen.dart';
 
 class DeleteModal extends StatelessWidget {
   DeleteModal(
-      {Key? key, required this.name, required this.image, required this.ride
+      {Key? key, required this.name, required this.image, required this.userId
       //required this.name,
       })
       : super(key: key);
 
   final String name;
   final String image;
-  final bool ride;
+  final int userId;
   //final String name;
   @override
   Widget build(BuildContext context) {
@@ -45,21 +46,11 @@ class DeleteModal extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 28),
-              ride
-                  ? const Text(
-                      "降車を完了しますか？",
-                      style: TextStyle(
-                          fontSize: 23,
-                          color: kFontColor,
-                          fontFamily: 'KiwiMaru-R'),
-                    )
-                  : const Text(
-                      "園児リストから削除しますか？",
-                      style: TextStyle(
-                          fontSize: 23,
-                          color: kFontColor,
-                          fontFamily: 'KiwiMaru-R'),
-                    ),
+              const Text(
+                "園児リストから削除しますか？",
+                style: TextStyle(
+                    fontSize: 23, color: kFontColor, fontFamily: 'KiwiMaru-R'),
+              ),
               SizedBox(height: 14),
               Row(
                 children: [
@@ -131,42 +122,31 @@ class DeleteModal extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       //削除処理
+                      var f = Users().deleteUser(userId);
+                      print(userId);
+
+                      f.then((value) => {
+                            Navigator.pop(context),
+                          });
                     },
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        ride
-                            ? Container(
-                                height: 60,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                  color: Color(0XFF61CD7F),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              )
-                            : Container(
-                                height: 60,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                  color: kStartColor,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                        ride
-                            ? const Text(
-                                "完了",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: Color(0XFFFFFFFF),
-                                    fontFamily: 'KiwiMaru-R'),
-                              )
-                            : const Text(
-                                "削除",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: Color(0XFFFFFFFF),
-                                    fontFamily: 'KiwiMaru-R'),
-                              ),
+                        Container(
+                          height: 60,
+                          width: 120,
+                          decoration: BoxDecoration(
+                            color: kStartColor,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        const Text(
+                          "削除",
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Color(0XFFFFFFFF),
+                              fontFamily: 'KiwiMaru-R'),
+                        ),
                       ],
                     ),
                   ),

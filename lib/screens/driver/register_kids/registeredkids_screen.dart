@@ -9,10 +9,9 @@ import 'package:piyomiru_application/screens/driver/register_kids/addlist_modal.
 import 'package:piyomiru_application/screens/driver/register_kids/delete_modal.dart';
 
 class RegisterkidsScreen extends StatefulWidget {
-  const RegisterkidsScreen({
-    Key? key,
-  }) : super(key: key);
+  RegisterkidsScreen({Key? key, required this.regiKids}) : super(key: key);
 
+  var regiKids;
   // createState()　で"State"（Stateを継承したクラス）を返す
   @override
   _RegisterkidsScreenState createState() => _RegisterkidsScreenState();
@@ -71,10 +70,10 @@ class _RegisterkidsScreenState extends State<RegisterkidsScreen> {
       ),
       body: ListView.builder(
         padding: EdgeInsets.only(top: deviceH * 0.012),
-        itemCount: users_list.length + 1,
+        itemCount: widget.regiKids.length + 1,
         shrinkWrap: true,
         itemBuilder: (BuildContext context, index) {
-          if (index == users_list.length) {
+          if (index == widget.regiKids.length) {
             return GestureDetector(
                 onTap: () async {
                   String name = await showDialog(
@@ -94,7 +93,7 @@ class _RegisterkidsScreenState extends State<RegisterkidsScreen> {
               userId: 1, //仮
               editable: editable,
               image: users_list[index].image,
-              name: users_list[index].name,
+              name: widget.regiKids[index],
               ride: false,
               datetime: outputFormat.format(DateTime.now()));
         },

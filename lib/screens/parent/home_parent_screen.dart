@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
-import 'package:piyomiru_application/screens/driver/add_bus_modal.dart';
+import 'package:piyomiru_application/screens/driver/home/add_bus_modal.dart';
 
-import 'package:piyomiru_application/screens/driver/logout_modal.dart';
+import 'package:piyomiru_application/screens/driver/home/logout_modal.dart';
 import 'package:piyomiru_application/screens/driver/operation/operation_screen.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/driving_screen.dart';

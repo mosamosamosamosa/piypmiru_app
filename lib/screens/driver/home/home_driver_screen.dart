@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
-import 'package:piyomiru_application/screens/driver/add_bus_modal.dart';
+import 'package:piyomiru_application/screens/driver/home/add_bus_modal.dart';
 
-import 'package:piyomiru_application/screens/driver/logout_modal.dart';
+import 'package:piyomiru_application/screens/driver/home/logout_modal.dart';
 import 'package:piyomiru_application/screens/driver/operation/operation_screen.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
-import 'package:piyomiru_application/screens/driver/start_drive/driving_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_screen.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:piyomiru_application/api/users.dart';
 
 class HomeDriverScreen extends StatefulWidget {
-  const HomeDriverScreen({
-    Key? key,
-  }) : super(key: key);
+  HomeDriverScreen({Key? key, required this.busList}) : super(key: key);
 
+  var busList;
   // createState()　で"State"（Stateを継承したクラス）を返す
   @override
   _HomeDriverScreenState createState() => _HomeDriverScreenState();
@@ -23,6 +22,7 @@ class HomeDriverScreen extends StatefulWidget {
 
 class _HomeDriverScreenState extends State<HomeDriverScreen> {
   int? selectedId;
+  var kidsList;
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +50,21 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
         actions: [
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => RegisterkidsScreen(
-                          regiKids: 0,
-                        )),
-              );
+              //なぜかここだけimportしても使えない
+              //Users().
+              // var f = Users().getkidsAllUsers();
+
+              // f.then((value) => {
+              //       kidsList = value,
+              //       print(kidsList),
+              //       //nameList[0] = Users().getUser(1),
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (context) =>
+              //                 RegisterkidsScreen(regiKids: kidsList)),
+              //       ),
+              //     });
             },
             child: const ActionButton(
               text: "園児",
@@ -101,7 +109,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                   crossAxisSpacing: 28,
                   crossAxisCount: 2,
                   children: List.generate(
-                    buses_list.length + 1,
+                    widget.busList.length + 1,
                     (index) => GestureDetector(
                       onTap: () {
                         setState(() {
@@ -120,17 +128,16 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                           }
                         });
                       },
-                      child: index == buses_list.length
+                      child: index == widget.busList.length
                           ? GestureDetector(
                               onTap: () async {
-                                String name = await showDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AddBusModal(),
-                                );
-                                //リストに追加
-                                print(name);
+                                setState(() {
+                                  showDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AddBusModal());
+                                });
                               },
                               child: DottedBorder(
                                 borderType: BorderType.RRect,
@@ -166,7 +173,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                         padding: const EdgeInsets.only(
                                             left: 10, top: 5),
                                         child: Text(
-                                          buses_list[index].name,
+                                          widget.busList[index],
                                           style: const TextStyle(
                                               fontSize: 18,
                                               fontFamily: 'KiwiMaru-R',

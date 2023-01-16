@@ -6,7 +6,7 @@ import 'package:piyomiru_application/components/app_button.dart';
 import 'package:piyomiru_application/components/app_sub_button.dart';
 import 'package:piyomiru_application/constants.dart';
 
-import 'package:piyomiru_application/screens/driver/logout_modal.dart';
+import 'package:piyomiru_application/screens/driver/home/logout_modal.dart';
 import 'package:piyomiru_application/screens/driver/nfc/nfc_scan_modal.dart';
 import 'package:piyomiru_application/screens/driver/nfc/nfc_success_modal.dart';
 import 'package:piyomiru_application/screens/driver/passengers_kids/passengers_list_screen.dart';

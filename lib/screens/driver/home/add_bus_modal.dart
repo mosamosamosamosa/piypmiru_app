@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:piyomiru_application/api/buses.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/screens/driver/home/home_driver_screen.dart';
 
 class AddBusModal extends StatefulWidget {
   AddBusModal({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class AddBusModal extends StatefulWidget {
 
 class _AddBusModalState extends State<AddBusModal> {
   String name = '';
+  var busList;
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
@@ -105,12 +108,23 @@ class _AddBusModalState extends State<AddBusModal> {
                     onTap: () {
                       //追加処理
                       //name = controller.text;
-                      if (name.isNotEmpty) {
-                        Navigator.pop<String>(context, name);
-                      } else {
-                        Navigator.pop(context);
-                        //print("false");
-                      }
+
+                      setState(() {
+                        if (name.isNotEmpty) {
+                          Buses().postBuses(name);
+                          var f = Buses().getAllBuses();
+
+                          f.then((value) => {
+                                busList = value,
+                                print(busList),
+                                Navigator.pop(context, busList),
+                                Future.value(false),
+                              });
+                        } else {
+                          Navigator.pop(context);
+                          //print("false");
+                        }
+                      });
                     },
                     child: Stack(
                       alignment: Alignment.center,

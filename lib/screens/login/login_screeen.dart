@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:piyomiru_application/api/buses.dart';
 import 'package:piyomiru_application/components/nomal_button.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/screens/driver/home/home_driver_screen.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,6 +16,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool pushN = false;
   bool pushP = false;
+  var busList;
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
@@ -158,7 +161,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       right: 0,
                       child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).pushReplacementNamed("/home");
+                            var f = Buses().getAllBuses();
+
+                            f.then((value) => {
+                                  busList = value,
+                                  print(busList),
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomeDriverScreen(
+                                              busList: busList,
+                                            )),
+                                  )
+                                });
                           },
                           child: NomalButton(
                             text: "ログイン",
@@ -170,10 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       left: 0,
                       right: 0,
                       child: GestureDetector(
-                          onTap: () {
-                            print("P=$pushP");
-                            print("N=$pushN");
-                          },
+                          onTap: () {},
                           child: NomalButton(
                             text: "ログイン",
                             pushable: false,

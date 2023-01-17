@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:piyomiru_application/api/buses.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
+import 'package:piyomiru_application/components/compbutton.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
 import 'package:piyomiru_application/screens/driver/home/add_bus_modal.dart';
+import 'package:piyomiru_application/screens/driver/home/delete_bus_modal.dart';
 
 import 'package:piyomiru_application/screens/driver/home/logout_modal.dart';
 import 'package:piyomiru_application/screens/driver/operation/operation_screen.dart';
@@ -22,7 +25,9 @@ class HomeDriverScreen extends StatefulWidget {
 
 class _HomeDriverScreenState extends State<HomeDriverScreen> {
   int? selectedId;
+  bool del = false;
   var kidsList;
+  int id = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -51,20 +56,20 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
           GestureDetector(
             onTap: () {
               //なぜかここだけimportしても使えない
-              //Users().
-              // var f = Users().getkidsAllUsers();
 
-              // f.then((value) => {
-              //       kidsList = value,
-              //       print(kidsList),
-              //       //nameList[0] = Users().getUser(1),
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //             builder: (context) =>
-              //                 RegisterkidsScreen(regiKids: kidsList)),
-              //       ),
-              //     });
+              var f = Users().getkidsAllUsers();
+
+              f.then((value) => {
+                    kidsList = value,
+                    print(kidsList),
+                    //nameList[0] = Users().getUser(1),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              RegisterkidsScreen(regiKids: kidsList)),
+                    ),
+                  });
             },
             child: const ActionButton(
               text: "園児",
@@ -93,7 +98,17 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
               child: Image.asset('assets/images/background.png')),
           Column(
             children: [
-              SizedBox(height: deviceH * 1 / 16),
+              const SizedBox(height: 18),
+              del
+                  ? GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          del = false;
+                        });
+                      },
+                      child: const Compbutton())
+                  : Container(),
+              del ? SizedBox(height: 18) : SizedBox(height: 48),
               Text(
                 '--$group_name--',
                 style: TextStyle(
@@ -111,6 +126,11 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                   children: List.generate(
                     widget.busList.length + 1,
                     (index) => GestureDetector(
+                      onLongPress: () {
+                        setState(() {
+                          del = true;
+                        });
+                      },
                       onTap: () {
                         setState(() {
                           if (operations_list[index].start == 0) {
@@ -167,6 +187,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                               child: Stack(
                                 children: [
                                   Stack(
+                                    clipBehavior: Clip.none,
                                     children: [
                                       Container(
                                         alignment: Alignment.topLeft,
@@ -190,13 +211,48 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                               ),
                                               SizedBox(height: 20),
                                               Image.asset(
-                                                  'assets/images/bus_drive.png')
+                                                  'assets/images/bus_drive.png'),
                                             ])
                                           : Container(
                                               alignment: Alignment.bottomCenter,
                                               child: Image.asset(
                                                   'assets/images/bus_stop.png'),
-                                            )
+                                            ),
+                                      Positioned(
+                                        top: -14,
+                                        right: -17,
+                                        child: del
+                                            ? GestureDetector(
+                                                onTap: () {
+                                                  //バスのIDを名前から取得
+                                                  setState(() {
+                                                    var f = Buses().getIdBuses(
+                                                        widget.busList[index]);
+
+                                                    f.then((value) => {
+                                                          id = value,
+                                                          print(id),
+                                                          //nameList[0] = Users().getUser(1),
+                                                          showDialog(
+                                                              barrierDismissible:
+                                                                  false,
+                                                              context: context,
+                                                              builder: (BuildContext
+                                                                      context) =>
+                                                                  DeleteBusModal(
+                                                                    name: widget
+                                                                            .busList[
+                                                                        index],
+                                                                    id: id,
+                                                                  ))
+                                                        });
+                                                  });
+                                                },
+                                                child: Image.asset(
+                                                    'assets/images/batsu.png'),
+                                              )
+                                            : Container(),
+                                      )
                                     ],
                                   ),
                                 ],

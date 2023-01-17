@@ -10,7 +10,9 @@ import 'package:piyomiru_application/screens/driver/register_kids/registeredkids
 import 'package:piyomiru_application/screens/driver/start_drive/driving_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_screen.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:piyomiru_application/screens/parent/family_list.dart';
 import 'package:piyomiru_application/screens/parent/operation_parent_screen.dart';
+import 'package:piyomiru_application/screens/parent/passengers_parent_screen.dart';
 import 'package:piyomiru_application/screens/parent/stop_parent_screen.dart';
 
 class HomeParentScreen extends StatefulWidget {
@@ -50,6 +52,18 @@ class _HomeParentScreenState extends State<HomeParentScreen> {
         elevation: 0.0,
 
         actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FamilyListScreen()),
+              );
+            },
+            child: const ActionButton(
+              text: "園児",
+              img: "bear.png",
+            ),
+          ),
           GestureDetector(
             onTap: () {
               showDialog(

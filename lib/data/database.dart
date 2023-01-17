@@ -1,9 +1,9 @@
-class Buses {
+class Bus {
   final String name;
   final int id, group_id;
   final DateTime timestamp;
 
-  Buses({
+  Bus({
     required this.id,
     required this.name,
     required this.timestamp,
@@ -11,11 +11,11 @@ class Buses {
   });
 }
 
-List<Buses> buses_list = [
-  Buses(id: 1, name: "1号車", timestamp: DateTime.now(), group_id: 1),
-  Buses(id: 2, name: "2号車", timestamp: DateTime.now(), group_id: 1),
-  Buses(id: 3, name: "3号車", timestamp: DateTime.now(), group_id: 1),
-  Buses(id: 4, name: "4号車", timestamp: DateTime.now(), group_id: 1),
+List<Bus> buses_list = [
+  Bus(id: 1, name: "1号車", timestamp: DateTime.now(), group_id: 1),
+  Bus(id: 2, name: "2号車", timestamp: DateTime.now(), group_id: 1),
+  Bus(id: 3, name: "3号車", timestamp: DateTime.now(), group_id: 1),
+  Bus(id: 4, name: "4号車", timestamp: DateTime.now(), group_id: 1),
 ];
 
 class Groups {
@@ -106,13 +106,13 @@ List<Passengers> passengers_list = [
       status: true),
 ];
 
-class Users {
+class User {
   final String name, email, password, image;
   final int id, group_id;
   final DateTime timestamp;
   final bool driver;
 
-  Users(
+  User(
       {required this.name,
       required this.email,
       required this.id,
@@ -123,8 +123,8 @@ class Users {
       required this.image});
 }
 
-List<Users> users_list = [
-  Users(
+List<User> users_list = [
+  User(
       id: 1,
       name: "ぴよ ぴよこ",
       email: "abc@mail.com",
@@ -133,7 +133,7 @@ List<Users> users_list = [
       password: "abc111",
       timestamp: DateTime.now(),
       driver: false),
-  Users(
+  User(
       id: 2,
       name: "ぴよ ぴよみ",
       email: "abc@mail.com",
@@ -142,7 +142,7 @@ List<Users> users_list = [
       password: "abc222",
       timestamp: DateTime.now(),
       driver: false),
-  Users(
+  User(
       id: 3,
       name: "ぴよ ぴよ太郎",
       email: "abc@mail.com",
@@ -151,7 +151,7 @@ List<Users> users_list = [
       password: "abc111",
       timestamp: DateTime.now(),
       driver: false),
-  Users(
+  User(
       id: 4,
       name: "みる　みるこ",
       email: "abc@mail.com",
@@ -160,7 +160,7 @@ List<Users> users_list = [
       password: "abc111",
       timestamp: DateTime.now(),
       driver: false),
-  Users(
+  User(
       id: 5,
       name: "みる　みる太郎",
       email: "abc@mail.com",
@@ -169,7 +169,7 @@ List<Users> users_list = [
       password: "abc111",
       timestamp: DateTime.now(),
       driver: false),
-  Users(
+  User(
       id: 6,
       name: "みる　みるみ",
       email: "abc@mail.com",

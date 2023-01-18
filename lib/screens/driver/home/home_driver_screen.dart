@@ -248,7 +248,10 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                                         });
                                                   });
                                                 },
-                                                child: Image.asset(
+                                                child: 
+                                                operations_list[index].start == 1
+                                                ?Container()
+                                                :Image.asset(
                                                     'assets/images/batsu.png'),
                                               )
                                             : Container(),

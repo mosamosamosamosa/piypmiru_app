@@ -40,18 +40,19 @@ class Users {
     }
   }
 
-  //園児の仮登録
+  //園児の仮登録いるか？？？？
   propostUser(String name) async {
     var request_users =
         http.Request('POST', Uri.parse('${Clients().url}/users'));
     request_users.body = json.encode({
       "name": name,
-      "email": "aa@gmail.com",
-      "password": "aaaa1111",
+      "email": "test7@gmail.com",
+      "password": "12345678",
       "driver": false,
+      "passengers": true,
       "serial_number": null,
-      "group_id": null,
-      "family_id": null
+      "group": 1,
+      "family": 1
     });
     //リクエストするときに使うヘッダーに上で定義したものを入れる
     //まとめて定義
@@ -118,7 +119,9 @@ class Users {
   }
 
   getkidsAllUsers() async {
+    late List<Map<String, dynamic>> tesuserList;
     late List<Map<String, dynamic>> userList;
+
     List<String> nameList = [];
 
     var headers = {'Content-Type': 'text/plain'};
@@ -131,8 +134,8 @@ class Users {
     var response = await http.Response.fromStream(stream_response);
 
     if (response.statusCode == 200) {
-      //userList = jsonDecode(response.body).cast<Map<String, dynamic>>();
-      userList = [
+      userList = jsonDecode(response.body).cast<Map<String, dynamic>>();
+      tesuserList = [
         {
           "id": 1,
           "name": "jill",
@@ -166,12 +169,12 @@ class Users {
       ];
 
       userList.forEach((element) {
-        if (element['passenger']) {
+        if (element['passengers']) {
           nameList.add(element['name']);
         }
       });
-      //mapのリスト
 
+      print(userList);
       return nameList;
     } else {
       print(response.reasonPhrase);

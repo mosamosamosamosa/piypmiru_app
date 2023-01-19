@@ -7,12 +7,14 @@ import 'package:piyomiru_application/components/listitem.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
 import 'package:intl/intl.dart';
-import 'package:piyomiru_application/screens/driver/passengers_kids/addpass_modal.dart';
+import 'package:piyomiru_application/screens/parent/addkids_modal.dart';
 import 'package:piyomiru_application/screens/driver/passengers_kids/completion_modal.dart';
 import 'package:piyomiru_application/screens/driver/passengers_kids/stop_drive_modal.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/addlist_modal.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_screen.dart';
+
+//////////package:piyomiru_application/screens/parent/home_parent_screen.dartから呼ばれています！//////////
 
 class FamilyListScreen extends StatefulWidget {
   const FamilyListScreen({
@@ -81,7 +83,7 @@ class _FamilyListScreenState extends State<FamilyListScreen> {
                                 barrierDismissible: false,
                                 context: context,
                                 builder: (BuildContext context) =>
-                                    AddpassModal(),
+                                    AddkidsModal(),
                               );
                             },
                             child: const Addlistitem());

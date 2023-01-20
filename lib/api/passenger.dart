@@ -44,7 +44,7 @@ class Passenger {
     }
   }
 
-  //バス乗車降車
+  //バス乗車
   //NFCでスキャンしたユーザIDを受け取ってpassengerに追加
   postPassenger(int userId, bool status) async {
     var headers = {'Content-Type': 'application/json'};
@@ -58,6 +58,24 @@ class Passenger {
 
     if (response.statusCode == 200) {
       print(response.body);
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  //降車
+  putPassenger(int userId) async {
+    var headers = {'Content-Type': 'application/json'};
+    var request =
+        http.Request('PUT', Uri.parse('${Clients().url}/passenger/useId'));
+    request.body =
+        json.encode({"status": false, "operation_id": 3, "user_id": 3});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
     } else {
       print(response.reasonPhrase);
     }

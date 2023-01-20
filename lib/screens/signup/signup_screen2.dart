@@ -1,10 +1,12 @@
 // ignore_for_file: await_only_futures
 
 import 'package:flutter/material.dart';
+import 'package:piyomiru_application/api/buses.dart';
 import 'package:piyomiru_application/api/users.dart';
 
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/components/nomal_button.dart';
+import 'package:piyomiru_application/screens/driver/home/home_driver_screen.dart';
 
 class SignupScreen2 extends StatefulWidget {
   SignupScreen2({Key? key, required this.driver, required this.groupId})
@@ -22,6 +24,7 @@ class _SignupScreen2 extends State<SignupScreen2> {
   bool pushP = false;
   bool pushM = false;
   bool pushPConf = false;
+  var busList;
 
   String name = "";
   String email = "";
@@ -314,9 +317,23 @@ class _SignupScreen2 extends State<SignupScreen2> {
                     right: 0,
                     child: GestureDetector(
                         onTap: () async {
-                          Users().postUser(name, email, password, widget.driver,
-                              widget.groupId);
-                          Navigator.of(context).pushReplacementNamed("/home");
+                          Users()
+                              .postUser(name, email, password, widget.driver,
+                                  widget.groupId)
+                              .then((value) => {
+                                    Buses().getAllBuses().then((value) => {
+                                          busList = value,
+                                          print(busList),
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomeDriverScreen(
+                                                      busList: busList,
+                                                    )),
+                                          )
+                                        })
+                                  });
                         },
                         child: NomalButton(
                           text: "新規登録",

@@ -42,7 +42,7 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
     DateFormat outputFormat = DateFormat('yyyy/MM/dd H:m');
 
     setState(() {
-      if (passengers_list.isEmpty == false) {
+      if (widget.passenger.isEmpty == false) {
         pushable = false;
       } else {
         pushable = true;

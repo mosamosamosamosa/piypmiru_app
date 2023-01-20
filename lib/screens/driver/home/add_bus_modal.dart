@@ -111,34 +111,15 @@ class _AddBusModalState extends State<AddBusModal> {
 
                       setState(() {
                         if (name.isNotEmpty) {
-                          Buses()
-                              .postBuses(name)
-                              .then((value) => {Navigator.pop(context)});
-                          // g.then((value) => {
-                          //       Buses().getAllBuses().then((value) => {
-                          //             busList = value,
-                          //             print(busList),
-                          //             // Navigator.pop(context, busList),
-                          //             // Future.value(false),
-                          //             Navigator.push(
-                          //               context,
-                          //               MaterialPageRoute(
-                          //                   builder: (context) =>
-                          //                       HomeDriverScreen(
-                          //                         busList: busList,
-                          //                       )),
-                          //             ),
-                          //           })
-                          /*
-                                 f = Buses().getAllBuses(),
-                                f.then((value) => {
-                                      busList = value,
-                                      print(busList),
-                                      Navigator.pop(context, busList),
-                                      Future.value(false),
-                                    })*/
-                          // Navigator.pop(context);
+                          Buses().postBuses(name);
+                          var f = Buses().getAllBuses();
 
+                          f.then((value) => {
+                                busList = value,
+                                print(busList),
+                                Navigator.pop(context, busList),
+                                Future.value(false),
+                              });
                         } else {
                           Navigator.pop(context);
                           //print("false");

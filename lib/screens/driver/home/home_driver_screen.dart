@@ -156,7 +156,12 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                       barrierDismissible: false,
                                       context: context,
                                       builder: (BuildContext context) =>
-                                          AddBusModal());
+                                          AddBusModal()).then((value) => {
+                                        Buses().getAllBuses().then((value) => {
+                                              widget.busList = value,
+                                              print(widget.busList)
+                                            }),
+                                      });
                                 });
                               },
                               child: DottedBorder(
@@ -248,11 +253,12 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                                         });
                                                   });
                                                 },
-                                                child: 
-                                                operations_list[index].start == 1
-                                                ?Container()
-                                                :Image.asset(
-                                                    'assets/images/batsu.png'),
+                                                child: operations_list[index]
+                                                            .start ==
+                                                        1
+                                                    ? Container()
+                                                    : Image.asset(
+                                                        'assets/images/batsu.png'),
                                               )
                                             : Container(),
                                       )

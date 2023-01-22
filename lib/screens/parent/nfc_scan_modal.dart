@@ -179,7 +179,56 @@ class _NfcScanModalState extends State<NfcScanModal> {
                         ? Image.asset('assets/images/hiyoko_batsu.png')
 
                       //////////!success&&!failedなら表示//////////
-                      :Image.asset('assets/images/hiyoko_nfc.png'),
+                      :Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: [
+                          Container(
+                            height: 86,
+                            width: 86,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: kInputColor,
+                              //color: kSubBackgroundColor,
+                            ),
+                          ),
+                          Image.asset('assets/images/hiyoko_nfc_left.png')
+                        ],
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Image.asset('assets/images/nfc_sannkaku.png'),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Image.asset('assets/images/nfc_sannkaku.png'),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Image.asset('assets/images/nfc_sannkaku.png'),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: [
+                          Container(
+                            height: 86,
+                            width: 86,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: kInputColor,
+                              //color: kSubBackgroundColor,
+                            ),
+                          ),
+                          Image.asset('assets/images/hiyoko_nfc_right.png')
+                        ],
+                      ),
+                    ],
+                  ),
 
                   success||failed//////////閉じるボタン//////////
                       ? GestureDetector(

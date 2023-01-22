@@ -22,6 +22,7 @@ class _NfcScanModalState extends State<NfcScanModal> {
   bool _supportsNFC = false;
   bool _reading = false;
   bool success = false;
+  bool failed = false;
   late StreamSubscription<NDEFMessage> _stream;
   String enId = '';
   //var enId;
@@ -81,7 +82,7 @@ class _NfcScanModalState extends State<NfcScanModal> {
     //             Image.asset('assets/images/hiyoko_batsu.png'),
     //             GestureDetector(
     //               onTap: () {
-    //                 //キャンセル処理
+    //                 //キャンセル処理ƒ
     //                 Navigator.pop(context);
     //               },
     //               child: Stack(
@@ -111,15 +112,15 @@ class _NfcScanModalState extends State<NfcScanModal> {
     // }
     return Stack(
       children: [
-        Positioned(
-            top: 210,
-            left: 35,
-            child: Image.asset('assets/images/hiyoko_anzen.png')),
+        // Positioned(
+        //     top: 210,
+        //     left: 35,
+        //     child: Image.asset('assets/images/hiyoko_anzen.png')),
         Dialog(//////////<お子様の名前を入力してください>のダイアログ//////////
           alignment: Alignment.center,
           insetPadding: const EdgeInsets.only(
-            bottom: 280,
-            top: 280,
+            bottom: 250,
+            top: 250,
             left: 24,
             right: 24,
           ),
@@ -130,8 +131,8 @@ class _NfcScanModalState extends State<NfcScanModal> {
             alignment: Alignment.center,
             children: [
               Container(
-                height: deviceH,
-                width: deviceW,
+                height: 260,
+                width: 350,
                 decoration: BoxDecoration(
                   color: Color(0XFFFFFFFF),
                   borderRadius: BorderRadius.circular(20),
@@ -141,16 +142,28 @@ class _NfcScanModalState extends State<NfcScanModal> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+
                   success//////////スキャン成功したら表示//////////
                       ? const Text(
-                    "〇〇　〇〇さん\n登録完了！",
+                    "〇〇 〇〇さん登録完了！",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 24,
                       color: kFontColor,
                     ),
                   )
-                      : const Text(
+
+                    :failed//////////スキャン失敗したら表示//////////
+                      ? const Text(
+                    "読み取り失敗しました",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: kFontColor,
+                    ),
+                  )
+
+                      :Text(//////////!success&&!failedなら表示//////////
                     "お子様のNFCカードを\nスキャンしてください",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -158,10 +171,19 @@ class _NfcScanModalState extends State<NfcScanModal> {
                         color: kFontColor,
                         fontFamily: 'KiwiMaru-R'),
                   ),
-                  success//////////スキャン成功したら表示(閉じるボタン)//////////
+
+                  success//////////スキャン成功したら表示//////////
+                      ? Image.asset('assets/images/hiyoko_success.png')
+
+                    :failed//////////スキャン失敗したら表示//////////
+                        ? Image.asset('assets/images/hiyoko_batsu.png')
+
+                      //////////!success&&!failedなら表示//////////
+                      :Image.asset('assets/images/hiyoko_nfc.png'),
+
+                  success||failed//////////閉じるボタン//////////
                       ? GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pop();
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
                     },
@@ -184,7 +206,7 @@ class _NfcScanModalState extends State<NfcScanModal> {
                       ],
                     ),
                   )
-                      : GestureDetector(
+                      : GestureDetector(//////////!success&&!failedならスキャンボタン表示//////////
                     onTap: () {
                       //下動くけどなぜか値取ってこれない
                       //NfcScan().nfcRead();
@@ -197,85 +219,21 @@ class _NfcScanModalState extends State<NfcScanModal> {
                       //     });
                       //NFCスキャン
                       if (_reading) {
+                        //失敗
                         _stream.cancel();
 
-                        _reading = true;
+                        _reading = false;
+                        setState(() {
+                          failed = true;
+                        });
 
-                        showDialog<void>(//////////<読み取りに失敗しました>のダイアログ//////////
-                            context: context,
-                            builder: (_) {
 
-                              return Dialog(
-                                alignment: Alignment.center,
-                                insetPadding: const EdgeInsets.only(
-                                  bottom: 240,
-                                  top: 240,
-                                  left: 24,
-                                  right: 24,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Container(
-                                      height: deviceH,
-                                      width: deviceW,
-                                      decoration: BoxDecoration(
-                                        color: Color(0XFFFFFFFF),
-                                        borderRadius: BorderRadius.circular(20),
-                                        border: Border.all(width: 3, color: kSubBackgroundColor),
-                                      ),
-                                    ),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        //SizedBox(height: 0),
-                                        const Text(
-                                          "読み取りに失敗しました",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 24,
-                                              color: kFontColor,
-                                              fontFamily: 'KiwiMaru-R'),
-                                        ),
-                                        Image.asset('assets/images/hiyoko_batsu.png'),
-                                        GestureDetector(
-                                          onTap: () {
-                                            //キャンセル処理(三回戻ってます。)
-                                            Navigator.pop(context);
-                                            Navigator.pop(context);
-                                            Navigator.pop(context);
-                                          },
-                                          child: Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              Container(
-                                                height: 50,
-                                                width: 120,
-                                                decoration: BoxDecoration(
-                                                  color: kCanselColor,
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
-                                              ),
-                                              const Text("閉じる",
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: kFontColor,
-                                                      fontFamily: 'KiwiMaru-R')),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              );
 
-                            });
 
                       } else {
+                        setState(() {
+                          success = true;
+                        });
                         _reading = true;
                         // Start reading using NFC.readNDEF()
                         _stream = NFC
@@ -289,18 +247,7 @@ class _NfcScanModalState extends State<NfcScanModal> {
                           // Check error handling guide below
                         });
                       }
-                      if (enId.isNotEmpty) {
-                        print("$enId：成功");
-                        setState(() {
-                          success = true;
-                        });
-                        // showDialog(
-                        //   barrierDismissible: false,
-                        //   context: context,
-                        //   builder: (BuildContext context) =>
-                        //       NfcSuccessModal(),
-                        // );
-                      }
+
                     },
                     child: Stack(
                       alignment: Alignment.center,

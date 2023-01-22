@@ -46,8 +46,8 @@ class _AddkidsModalState extends State<AddkidsModal> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              //SizedBox(height: 30),
               const Text(
+                textAlign: TextAlign.center,
                 "お子様の名前を\n入力してください",
                 style: TextStyle(
                     fontSize: 22, color: kFontColor, fontFamily: 'KiwiMaru-R'),
@@ -112,19 +112,18 @@ class _AddkidsModalState extends State<AddkidsModal> {
                       //追加処理
 
                       if (name.isNotEmpty) {
-                        var f = Users().getnameAllUsers(name);
-
-                        f.then((value) => {
-                          userId = value,
-                          print(userId),
-                          //乗客に追加
-                          Passenger().postPassenger(userId, true),
-                        });
-                        showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (BuildContext context) => NfcScanModal()
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const NfcScanModal();
+                            }
+                          )
                         );
+                        // showDialog(
+                        //     barrierDismissible: false,
+                        //     context: context,
+                        //     builder: (BuildContext context) => NfcScanModal()
+                        // );
                       } else {
                         Navigator.pop(context);
                         //print("false");

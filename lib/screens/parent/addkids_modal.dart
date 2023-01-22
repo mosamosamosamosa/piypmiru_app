@@ -115,16 +115,15 @@ class _AddkidsModalState extends State<AddkidsModal> {
                         var f = Users().getnameAllUsers(name);
 
                         f.then((value) => {
-                          userId = value,
-                          print(userId),
-                          //乗客に追加
-                          Passenger().postPassenger(userId, true),
-                        });
+                              userId = value,
+                              print(userId),
+                              //乗客に追加
+                              Passenger().postPassenger(userId),
+                            });
                         showDialog(
                             barrierDismissible: false,
                             context: context,
-                            builder: (BuildContext context) => NfcScanModal()
-                        );
+                            builder: (BuildContext context) => NfcScanModal());
                       } else {
                         Navigator.pop(context);
                         //print("false");

@@ -111,14 +111,14 @@ class _AddBusModalState extends State<AddBusModal> {
 
                       setState(() {
                         if (name.isNotEmpty) {
-                          Buses().postBuses(name);
-                          var f = Buses().getAllBuses();
-
-                          f.then((value) => {
-                                busList = value,
-                                print(busList),
-                                Navigator.pop(context, busList),
-                                Future.value(false),
+                          var g = Buses().postBuses(name);
+                          g.then((value) => {
+                                Buses().getAllBuses().then((value) => {
+                                      busList = value,
+                                      print(busList),
+                                      Navigator.pop(context, busList),
+                                      Future.value(false),
+                                    })
                               });
                         } else {
                           Navigator.pop(context);

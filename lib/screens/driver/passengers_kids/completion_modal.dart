@@ -127,7 +127,7 @@ class CompletionModal extends StatelessWidget {
                     onTap: () {
                       //降車処理
 
-                      var f = Passenger().postPassenger(userId, false);
+                      var f = Passenger().putPassenger(userId);
 
                       f.then((value) => {
                             Navigator.pop(context),

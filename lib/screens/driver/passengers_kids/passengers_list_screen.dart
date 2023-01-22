@@ -102,13 +102,21 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                     itemBuilder: (BuildContext context, index) {
                       if (index == (widget.passenger).length) {
                         return GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               showDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    AddpassModal(),
-                              );
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AddpassModal()).then((value) => {
+                                    Passenger()
+                                        .getAllPassenger()
+                                        .then((value) => {
+                                              setState(() {
+                                                widget.passenger = value;
+                                                print(widget.passenger);
+                                              }),
+                                            }),
+                                  });
                             },
                             child: const Addlistitem());
                       }

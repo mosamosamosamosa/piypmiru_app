@@ -30,7 +30,7 @@ class Passenger {
       //乗車中の園児のIDだけを取得
       passengerList.forEach((element) {
         if (element['status']) {
-          idList.add(element['user_id']);
+          idList.add(element['user']);
         }
       });
       print(passengerList[0]['status']);
@@ -46,17 +46,17 @@ class Passenger {
 
   //バス乗車
   //NFCでスキャンしたユーザIDを受け取ってpassengerに追加
-  postPassenger(int userId, bool status) async {
+  postPassenger(int userId) async {
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request('POST', Uri.parse('${Clients().url}/passenger'));
     request.body =
-        json.encode({"status": status, "operation": 1, "user": userId});
+        json.encode({"status": true, "operation_id": 4, "user_id": userId});
     request.headers.addAll(headers);
 
     http.StreamedResponse stream_response = await request.send();
     var response = await http.Response.fromStream(stream_response);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       print(response.body);
     } else {
       print(response.reasonPhrase);
@@ -69,7 +69,7 @@ class Passenger {
     var request =
         http.Request('PUT', Uri.parse('${Clients().url}/passenger/useId'));
     request.body =
-        json.encode({"status": false, "operation_id": 3, "user_id": 3});
+        json.encode({"status": false, "operation_id": 4, "user_id": 3});
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();

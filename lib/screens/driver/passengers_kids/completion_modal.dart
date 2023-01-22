@@ -6,12 +6,14 @@ import 'package:piyomiru_application/screens/driver/start_drive/driving_screen.d
 class CompletionModal extends StatelessWidget {
   CompletionModal({
     Key? key,
+    required this.passId,
     required this.userId,
     required this.name,
     required this.image,
     //required this.name,
   }) : super(key: key);
 
+  final int passId;
   final int userId;
   final String name;
   final String image;
@@ -124,12 +126,14 @@ class CompletionModal extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
                       //降車処理
 
-                      var f = Passenger().putPassenger(userId);
+                      var f = Passenger().putPassenger(passId, userId);
 
                       f.then((value) => {
+                            print(passId),
+                            print(userId),
                             Navigator.pop(context),
                           });
                     },

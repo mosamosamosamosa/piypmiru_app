@@ -64,20 +64,58 @@ class Passenger {
   }
 
   //降車
-  putPassenger(int userId) async {
+  putPassenger(int passId, int userId) async {
     var headers = {'Content-Type': 'application/json'};
     var request =
-        http.Request('PUT', Uri.parse('${Clients().url}/passenger/useId'));
+        http.Request('PUT', Uri.parse('${Clients().url}/passenger/$passId'));
     request.body =
-        json.encode({"status": false, "operation_id": 4, "user_id": 3});
+        json.encode({"status": false, "operation_id": 4, "user_id": userId});
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
+      return ("降車成功");
     } else {
       print(response.reasonPhrase);
+    }
+  }
+
+  //名前が同じ子のIDを返してくれる
+  //名前からユーザIDを返してくれる
+  getnamePassenger(String name) async {
+    List<dynamic> nameList = [];
+    var passId;
+
+    var request_all_passenger =
+        http.Request('GET', Uri.parse('${Clients().url}/passenger'));
+    request_all_passenger.body = '''''';
+
+    http.StreamedResponse stream_response = await request_all_passenger.send();
+    var response = await http.Response.fromStream(stream_response);
+
+    if (response.statusCode == 200) {
+      passengerList = jsonDecode(response.body).cast<Map<String, dynamic>>();
+
+      passengerList.forEach((element) {
+        nameList.add(element['user']['name']);
+      });
+
+      for (int i = 0; i <= nameList.length; i++) {
+        if (nameList[i] == name) {
+          passId = passengerList[i]['id'];
+          break;
+        }
+      }
+
+      print(passId);
+
+      return passId;
+    } else {
+      debugPrint(response.reasonPhrase);
+
+      return "失敗";
     }
   }
 }

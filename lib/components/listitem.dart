@@ -84,35 +84,28 @@ class Listitem extends StatelessWidget {
             ),
           ],
         ),
-        editable
-            ? Positioned(
-                top: -8,
-                right: 0,
-                child: GestureDetector(
-                    onTap: () {
-                      if (ride) {
-                        showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (BuildContext context) => CompletionModal(
-                            userId: userId,
-                            name: name,
-                            image: image,
-                          ),
-                        );
-                      } else {
-                        showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (BuildContext context) => DeleteModal(
-                              name: name, image: image, userId: userId),
-                        );
-                      }
-                    },
-                    child: ride
-                        ? Image.asset('assets/images/minus.png')
-                        : Image.asset('assets/images/batsu.png')))
-            : Container(),
+        //     editable
+        //         ? Positioned(
+        //             top: -8,
+        //             right: 0,
+        //             child: GestureDetector(
+        //                 onTap: () async{
+
+        //                   if (ride) {
+
+        //                   } else {
+        //                     showDialog(
+        //                       barrierDismissible: false,
+        //                       context: context,
+        //                       builder: (BuildContext context) => DeleteModal(
+        //                           name: name, image: image, userId: userId),
+        //                     );
+        //                   }
+        //                 },
+        //                 child: ride
+        //                     ?Container()
+        //                     : Image.asset('assets/images/batsu.png')))
+        //         : Container(),
       ],
     );
   }

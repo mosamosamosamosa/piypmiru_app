@@ -52,7 +52,6 @@ class _AddkidsModalState extends State<AddkidsModal> {
                 style: TextStyle(
                     fontSize: 22, color: kFontColor, fontFamily: 'KiwiMaru-R'),
               ),
-
               Container(
                 height: 50,
                 width: 250,
@@ -112,33 +111,15 @@ class _AddkidsModalState extends State<AddkidsModal> {
                       //追加処理
 
                       if (name.isNotEmpty) {
+                        // Navigator.of(context)
+                        //     .push(MaterialPageRoute(builder: (context) {
+                        //   return const NfcScanModal();
+                        // }));
 
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return const NfcScanModal();
-                            }
-                          )
-                        );
-                        // showDialog(
-                        //     barrierDismissible: false,
-                        //     context: context,
-                        //     builder: (BuildContext context) => NfcScanModal()
-                        // );
-
-                        var f = Users().getnameAllUsers(name);
-
-                        f.then((value) => {
-                              userId = value,
-                              print(userId),
-                              //乗客に追加
-                              Passenger().postPassenger(userId),
-                            });
                         showDialog(
                             barrierDismissible: false,
                             context: context,
                             builder: (BuildContext context) => NfcScanModal());
-
                       } else {
                         Navigator.pop(context);
                         //print("false");

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:piyomiru_application/api/passenger.dart';
+import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/components/addlistitem.dart';
 import 'package:piyomiru_application/components/app_button.dart';
@@ -33,7 +34,7 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
   bool editable = false;
   int edit_flag = 0;
   String action = "編集";
-
+  var userId;
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
@@ -42,7 +43,7 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
     DateFormat outputFormat = DateFormat('yyyy/MM/dd H:m');
 
     setState(() {
-      if (passengers_list.isEmpty == false) {
+      if (widget.passenger.isEmpty == false) {
         pushable = false;
       } else {
         pushable = true;
@@ -102,27 +103,77 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                     itemBuilder: (BuildContext context, index) {
                       if (index == (widget.passenger).length) {
                         return GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               showDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    AddpassModal(),
-                              );
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AddpassModal()).then((value) => {
+                                    Passenger()
+                                        .getAllPassenger()
+                                        .then((value) => {
+                                              setState(() {
+                                                widget.passenger = value;
+                                                print(widget.passenger);
+                                              }),
+                                            }),
+                                  });
                             },
                             child: const Addlistitem());
                       }
 
-                      return GestureDetector(
-                        onTap: () {},
-                        child: Listitem(
-                            userId: widget.passenger[index]['id'],
-                            editable: editable,
-                            image: passengers_list[index].image,
-                            //passenger
-                            name: widget.passenger[index]['name'],
-                            ride: true,
-                            datetime: outputFormat.format(DateTime.now())),
+                      return Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Listitem(
+                              userId: widget.passenger[index]['id'],
+                              editable: editable,
+                              image: passengers_list[index].image,
+                              //passenger
+                              name: widget.passenger[index]['name'],
+                              ride: true,
+                              datetime: widget.passenger[index]['created']),
+                          editable
+                              ? Positioned(
+                                  right: 8,
+                                  top: -10,
+                                  child: GestureDetector(
+                                      onTap: () async {
+                                        var g = Passenger().getnamePassenger(
+                                            widget.passenger[index]['name']);
+                                        g.then((value) => {
+                                              userId = value,
+                                              print(userId),
+                                              showDialog(
+                                                barrierDismissible: false,
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        CompletionModal(
+                                                  passId: userId,
+                                                  userId: widget
+                                                      .passenger[index]['id'],
+                                                  name: widget.passenger[index]
+                                                      ['name'],
+                                                  image: passengers_list[index]
+                                                      .image,
+                                                ),
+                                              ).then((value) => {
+                                                    Passenger()
+                                                        .getAllPassenger()
+                                                        .then((value) => {
+                                                              setState(() {
+                                                                widget.passenger =
+                                                                    value;
+                                                              }),
+                                                            })
+                                                  })
+                                            });
+                                      },
+                                      child: Image.asset(
+                                          'assets/images/minus.png')))
+                              : Container()
+                        ],
                       );
                     },
                   ),

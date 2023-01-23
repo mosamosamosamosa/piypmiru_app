@@ -75,7 +75,7 @@ class Buses {
 
     http.StreamedResponse response = await request.send();
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       print("成功");
     } else {
       print(response.reasonPhrase);

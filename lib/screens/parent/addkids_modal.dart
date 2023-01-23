@@ -112,6 +112,7 @@ class _AddkidsModalState extends State<AddkidsModal> {
                       //追加処理
 
                       if (name.isNotEmpty) {
+
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) {
@@ -124,6 +125,20 @@ class _AddkidsModalState extends State<AddkidsModal> {
                         //     context: context,
                         //     builder: (BuildContext context) => NfcScanModal()
                         // );
+
+                        var f = Users().getnameAllUsers(name);
+
+                        f.then((value) => {
+                              userId = value,
+                              print(userId),
+                              //乗客に追加
+                              Passenger().postPassenger(userId),
+                            });
+                        showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (BuildContext context) => NfcScanModal());
+
                       } else {
                         Navigator.pop(context);
                         //print("false");

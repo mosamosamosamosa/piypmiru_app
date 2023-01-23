@@ -113,7 +113,9 @@ class _DeleteBusModalState extends State<DeleteBusModal> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Buses().deleteBuses(widget.id);
+                      Buses().deleteBuses(widget.id).then((value) => {
+                            Navigator.pop(context),
+                          });
                     },
                     child: Stack(
                       alignment: Alignment.center,

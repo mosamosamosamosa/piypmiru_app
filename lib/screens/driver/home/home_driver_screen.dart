@@ -156,7 +156,12 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                       barrierDismissible: false,
                                       context: context,
                                       builder: (BuildContext context) =>
-                                          AddBusModal());
+                                          AddBusModal()).then((value) => {
+                                        Buses().getAllBuses().then((value) => {
+                                              widget.busList = value,
+                                              print(widget.busList)
+                                            }),
+                                      });
                                 });
                               },
                               child: DottedBorder(
@@ -223,7 +228,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                         right: -17,
                                         child: del
                                             ? GestureDetector(
-                                                onTap: () {
+                                                onTap: () async {
                                                   //バスのIDを名前から取得
                                                   setState(() {
                                                     var f = Buses().getIdBuses(
@@ -244,12 +249,20 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                                                             .busList[
                                                                         index],
                                                                     id: id,
-                                                                  ))
+                                                                  )).then(
+                                                              ((value) => {
+                                                                    Buses()
+                                                                        .getAllBuses(),
+                                                                  }))
                                                         });
                                                   });
                                                 },
-                                                child: Image.asset(
-                                                    'assets/images/batsu.png'),
+                                                child: operations_list[index]
+                                                            .start ==
+                                                        1
+                                                    ? Container()
+                                                    : Image.asset(
+                                                        'assets/images/batsu.png'),
                                               )
                                             : Container(),
                                       )

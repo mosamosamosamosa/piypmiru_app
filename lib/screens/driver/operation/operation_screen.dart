@@ -174,7 +174,8 @@ class _OperationScreenState extends State<OperationScreen> {
                         showDialog(
                           barrierDismissible: false,
                           context: context,
-                          builder: (BuildContext context) => NfcSuccessModal(),
+                          builder: (BuildContext context) =>
+                              NfcScanModal(passengers: idList),
                         );
                       },
                       child:

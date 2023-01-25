@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:nfc_in_flutter/nfc_in_flutter.dart';
 import 'package:piyomiru_application/api/passenger.dart';
+import 'package:piyomiru_application/api/users.dart';
 //import 'package:nfc_in_flutter/nfc_in_flutter.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/nfc/nfc_scan.dart';
@@ -26,6 +27,8 @@ class _NfcScanModalState extends State<NfcScanModal> {
   int id = 0;
   int passId = 0;
   String textId = '';
+  String name = '';
+  String pass = '';
   //var enId;
 
   @override
@@ -144,8 +147,8 @@ class _NfcScanModalState extends State<NfcScanModal> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   success
-                      ? const Text(
-                          "〇〇　〇〇さん\n乗車完了！",
+                      ? Text(
+                          "$nameさん\n$pass完了！",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 24,
@@ -175,6 +178,9 @@ class _NfcScanModalState extends State<NfcScanModal> {
                                         }),
                                         if (passId == 0)
                                           {
+                                            setState(() {
+                                              pass = '乗車';
+                                            }),
                                             print("new data"),
                                             Passenger().postPassenger(id).then(
                                                 (value) =>
@@ -182,6 +188,9 @@ class _NfcScanModalState extends State<NfcScanModal> {
                                           }
                                         else
                                           {
+                                            setState(() {
+                                              pass = '降車';
+                                            }),
                                             print("update data"),
                                             Passenger()
                                                 .putPassenger(passId, id)
@@ -190,6 +199,9 @@ class _NfcScanModalState extends State<NfcScanModal> {
                                           }
                                       });
                             } else {
+                              setState(() {
+                                pass = '乗車';
+                              });
                               Passenger()
                                   .postPassenger(id)
                                   .then((value) => {Navigator.pop(context)});
@@ -263,6 +275,13 @@ class _NfcScanModalState extends State<NfcScanModal> {
                                 textId = enId.replaceAll(RegExp(r"[^0-9]"), "");
                                 id = int.parse(textId);
                                 print(id);
+                                Users().getUser(id).then((value) => {
+                                      setState(() {
+                                        name = value;
+                                      }),
+                                    });
+
+                                print(name);
                               });
                               // showDialog(
                               //   barrierDismissible: false,

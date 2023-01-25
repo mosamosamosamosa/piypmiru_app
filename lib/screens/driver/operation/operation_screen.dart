@@ -172,7 +172,7 @@ class _OperationScreenState extends State<OperationScreen> {
                       onTap: () {
                         //押した時の処理
                         showDialog(
-                          barrierDismissible: false,
+                          barrierDismissible: true,
                           context: context,
                           builder: (BuildContext context) =>
                               NfcScanModal(passengers: idList),

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:piyomiru_application/api/buses.dart';
+import 'package:piyomiru_application/api/operation.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/data/database.dart';
+import 'package:piyomiru_application/screens/driver/operation/operation_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/driving_screen.dart';
 
 class StartDriveModal extends StatelessWidget {
   StartDriveModal({
     Key? key,
-    //required this.name,
+    required this.busName,
   }) : super(key: key);
 
-  //final String name;
+  final String busName;
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
@@ -77,11 +81,19 @@ class StartDriveModal extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DrivingScreen()),
-                      );
+                      Buses().getIdBuses(busName).then((value) => {
+                            Operation()
+                                .postOperation(true, false, value)
+                                .then((value) => {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                OperationScreen(
+                                                    busName: busName)),
+                                      )
+                                    })
+                          });
                     },
                     child: Stack(
                       alignment: Alignment.center,

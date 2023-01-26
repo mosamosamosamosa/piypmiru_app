@@ -15,7 +15,7 @@ class Passenger {
   List<Map<String, dynamic>> idList = [];
   //List<dynamic> nameList = [];
 
-  getAllPassenger() async {
+  getAllPassenger(int operationId) async {
     var request_all_passenger =
         http.Request('GET', Uri.parse('${Clients().url}/passenger'));
     request_all_passenger.body = '''''';
@@ -29,9 +29,11 @@ class Passenger {
 
       //乗車中の園児のIDだけを取得
       passengerList.forEach((element) {
-        if (element['status']) {
-          idList.add(element['user']);
-          print(element['status']);
+        if (element['operation']['id'] == operationId) {
+          if (element['status']) {
+            idList.add(element['user']);
+            print(element['status']);
+          }
         }
       });
 

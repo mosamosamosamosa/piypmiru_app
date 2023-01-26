@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:piyomiru_application/api/buses.dart';
 import 'package:piyomiru_application/api/passenger.dart';
 import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/components/app_button.dart';
 import 'package:piyomiru_application/components/app_sub_button.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/screens/driver/home/home_driver_screen.dart';
 
 import 'package:piyomiru_application/screens/driver/home/logout_modal.dart';
 import 'package:piyomiru_application/screens/driver/nfc/nfc_scan_modal.dart';
@@ -15,8 +17,9 @@ import 'package:piyomiru_application/screens/driver/start_drive/start_drive_moda
 
 //バス運行中画面
 class OperationScreen extends StatefulWidget {
-  OperationScreen({Key? key}) : super(key: key);
+  OperationScreen({Key? key, required this.busName}) : super(key: key);
 
+  final String busName;
   @override
   _OperationScreenState createState() => _OperationScreenState();
 }
@@ -25,6 +28,19 @@ class _OperationScreenState extends State<OperationScreen> {
   var idList;
   var kidsList;
   var nameList;
+  var busId;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    Buses().getIdBuses(widget.busName).then((value) => {
+          setState(() {
+            busId = value;
+          })
+        });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,16 +67,18 @@ class _OperationScreenState extends State<OperationScreen> {
           toolbarHeight: deviceH * 0.1,
           centerTitle: false,
 
-          leading: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Image.asset('assets/images/backmark.png')),
-
-          title: const Text(
-            "PiyoMiru",
-            style: TextStyle(
-                color: kTitleColor, fontSize: 36, fontFamily: 'Rajdhani-B'),
+          title: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeDriverScreen()),
+              );
+            },
+            child: const Text(
+              "PiyoMiru",
+              style: TextStyle(
+                  color: kTitleColor, fontSize: 36, fontFamily: 'Rajdhani-B'),
+            ),
           ),
           backgroundColor: kSubBackgroundColor,
           //影消す
@@ -126,13 +144,26 @@ class _OperationScreenState extends State<OperationScreen> {
                   Column(
                     children: [
                       SizedBox(height: deviceH * 0.18),
-                      Text(
-                        "運行中. . .",
-                        style: const TextStyle(
-                          fontSize: 40,
-                          //fontWeight: FontWeight.bold,
-                          fontFamily: 'KiwiMaru-M', color: kFontColor,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            widget.busName,
+                            style: const TextStyle(
+                              fontSize: 40,
+                              //fontWeight: FontWeight.bold,
+                              fontFamily: 'KiwiMaru-M', color: kFontColor,
+                            ),
+                          ),
+                          Text(
+                            "運行中. . .",
+                            style: const TextStyle(
+                              fontSize: 40,
+                              //fontWeight: FontWeight.bold,
+                              fontFamily: 'KiwiMaru-M', color: kFontColor,
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(height: deviceH * 0.04),
                       Image.asset('assets/images/bus_drive_home.png'),
@@ -161,7 +192,9 @@ class _OperationScreenState extends State<OperationScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => PassengerListScreen(
-                                          drive: true, passenger: idList)),
+                                          drive: true,
+                                          passenger: idList,
+                                          busId: busId)),
                                 ),
                               });
                         });

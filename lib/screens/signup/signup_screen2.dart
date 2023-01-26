@@ -328,9 +328,7 @@ class _SignupScreen2 extends State<SignupScreen2> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HomeDriverScreen(
-                                                      busList: busList,
-                                                    )),
+                                                    HomeDriverScreen()),
                                           )
                                         })
                                   });

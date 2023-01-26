@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piyomiru_application/api/buses.dart';
+import 'package:piyomiru_application/api/operation.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/components/compbutton.dart';
 import 'package:piyomiru_application/constants.dart';
@@ -15,9 +16,11 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:piyomiru_application/api/users.dart';
 
 class HomeDriverScreen extends StatefulWidget {
-  HomeDriverScreen({Key? key, required this.busList}) : super(key: key);
+  HomeDriverScreen({
+    Key? key,
+  }) : super(key: key);
 
-  var busList;
+  List<String> busList = [];
   // createState()　で"State"（Stateを継承したクラス）を返す
   @override
   _HomeDriverScreenState createState() => _HomeDriverScreenState();
@@ -28,9 +31,34 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
   bool del = false;
   var kidsList;
   int id = 0;
+  List<bool> statusList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    Buses().getAllBuses().then((value) => {
+          print(value),
+          //widget.busList = value.cast<String>(),
+          value.cast<String>().forEach((element) {
+            Buses().getIdBuses(element).then((value) => {
+                  print("get id buses"),
+                  Operation().getStatusOperation(value).then((value) => {
+                        print("get operation"),
+                        setState(() {
+                          statusList.add(value);
+                          widget.busList.add(element);
+                        })
+                      })
+                });
+          }),
+        });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.busList);
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
     String group_name = groups_list[0].name;
@@ -132,21 +160,56 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                         });
                       },
                       onTap: () {
-                        setState(() {
-                          if (operations_list[index].start == 0) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => StartDriveScreen()),
-                            );
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OperationScreen()),
-                            );
-                          }
-                        });
+                        if (!statusList[index]) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => StartDriveScreen(
+                                      busName: widget.busList[index],
+                                    )),
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OperationScreen(
+                                    busName: widget.busList[index])),
+                          );
+                        }
+
+                        // Buses()
+                        //     .getIdBuses(widget.busList[index])
+                        //     .then((value) => {
+                        //           print(value),
+                        //           Operation()
+                        //               .getStatusOperation(value)
+                        //               .then((value) => {
+                        //                     setState(() {
+                        //                       standardEasing = value;
+                        //                       if (!value) {
+                        //                         Navigator.push(
+                        //                           context,
+                        //                           MaterialPageRoute(
+                        //                               builder: (context) =>
+                        //                                   StartDriveScreen(
+                        //                                     busName: widget
+                        //                                         .busList[index],
+                        //                                   )),
+                        //                         );
+                        //                       } else {
+                        //                         Navigator.push(
+                        //                           context,
+                        //                           MaterialPageRoute(
+                        //                               builder: (context) =>
+                        //                                   OperationScreen(
+                        //                                       busName: widget
+                        //                                               .busList[
+                        //                                           index])),
+                        //                         );
+                        //                       }
+                        //    })
+                        //       })
+                        //  });
                       },
                       child: index == widget.busList.length
                           ? GestureDetector(
@@ -156,12 +219,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                       barrierDismissible: false,
                                       context: context,
                                       builder: (BuildContext context) =>
-                                          AddBusModal()).then((value) => {
-                                        Buses().getAllBuses().then((value) => {
-                                              widget.busList = value,
-                                              print(widget.busList)
-                                            }),
-                                      });
+                                          AddBusModal());
                                 });
                               },
                               child: DottedBorder(
@@ -206,7 +264,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                               color: kFontColor),
                                         ),
                                       ),
-                                      operations_list[index].start == 1
+                                      statusList[index]
                                           ? Column(children: [
                                               SizedBox(height: 16),
                                               Container(
@@ -249,17 +307,11 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                                                                             .busList[
                                                                         index],
                                                                     id: id,
-                                                                  )).then(
-                                                              ((value) => {
-                                                                    Buses()
-                                                                        .getAllBuses(),
-                                                                  }))
+                                                                  ))
                                                         });
                                                   });
                                                 },
-                                                child: operations_list[index]
-                                                            .start ==
-                                                        1
+                                                child: statusList[index]
                                                     ? Container()
                                                     : Image.asset(
                                                         'assets/images/batsu.png'),

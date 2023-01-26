@@ -22,12 +22,14 @@ class PassengerListScreen extends StatefulWidget {
       {Key? key,
       required this.drive,
       required this.passenger,
-      required this.busId})
+      required this.busId,
+      required this.operationId})
       : super(key: key);
 
   final bool drive;
   var passenger;
   final int busId;
+  final int operationId;
   // createState()　で"State"（Stateを継承したクラス）を返す
   @override
   _PassengerListScreenState createState() => _PassengerListScreenState();
@@ -115,7 +117,7 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                                   builder: (BuildContext context) =>
                                       AddpassModal()).then((value) => {
                                     Passenger()
-                                        .getAllPassenger()
+                                        .getAllPassenger(widget.operationId)
                                         .then((value) => {
                                               setState(() {
                                                 widget.passenger = value;
@@ -137,7 +139,8 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                               //passenger
                               name: widget.passenger[index]['name'],
                               ride: true,
-                              datetime: widget.passenger[index]['created']),
+                              datetime: outputFormat.format(DateTime.parse(
+                                  widget.passenger[index]['created']))),
                           editable
                               ? Positioned(
                                   right: 8,
@@ -165,7 +168,8 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                                                 ),
                                               ).then((value) => {
                                                     Passenger()
-                                                        .getAllPassenger()
+                                                        .getAllPassenger(
+                                                            widget.operationId)
                                                         .then((value) => {
                                                               setState(() {
                                                                 widget.passenger =

@@ -58,4 +58,37 @@ class Operation {
       print(response.reasonPhrase);
     }
   }
+
+  getIdOperation(int busId) async {
+    late List<Map<String, dynamic>> operationList;
+    bool start;
+    int operationId = 0;
+
+    var request = http.Request('GET', Uri.parse('${Clients().url}/operation'));
+
+    request.body = '''''';
+
+    http.StreamedResponse stream_response = await request.send();
+    var response = await http.Response.fromStream(stream_response);
+
+    if (response.statusCode == 200) {
+      operationList = jsonDecode(response.body).cast<Map<String, dynamic>>();
+
+      //バスのIDが一致しているものを全部取り出す
+      operationList.forEach((element) {
+        if (element['bus']['id'] == busId) {
+          businfoList.add(element);
+          print(businfoList);
+        }
+      });
+
+      operationId = businfoList[businfoList.length - 1]['id'];
+
+      print("成功");
+      return operationId;
+    } else {
+      print("失敗");
+      return operationId;
+    }
+  }
 }

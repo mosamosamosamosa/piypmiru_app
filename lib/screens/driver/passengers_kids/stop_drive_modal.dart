@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:piyomiru_application/api/operation.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/screens/driver/home/home_driver_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_modal.dart';
 
 class StopDriveModal extends StatelessWidget {
-  StopDriveModal({Key? key}) : super(key: key);
+  StopDriveModal({Key? key, required this.busId}) : super(key: key);
 
+  final int busId;
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
@@ -73,7 +76,13 @@ class StopDriveModal extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.popUntil(context, ModalRoute.withName('/home'));
+                      Operation().postOperation(false, true, busId).then(
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeDriverScreen()),
+                            ),
+                          );
                     },
                     child: Stack(
                       alignment: Alignment.center,

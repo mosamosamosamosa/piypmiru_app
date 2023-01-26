@@ -114,7 +114,11 @@ class _DeleteBusModalState extends State<DeleteBusModal> {
                   GestureDetector(
                     onTap: () {
                       Buses().deleteBuses(widget.id).then((value) => {
-                            Navigator.pop(context),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeDriverScreen()),
+                            )
                           });
                     },
                     child: Stack(

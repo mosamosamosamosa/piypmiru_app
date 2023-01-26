@@ -161,19 +161,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       right: 0,
                       child: GestureDetector(
                           onTap: () {
-                            var f = Buses().getAllBuses();
+                            // var f = Buses().getAllBuses();
 
-                            f.then((value) => {
-                                  busList = value,
-                                  print(busList),
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => HomeDriverScreen(
-                                              busList: busList,
-                                            )),
-                                  )
-                                });
+                            // f.then((value) => {
+                            //       busList = value,
+                            //       print(busList),
+                            //       Navigator.push(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //             builder: (context) => HomeDriverScreen(
+                            //                   busList: busList,
+                            //                 )),
+                            //       )
+                            //     });
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeDriverScreen()));
                           },
                           child: NomalButton(
                             text: "ログイン",

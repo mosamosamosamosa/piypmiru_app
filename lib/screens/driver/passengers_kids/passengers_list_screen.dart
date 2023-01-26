@@ -18,11 +18,16 @@ import 'package:piyomiru_application/screens/driver/register_kids/registeredkids
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_screen.dart';
 
 class PassengerListScreen extends StatefulWidget {
-  PassengerListScreen({Key? key, required this.drive, required this.passenger})
+  PassengerListScreen(
+      {Key? key,
+      required this.drive,
+      required this.passenger,
+      required this.busId})
       : super(key: key);
 
   final bool drive;
   var passenger;
+  final int busId;
   // createState()　で"State"（Stateを継承したクラス）を返す
   @override
   _PassengerListScreenState createState() => _PassengerListScreenState();
@@ -206,7 +211,8 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                     showDialog(
                       barrierDismissible: false,
                       context: context,
-                      builder: (BuildContext context) => StopDriveModal(),
+                      builder: (BuildContext context) =>
+                          StopDriveModal(busId: widget.busId),
                     );
                   } else {
                     showDialog(

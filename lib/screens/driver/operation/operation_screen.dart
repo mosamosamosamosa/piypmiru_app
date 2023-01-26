@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piyomiru_application/api/buses.dart';
+import 'package:piyomiru_application/api/operation.dart';
 import 'package:piyomiru_application/api/passenger.dart';
 import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
@@ -29,6 +30,7 @@ class _OperationScreenState extends State<OperationScreen> {
   var kidsList;
   var nameList;
   var busId;
+  var operationId;
 
   @override
   void initState() {
@@ -37,7 +39,12 @@ class _OperationScreenState extends State<OperationScreen> {
     Buses().getIdBuses(widget.busName).then((value) => {
           setState(() {
             busId = value;
-          })
+          }),
+          Operation().getIdOperation(busId).then((value) => {
+                setState(() {
+                  operationId = value;
+                }),
+              })
         });
     super.initState();
   }
@@ -182,7 +189,7 @@ class _OperationScreenState extends State<OperationScreen> {
                   GestureDetector(
                       onTap: () {
                         setState(() {
-                          var f = Passenger().getAllPassenger();
+                          var f = Passenger().getAllPassenger(operationId);
 
                           f.then((value) => {
                                 idList = value,
@@ -192,9 +199,11 @@ class _OperationScreenState extends State<OperationScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => PassengerListScreen(
-                                          drive: true,
-                                          passenger: idList,
-                                          busId: busId)),
+                                            drive: true,
+                                            passenger: idList,
+                                            busId: busId,
+                                            operationId: operationId,
+                                          )),
                                 ),
                               });
                         });

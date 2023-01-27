@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:piyomiru_application/api/passenger.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/components/addlistitem.dart';
 import 'package:piyomiru_application/components/app_button.dart';
@@ -14,9 +15,10 @@ import 'package:piyomiru_application/screens/driver/register_kids/registeredkids
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_screen.dart';
 
 class PassengerParentScreen extends StatefulWidget {
-  const PassengerParentScreen({
-    Key? key,
-  }) : super(key: key);
+  const PassengerParentScreen({Key? key, required this.operationId})
+      : super(key: key);
+
+  final int operationId;
 
   // createState()　で"State"（Stateを継承したクラス）を返す
   @override
@@ -24,7 +26,24 @@ class PassengerParentScreen extends StatefulWidget {
 }
 
 class _PassengerParentScreenState extends State<PassengerParentScreen> {
-  late bool pushable;
+  var passengerList;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    Passenger().getAllPassenger(widget.operationId).then((value) => {
+          setState(() {
+            if (value == null) {
+              print("nullです");
+              passengerList = 0;
+            } else {
+              passengerList = value;
+              print('乗客:$passengerList');
+            }
+          })
+        });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +51,6 @@ class _PassengerParentScreenState extends State<PassengerParentScreen> {
     double deviceH = MediaQuery.of(context).size.height;
 
     DateFormat outputFormat = DateFormat('yyyy/MM/dd H:m');
-
-    setState(() {
-      if (passengers_list.isEmpty == false) {
-        pushable = false;
-      } else {
-        pushable = true;
-      }
-    });
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -64,26 +75,8 @@ class _PassengerParentScreenState extends State<PassengerParentScreen> {
       ),
       body: Stack(
         children: [
-          passengers_list.isEmpty == false
+          passengerList == null || passengerList == 0
               ? SizedBox(
-                  height: deviceH,
-                  width: deviceW,
-                  child: ListView.builder(
-                    padding: EdgeInsets.only(top: deviceH * 0.05),
-                    itemCount: passengers_list.length,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, index) {
-                      return Listitem(
-                          userId: 1, //仮
-                          editable: false,
-                          image: passengers_list[index].image,
-                          name: passengers_list[index].name,
-                          ride: true,
-                          datetime: outputFormat.format(DateTime.now()));
-                    },
-                  ),
-                )
-              : SizedBox(
                   height: deviceH,
                   width: deviceW,
                   child: Column(
@@ -101,7 +94,25 @@ class _PassengerParentScreenState extends State<PassengerParentScreen> {
                       Image.asset('assets/images/kids.png'),
                     ],
                   ),
-                ),
+                )
+              : SizedBox(
+                  height: deviceH,
+                  width: deviceW,
+                  child: ListView.builder(
+                    padding: EdgeInsets.only(top: deviceH * 0.05),
+                    itemCount: passengerList.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, index) {
+                      return Listitem(
+                          userId: 1, //仮
+                          editable: false,
+                          image: passengers_list[index].image,
+                          name: passengerList[index]['name'],
+                          ride: true,
+                          datetime: outputFormat.format(DateTime.now()));
+                    },
+                  ),
+                )
         ],
       ),
     );

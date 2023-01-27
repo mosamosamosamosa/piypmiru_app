@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:piyomiru_application/api/buses.dart';
+import 'package:piyomiru_application/api/operation.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/components/app_button.dart';
 import 'package:piyomiru_application/components/app_sub_button.dart';
@@ -13,10 +15,34 @@ import 'package:piyomiru_application/screens/driver/register_kids/registeredkids
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_modal.dart';
 import 'package:piyomiru_application/screens/parent/passengers_parent_screen.dart';
 
-class StopParentScreen extends StatelessWidget {
-  StopParentScreen({
-    Key? key,
-  }) : super(key: key);
+class StopParentScreen extends StatefulWidget {
+  StopParentScreen({Key? key, required this.busName}) : super(key: key);
+
+  final String busName;
+  @override
+  _StopParentScreenState createState() => _StopParentScreenState();
+}
+
+class _StopParentScreenState extends State<StopParentScreen> {
+  var busId;
+  var operationId;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    Buses().getIdBuses(widget.busName).then((value) => {
+          setState(() {
+            busId = value;
+          }),
+          Operation().getIdOperation(busId).then((value) => {
+                setState(() {
+                  operationId = value;
+                }),
+              })
+        });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +154,8 @@ class StopParentScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PassengerParentScreen()),
+                          builder: (context) =>
+                              PassengerParentScreen(operationId: operationId)),
                     );
                   },
                   child: PassengerButton()),

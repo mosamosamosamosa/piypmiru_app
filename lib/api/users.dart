@@ -135,38 +135,6 @@ class Users {
 
     if (response.statusCode == 200) {
       userList = jsonDecode(response.body).cast<Map<String, dynamic>>();
-      tesuserList = [
-        {
-          "id": 1,
-          "name": "jill",
-          "email": "jill@gmail.com",
-          "driver": true,
-          "passenger": false,
-          "created": "2022-12-01T14:23:31.818852+09:00",
-          "group_id": 1,
-          "family_id": 1
-        },
-        {
-          "id": 2,
-          "name": "test3",
-          "email": "test3@gmail.com",
-          "driver": false,
-          "passenger": true,
-          "created": "2022-12-08T13:44:14.328146+09:00",
-          "group_id": null,
-          "family_id": null
-        },
-        {
-          "id": 3,
-          "name": "test4",
-          "email": "test4@gmail.com",
-          "driver": false,
-          "passenger": true,
-          "created": "2022-12-08T13:44:14.328146+09:00",
-          "group_id": null,
-          "family_id": null
-        }
-      ];
 
       userList.forEach((element) {
         if (element['passengers']) {
@@ -191,6 +159,119 @@ class Users {
 
     if (response.statusCode == 200) {
       print(response.body);
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  //ログイン処理
+  // loginUser(int userId,String password) async {
+  //   var request =
+  //       http.Request('GET', Uri.parse('${Clients().url}/users/$userId'));
+
+  //   http.StreamedResponse stream_response = await request.send();
+  //   var response = await http.Response.fromStream(stream_response);
+
+  //   if (response.statusCode == 201) {
+  //     Map<String, dynamic> login = jsonDecode(response.body);
+  //     String password = login['pass'];
+
+  //     return userName;
+  //   } else {
+  //     print(response.reasonPhrase);
+  //     return "失敗";
+  //   }
+  // }
+
+  //運転手か、親か？
+  getroleUser(int userId) async {
+    bool driver;
+    var request =
+        http.Request('GET', Uri.parse('${Clients().url}/users/$userId'));
+
+    http.StreamedResponse stream_response = await request.send();
+    var response = await http.Response.fromStream(stream_response);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> role = jsonDecode(response.body);
+      print("役割：$role");
+      if (role['driver']) {
+        driver = true;
+      } else {
+        driver = false;
+      }
+
+      print(driver);
+      return driver;
+    } else {
+      print("失敗");
+      return true;
+    }
+  }
+
+  //自分の子ども取得
+  getkidsUsers(int familyId) async {
+    late List<Map<String, dynamic>> tesuserList;
+    late List<Map<String, dynamic>> userList;
+
+    List<String> nameList = [];
+
+    var headers = {'Content-Type': 'text/plain'};
+    var request = http.Request('GET', Uri.parse('${Clients().url}/users'));
+    request.body = r'<file contents here>';
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse stream_response = await request.send();
+    var response = await http.Response.fromStream(stream_response);
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      print("色々成功だあああ");
+      userList = jsonDecode(response.body).cast<Map<String, dynamic>>();
+
+      userList.forEach((element) {
+        if (element['passengers'] && element['family']['id'] == familyId) {
+          nameList.add(element['name']);
+        }
+      });
+
+      if (nameList.isEmpty) {
+        return 0;
+      } else {
+        return nameList;
+      }
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  //名前からfamilyIdを返してくれる
+  getFamilyUsers(String name) async {
+    int familyId = 0;
+    late List<Map<String, dynamic>> userList;
+    List<dynamic> nameList = [];
+
+    var headers = {'Content-Type': 'text/plain'};
+    var request = http.Request('GET', Uri.parse('${Clients().url}/users'));
+    request.body = r'<file contents here>';
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse stream_response = await request.send();
+    var response = await http.Response.fromStream(stream_response);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      userList = jsonDecode(response.body).cast<Map<String, dynamic>>();
+
+      nameList = userList.map((e) => e['name']).toList();
+
+      for (int i = 0; i <= nameList.length; i++) {
+        if (nameList[i] == name) {
+          familyId = userList[i]['family']['id'];
+          break;
+        }
+      }
+      return familyId;
     } else {
       print(response.reasonPhrase);
     }

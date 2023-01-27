@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:piyomiru_application/api/clients.dart';
+import 'package:piyomiru_application/api/operation.dart';
 import 'package:piyomiru_application/api/users.dart';
 
 class Passenger {
@@ -48,11 +49,11 @@ class Passenger {
 
   //バス乗車
   //NFCでスキャンしたユーザIDを受け取ってpassengerに追加
-  postPassenger(int userId) async {
+  postPassenger(int userId, int operationId) async {
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request('POST', Uri.parse('${Clients().url}/passenger'));
-    request.body =
-        json.encode({"status": true, "operation_id": 3, "user_id": userId});
+    request.body = json.encode(
+        {"status": true, "operation_id": operationId, "user_id": userId});
     request.headers.addAll(headers);
 
     http.StreamedResponse stream_response = await request.send();
@@ -66,12 +67,12 @@ class Passenger {
   }
 
   //降車
-  putPassenger(int passId, int userId) async {
+  putPassenger(int passId, int userId, int operationId) async {
     var headers = {'Content-Type': 'application/json'};
     var request =
         http.Request('PUT', Uri.parse('${Clients().url}/passenger/$passId'));
-    request.body =
-        json.encode({"status": false, "operation_id": 3, "user_id": userId});
+    request.body = json.encode(
+        {"status": false, "operation_id": operationId, "user_id": userId});
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();

@@ -10,9 +10,11 @@ import 'package:piyomiru_application/nfc/nfc_scan.dart';
 import 'package:piyomiru_application/screens/driver/nfc/nfc_success_modal.dart';
 
 class NfcScanModal extends StatefulWidget {
-  NfcScanModal({Key? key, required this.passengers}) : super(key: key);
+  NfcScanModal({Key? key, required this.passengers, required this.operationId})
+      : super(key: key);
 
   var passengers;
+  int operationId;
   // createState()　で"State"（Stateを継承したクラス）を返す
   @override
   _NfcScanModalState createState() => _NfcScanModalState();
@@ -182,8 +184,10 @@ class _NfcScanModalState extends State<NfcScanModal> {
                                               pass = '乗車';
                                             }),
                                             print("new data"),
-                                            Passenger().postPassenger(id).then(
-                                                (value) =>
+                                            Passenger()
+                                                .postPassenger(
+                                                    id, widget.operationId)
+                                                .then((value) =>
                                                     {Navigator.pop(context)})
                                           }
                                         else
@@ -193,7 +197,8 @@ class _NfcScanModalState extends State<NfcScanModal> {
                                             }),
                                             print("update data"),
                                             Passenger()
-                                                .putPassenger(passId, id)
+                                                .putPassenger(passId, id,
+                                                    widget.operationId)
                                                 .then((value) =>
                                                     {Navigator.pop(context)})
                                           }
@@ -203,7 +208,7 @@ class _NfcScanModalState extends State<NfcScanModal> {
                                 pass = '乗車';
                               });
                               Passenger()
-                                  .postPassenger(id)
+                                  .postPassenger(id, widget.operationId)
                                   .then((value) => {Navigator.pop(context)});
                             }
                             // if (passId != 0) {
@@ -212,7 +217,7 @@ class _NfcScanModalState extends State<NfcScanModal> {
                             //       .then((value) => {Navigator.pop(context)});
                             // } else {
                             //   Passenger()
-                            //       .postPassenger(id)
+                            //       .postPassengers(id)
                             //       .then((value) => {Navigator.pop(context)});
                             // }
                             // print(passId);

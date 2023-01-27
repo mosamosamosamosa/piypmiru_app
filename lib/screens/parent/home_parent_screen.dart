@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:piyomiru_application/api/buses.dart';
+import 'package:piyomiru_application/api/operation.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/constants.dart';
-import 'package:piyomiru_application/data/database.dart';
 import 'package:piyomiru_application/screens/driver/home/add_bus_modal.dart';
 
 import 'package:piyomiru_application/screens/driver/home/logout_modal.dart';
@@ -16,9 +17,10 @@ import 'package:piyomiru_application/screens/parent/passengers_parent_screen.dar
 import 'package:piyomiru_application/screens/parent/stop_parent_screen.dart';
 
 class HomeParentScreen extends StatefulWidget {
-  const HomeParentScreen({
-    Key? key,
-  }) : super(key: key);
+  HomeParentScreen({Key? key, required this.familyId}) : super(key: key);
+
+  List<String> busList = [];
+  final int familyId;
 
   // createState()　で"State"（Stateを継承したクラス）を返す
   @override
@@ -26,13 +28,37 @@ class HomeParentScreen extends StatefulWidget {
 }
 
 class _HomeParentScreenState extends State<HomeParentScreen> {
+  List<bool> statusList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    Buses().getAllBuses().then((value) => {
+          print(value),
+          //widget.busList = value.cast<String>(),
+          value.cast<String>().forEach((element) {
+            Buses().getIdBuses(element).then((value) => {
+                  print("get id buses"),
+                  Operation().getStatusOperation(value).then((value) => {
+                        print("get operation"),
+                        setState(() {
+                          statusList.add(value);
+                          widget.busList.add(element);
+                        })
+                      })
+                });
+          }),
+        });
+    super.initState();
+  }
+
   int? selectedId;
 
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
-    String group_name = groups_list[0].name;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -56,11 +82,13 @@ class _HomeParentScreenState extends State<HomeParentScreen> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FamilyListScreen()),
+                MaterialPageRoute(
+                    builder: (context) =>
+                        FamilyListScreen(familyId: widget.familyId)),
               );
             },
             child: const ActionButton(
-              text: "園児",
+              text: "家族",
               img: "bear.png",
             ),
           ),
@@ -88,7 +116,7 @@ class _HomeParentScreenState extends State<HomeParentScreen> {
             children: [
               SizedBox(height: deviceH * 1 / 16),
               Text(
-                '--$group_name--',
+                '--ぴよみる幼稚園--',
                 style: TextStyle(
                     fontSize: 31, color: kFontColor, fontFamily: 'KiwiMaru-R'),
               ),
@@ -102,22 +130,25 @@ class _HomeParentScreenState extends State<HomeParentScreen> {
                   crossAxisSpacing: 28,
                   crossAxisCount: 2,
                   children: List.generate(
-                    buses_list.length,
+                    widget.busList.length,
                     (index) => GestureDetector(
                       onTap: () {
                         setState(() {
-                          if (operations_list[index].start == 0) {
+                          if (statusList[index]) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => StopParentScreen()),
+                                  builder: (context) => OperationParentScreen(
+                                        busName: widget.busList[index],
+                                      )),
                             );
                           } else {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      OperationParentScreen()),
+                                  builder: (context) => StopParentScreen(
+                                        busName: widget.busList[index],
+                                      )),
                             );
                           }
                         });
@@ -136,14 +167,14 @@ class _HomeParentScreenState extends State<HomeParentScreen> {
                                   padding:
                                       const EdgeInsets.only(left: 10, top: 5),
                                   child: Text(
-                                    buses_list[index].name,
+                                    widget.busList[index],
                                     style: const TextStyle(
                                         fontSize: 18,
                                         fontFamily: 'KiwiMaru-R',
                                         color: kFontColor),
                                   ),
                                 ),
-                                operations_list[index].start == 1
+                                statusList[index]
                                     ? Column(children: [
                                         SizedBox(height: 16),
                                         Container(

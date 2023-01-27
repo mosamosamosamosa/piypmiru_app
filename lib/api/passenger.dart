@@ -38,12 +38,15 @@ class Passenger {
         }
       });
 
-      //mapのリスト
-      return idList;
+      if (idList.isEmpty) {
+        return 0;
+      } else {
+        return idList;
+      }
     } else {
       debugPrint(response.reasonPhrase);
 
-      return idList;
+      return 0;
     }
   }
 

@@ -10,6 +10,7 @@ class CompletionModal extends StatelessWidget {
     required this.userId,
     required this.name,
     required this.image,
+    required this.operationId,
     //required this.name,
   }) : super(key: key);
 
@@ -17,6 +18,7 @@ class CompletionModal extends StatelessWidget {
   final int userId;
   final String name;
   final String image;
+  final int operationId;
   //final String name;
   @override
   Widget build(BuildContext context) {
@@ -129,7 +131,8 @@ class CompletionModal extends StatelessWidget {
                     onTap: () async {
                       //降車処理
 
-                      var f = Passenger().putPassenger(passId, userId);
+                      var f =
+                          Passenger().putPassenger(passId, userId, operationId);
 
                       f.then((value) => {
                             print(passId),

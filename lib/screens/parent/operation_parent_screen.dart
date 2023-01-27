@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:piyomiru_application/api/buses.dart';
+import 'package:piyomiru_application/api/operation.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/components/app_button.dart';
 import 'package:piyomiru_application/components/app_sub_button.dart';
@@ -13,10 +15,34 @@ import 'package:piyomiru_application/screens/driver/register_kids/registeredkids
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_modal.dart';
 import 'package:piyomiru_application/screens/parent/passengers_parent_screen.dart';
 
-class OperationParentScreen extends StatelessWidget {
-  OperationParentScreen({
-    Key? key,
-  }) : super(key: key);
+class OperationParentScreen extends StatefulWidget {
+  OperationParentScreen({Key? key, required this.busName}) : super(key: key);
+
+  final String busName;
+  @override
+  _OperationParentScreenState createState() => _OperationParentScreenState();
+}
+
+class _OperationParentScreenState extends State<OperationParentScreen> {
+  var busId;
+  var operationId;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    Buses().getIdBuses(widget.busName).then((value) => {
+          setState(() {
+            busId = value;
+          }),
+          Operation().getIdOperation(busId).then((value) => {
+                setState(() {
+                  operationId = value;
+                }),
+              })
+        });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +123,7 @@ class OperationParentScreen extends StatelessWidget {
                     children: [
                       SizedBox(height: deviceH * 0.18),
                       Text(
-                        "運行中. . .",
+                        "${widget.busName}運行中. . .",
                         style: const TextStyle(
                           fontSize: 40,
                           //fontWeight: FontWeight.bold,
@@ -117,10 +143,12 @@ class OperationParentScreen extends StatelessWidget {
               bottom: -deviceH * 0.3,
               child: GestureDetector(
                   onTap: () {
+                    print("園児確認ボタンプッシュ");
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PassengerParentScreen()),
+                          builder: (context) =>
+                              PassengerParentScreen(operationId: operationId)),
                     );
                   },
                   child: PassengerButton()),

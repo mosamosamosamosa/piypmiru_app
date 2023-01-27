@@ -5,8 +5,9 @@ import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/constants.dart';
 
 class AddpassModal extends StatefulWidget {
-  AddpassModal({Key? key}) : super(key: key);
+  AddpassModal({Key? key, required this.operationId}) : super(key: key);
 
+  final int operationId;
   @override
   State<AddpassModal> createState() => _AddpassModalState();
 }
@@ -115,11 +116,12 @@ class _AddpassModalState extends State<AddpassModal> {
                               userId = value,
                               print(userId),
                               //乗客に追加
-                              Passenger().postPassenger(userId).then((value) =>
-                                  {
-                                    print(value),
-                                    Navigator.pop(context, userId)
-                                  }),
+                              Passenger()
+                                  .postPassenger(userId, widget.operationId)
+                                  .then((value) => {
+                                        print(value),
+                                        Navigator.pop(context, userId)
+                                      }),
                             });
                       } else {
                         Navigator.pop(context);

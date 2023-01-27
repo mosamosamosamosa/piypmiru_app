@@ -115,7 +115,9 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                                   barrierDismissible: false,
                                   context: context,
                                   builder: (BuildContext context) =>
-                                      AddpassModal()).then((value) => {
+                                      AddpassModal(
+                                        operationId: widget.operationId,
+                                      )).then((value) => {
                                     Passenger()
                                         .getAllPassenger(widget.operationId)
                                         .then((value) => {
@@ -165,6 +167,8 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                                                       ['name'],
                                                   image: passengers_list[index]
                                                       .image,
+                                                  operationId:
+                                                      widget.operationId,
                                                 ),
                                               ).then((value) => {
                                                     Passenger()

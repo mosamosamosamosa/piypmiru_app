@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:piyomiru_application/api/buses.dart';
+import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/components/nomal_button.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/screens/driver/home/home_driver_screen.dart';
+import 'package:piyomiru_application/screens/parent/home_parent_screen.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool pushN = false;
   bool pushP = false;
+  String name = '';
   var busList;
   @override
   Widget build(BuildContext context) {
@@ -72,6 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (value.isNotEmpty) {
                                 setState(() {
                                   pushN = true;
+                                  name = value;
                                 });
                               } else {
                                 setState(() {
@@ -161,24 +165,32 @@ class _LoginScreenState extends State<LoginScreen> {
                       right: 0,
                       child: GestureDetector(
                           onTap: () {
-                            // var f = Buses().getAllBuses();
-
-                            // f.then((value) => {
-                            //       busList = value,
-                            //       print(busList),
-                            //       Navigator.push(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //             builder: (context) => HomeDriverScreen(
-                            //                   busList: busList,
-                            //                 )),
-                            //       )
-                            //     });
-
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeDriverScreen()));
+                            Users().getnameAllUsers(name).then((value) => {
+                                  Users().getroleUser(value).then((value) => {
+                                        if (value == true)
+                                          {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        HomeDriverScreen()))
+                                          }
+                                        else
+                                          {
+                                            Users()
+                                                .getFamilyUsers(name)
+                                                .then((value) => {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  HomeParentScreen(
+                                                                      familyId:
+                                                                          value)))
+                                                    })
+                                          }
+                                      })
+                                });
                           },
                           child: NomalButton(
                             text: "ログイン",

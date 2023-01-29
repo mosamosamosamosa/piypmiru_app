@@ -9,9 +9,13 @@ import 'package:piyomiru_application/screens/driver/register_kids/addlist_modal.
 import 'package:piyomiru_application/screens/driver/register_kids/delete_modal.dart';
 
 class RegisterkidsScreen extends StatefulWidget {
-  RegisterkidsScreen({Key? key, required this.regiKids}) : super(key: key);
+  RegisterkidsScreen({
+    Key? key,
+    required this.regiKids,
+  }) : super(key: key);
 
   var regiKids;
+
   // createState()　で"State"（Stateを継承したクラス）を返す
   @override
   _RegisterkidsScreenState createState() => _RegisterkidsScreenState();

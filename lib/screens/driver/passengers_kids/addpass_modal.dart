@@ -3,11 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:piyomiru_application/api/passenger.dart';
 import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/screens/driver/home/home_driver_screen.dart';
+import 'package:piyomiru_application/screens/driver/passengers_kids/passengers_list_screen.dart';
 
 class AddpassModal extends StatefulWidget {
-  AddpassModal({Key? key, required this.operationId}) : super(key: key);
+  AddpassModal(
+      {Key? key,
+      required this.operationId,
+      required this.busId,
+      required this.busName})
+      : super(key: key);
 
   final int operationId;
+  final int busId;
+  final String busName;
   @override
   State<AddpassModal> createState() => _AddpassModalState();
 }
@@ -110,18 +119,22 @@ class _AddpassModalState extends State<AddpassModal> {
                       //追加処理
 
                       if (name.isNotEmpty) {
-                        var f = Users().getnameAllUsers(name);
-
-                        f.then((value) => {
-                              userId = value,
-                              print(userId),
-                              //乗客に追加
+                        Users().getnameAllUsers(name).then((value) => {
+                              setState(() {
+                                userId = value;
+                              }),
                               Passenger()
                                   .postPassenger(userId, widget.operationId)
-                                  .then((value) => {
-                                        print(value),
-                                        Navigator.pop(context, userId)
-                                      }),
+                                  .then(Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PassengerListScreen(
+                                                busId: widget.busId,
+                                                drive: true,
+                                                operationId: widget.operationId,
+                                                busName: widget.busName)),
+                                  ))
                             });
                       } else {
                         Navigator.pop(context);

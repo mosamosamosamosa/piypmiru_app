@@ -40,19 +40,19 @@ class Users {
     }
   }
 
-  //園児の仮登録いるか？？？？
-  propostUser(String name) async {
+  //園児の登録いるか？？？？
+  postkidsUser(String name, int groupId, int familyId) async {
     var request_users =
         http.Request('POST', Uri.parse('${Clients().url}/users'));
     request_users.body = json.encode({
       "name": name,
-      "email": "test7@gmail.com",
-      "password": "12345678",
+      "email": null,
+      "password": null,
       "driver": false,
       "passengers": true,
       "serial_number": null,
-      "group": 1,
-      "family": 1
+      "group": groupId,
+      "family": familyId
     });
     //リクエストするときに使うヘッダーに上で定義したものを入れる
     //まとめて定義

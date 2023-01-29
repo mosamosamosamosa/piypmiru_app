@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:piyomiru_application/api/passenger.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/screens/driver/passengers_kids/passengers_list_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/driving_screen.dart';
 
 class CompletionModal extends StatelessWidget {
-  CompletionModal({
-    Key? key,
-    required this.passId,
-    required this.userId,
-    required this.name,
-    required this.image,
-    required this.operationId,
-    //required this.name,
-  }) : super(key: key);
+  CompletionModal(
+      {Key? key,
+      required this.passId,
+      required this.userId,
+      required this.name,
+      required this.image,
+      required this.operationId,
+      required this.busId,
+      required this.busName
+      //required this.name,
+      })
+      : super(key: key);
 
   final int passId;
   final int userId;
   final String name;
   final String image;
   final int operationId;
-  //final String name;
+  final int busId;
+  final String busName;
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
@@ -137,7 +142,15 @@ class CompletionModal extends StatelessWidget {
                       f.then((value) => {
                             print(passId),
                             print(userId),
-                            Navigator.pop(context),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PassengerListScreen(
+                                      busId: busId,
+                                      drive: true,
+                                      operationId: operationId,
+                                      busName: busName)),
+                            )
                           });
                     },
                     child: Stack(

@@ -29,13 +29,18 @@ class Operation {
         }
       });
 
-      if (businfoList[businfoList.length - 1]['start'] == true) {
-        start = true;
+      if (businfoList.isEmpty) {
+        start = false;
       } else {
-        {
-          start = false;
+        if (businfoList[businfoList.length - 1]['start'] == true) {
+          start = true;
+        } else {
+          {
+            start = false;
+          }
         }
       }
+
       print("成功");
       return start;
     } else {

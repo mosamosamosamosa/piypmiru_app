@@ -3,7 +3,9 @@ import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/constants.dart';
 
 class AddlistModal extends StatefulWidget {
-  AddlistModal({Key? key}) : super(key: key);
+  AddlistModal({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<AddlistModal> createState() => _AddlistModalState();
@@ -105,7 +107,7 @@ class _AddlistModalState extends State<AddlistModal> {
                     onTap: () {
                       //追加処理
                       if (name.isNotEmpty) {
-                        Users().propostUser(name);
+                        Users().postkidsUser(name, 1, 1);
 
                         Navigator.pop(context);
                         //print("false");

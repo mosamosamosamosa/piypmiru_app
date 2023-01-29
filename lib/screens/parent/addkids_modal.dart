@@ -53,27 +53,38 @@ class _AddkidsModalState extends State<AddkidsModal> {
     // Show dialog on Android (iOS has it's own one)
     if (Platform.isAndroid) {
       showDialog(
+        barrierDismissible: false,
         context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("Scan the tag you want to write to"),
-          actions: <Widget>[
-            TextButton(
-              child: const Text("Cancel"),
-              onPressed: () {
-                _hasClosedWriteDialog = true;
-                _stream?.cancel();
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
+        builder: (BuildContext context) =>
+            NfcScanModal(kidName: name, success: false),
       );
+      // showDialog(
+      //   context: context,
+      //   builder: (context) => AlertDialog(
+      //     title: const Text("Scan the tag you want to write to"),
+      //     actions: <Widget>[
+      //       TextButton(
+      //         child: const Text("Cancel"),
+      //         onPressed: () {
+      //           _hasClosedWriteDialog = true;
+      //           _stream?.cancel();
+      //           Navigator.pop(context);
+      //         },
+      //       ),
+      //     ],
+      //   ),
+      // );
     }
 
     // Write to the first tag scanned
     await NFC.writeNDEF(message).first;
     if (!_hasClosedWriteDialog) {
-      Navigator.pop(context);
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) =>
+            NfcScanModal(kidName: name, success: true),
+      );
     }
   }
 

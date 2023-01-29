@@ -111,7 +111,11 @@ class _AddBusModalState extends State<AddBusModal> {
 
                       setState(() {
                         if (name.isNotEmpty) {
-                          Buses().postBuses(name).then(Navigator.pop(context));
+                          Buses().postBuses(name).then(Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeDriverScreen()),
+                              ));
                         } else {
                           Navigator.pop(context);
                           //print("false");

@@ -62,10 +62,12 @@ class Passenger {
     http.StreamedResponse stream_response = await request.send();
     var response = await http.Response.fromStream(stream_response);
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 201 || response.statusCode == 200) {
       print(response.body);
+      print("成功");
     } else {
       print(response.reasonPhrase);
+      print("失敗");
     }
   }
 
@@ -80,7 +82,7 @@ class Passenger {
 
     http.StreamedResponse response = await request.send();
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       print(await response.stream.bytesToString());
       return ("降車成功");
     } else {

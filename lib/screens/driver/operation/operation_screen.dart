@@ -200,9 +200,9 @@ class _OperationScreenState extends State<OperationScreen> {
                                   MaterialPageRoute(
                                       builder: (context) => PassengerListScreen(
                                             drive: true,
-                                            passenger: idList,
                                             busId: busId,
                                             operationId: operationId,
+                                            busName: widget.busName,
                                           )),
                                 ),
                               });

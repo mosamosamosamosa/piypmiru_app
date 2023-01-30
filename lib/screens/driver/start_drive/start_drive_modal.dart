@@ -21,7 +21,7 @@ class StartDriveModal extends StatelessWidget {
     return Dialog(
       alignment: Alignment.center,
       insetPadding: const EdgeInsets.only(
-        bottom: 280,
+        bottom: 320,
         top: 280,
         left: 24,
         right: 24,
@@ -42,9 +42,10 @@ class StartDriveModal extends StatelessWidget {
             ),
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             //crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 38),
+              SizedBox(height: 30),
               const Text(
                 "本当に運転を開始しますか？",
                 style: TextStyle(
@@ -118,6 +119,7 @@ class StartDriveModal extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(height: 20)
             ],
           ),
         ],

@@ -160,17 +160,18 @@ class Passenger {
         idList.add(element['user']['id']);
       });
 
-      for (int i = 0; i <= idList.length; i++) {
-        if (idList[i] == userId) {
-          passId = passengerList[i]['id'];
-          break;
+      if (idList.isNotEmpty) {
+        for (int i = 0; i <= idList.length; i++) {
+          if (idList[i] == userId) {
+            passId = passengerList[i]['id'];
+            return passId;
+          }
         }
+      } else {
+        return 0;
       }
-
-      //mapのリスト
-      return passId;
     } else {
-      debugPrint(response.reasonPhrase);
+      debugPrint("失敗");
 
       return 0;
     }

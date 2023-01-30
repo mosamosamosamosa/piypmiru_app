@@ -165,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       right: 0,
                       child: GestureDetector(
                           onTap: () {
-                            Users().getnameAllUsers(name).then((value) => {
+                            Users().getMailIdUsers(name).then((value) => {
                                   Users().getroleUser(value).then((value) => {
                                         if (value == true)
                                           {

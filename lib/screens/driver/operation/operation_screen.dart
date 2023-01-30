@@ -1,20 +1,24 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:nfc_in_flutter/nfc_in_flutter.dart';
 import 'package:piyomiru_application/api/buses.dart';
 import 'package:piyomiru_application/api/operation.dart';
 import 'package:piyomiru_application/api/passenger.dart';
 import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
-import 'package:piyomiru_application/components/app_button.dart';
+
 import 'package:piyomiru_application/components/app_sub_button.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/screens/driver/home/home_driver_screen.dart';
 
 import 'package:piyomiru_application/screens/driver/home/logout_modal.dart';
-import 'package:piyomiru_application/screens/driver/nfc/nfc_scan_modal.dart';
-import 'package:piyomiru_application/screens/driver/nfc/nfc_success_modal.dart';
+import 'package:piyomiru_application/screens/driver/nfc/nfc_scan_m.dart';
+
 import 'package:piyomiru_application/screens/driver/passengers_kids/passengers_list_screen.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
-import 'package:piyomiru_application/screens/driver/start_drive/start_drive_modal.dart';
+
+import 'package:piyomiru_application/screens/parent/nfc_scan_modal.dart';
 
 //バス運行中画面
 class OperationScreen extends StatefulWidget {
@@ -26,11 +30,75 @@ class OperationScreen extends StatefulWidget {
 }
 
 class _OperationScreenState extends State<OperationScreen> {
+  StreamSubscription<NDEFMessage>? _stream;
+
   var idList;
   var kidsList;
   var nameList;
   var busId;
   var operationId;
+  int userId = 0;
+
+  void _startScanning() {
+    setState(() {
+      _stream = NFC
+          .readNDEF(alertMessage: "Custom message with readNDEF#alertMessage")
+          .listen((NDEFMessage message) {
+        if (message.isEmpty) {
+          print("Read empty NDEF message");
+          return;
+        }
+        print("Read NDEF message with ${message.records.length} records");
+        for (NDEFRecord record in message.records) {
+          setState(() {
+            userId = record.payload as int;
+          });
+          print(
+              "Record '${record.id ?? "[NO ID]"}' with TNF '${record.tnf}', type '${record.type}', payload '${record.payload}' and data '${record.data}' and language code '${record.languageCode}'");
+        }
+      }, onError: (error) {
+        setState(() {
+          _stream = null;
+        });
+        if (error is NFCUserCanceledSessionException) {
+          print("user canceled");
+        } else if (error is NFCSessionTimeoutException) {
+          print("session timed out");
+        } else {
+          print("error: $error");
+        }
+      }, onDone: () {
+        setState(() {
+          _stream = null;
+        });
+      });
+    });
+  }
+
+  void _stopScanning() {
+    _stream?.cancel();
+    setState(() {
+      _stream = null;
+    });
+  }
+
+  void _toggleScan() {
+    if (_stream == null) {
+      _startScanning();
+      Passenger().getAllPassenger(operationId).then((passengerList) => {
+            showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (BuildContext context) => NfcScanSampModal(
+                  passengers: passengerList,
+                  operationId: operationId,
+                  success: false),
+            )
+          });
+    } else {
+      _stopScanning();
+    }
+  }
 
   @override
   void initState() {
@@ -213,14 +281,29 @@ class _OperationScreenState extends State<OperationScreen> {
                   GestureDetector(
                       onTap: () {
                         //押した時の処理
-                        showDialog(
-                          barrierDismissible: true,
-                          context: context,
-                          builder: (BuildContext context) => NfcScanModal(
-                            passengers: idList,
-                            operationId: operationId,
-                          ),
-                        );
+
+                        Passenger()
+                            .getAllPassenger(operationId)
+                            .then((passengerList) => {
+                                  showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        NfcScanSampModal(
+                                            passengers: passengerList,
+                                            operationId: operationId,
+                                            success: false),
+                                  )
+                                });
+
+                        // showDialog(
+                        //   barrierDismissible: true,
+                        //   context: context,
+                        //   builder: (BuildContext context) => NfcScanModal(
+                        //     passengers: idList,
+                        //     operationId: operationId,
+                        //   ),
+                        // );
                       },
                       child:
                           AppSubButton(text: "NFCスキャナー", image: "hiyoko.png")),

@@ -13,7 +13,7 @@ class LogoutModal extends StatelessWidget {
     return Dialog(
       alignment: Alignment.center,
       insetPadding: const EdgeInsets.only(
-        bottom: 280,
+        bottom: 320,
         top: 280,
         left: 24,
         right: 24,
@@ -34,15 +34,14 @@ class LogoutModal extends StatelessWidget {
             ),
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             //crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 38),
+              SizedBox(height: 30),
               const Text(
                 "本当にログアウトしますか？",
                 style: TextStyle(
-                  fontSize: 22,
-                  color: kFontColor,
-                ),
+                    fontSize: 22, color: kFontColor, fontFamily: 'KiwiMaru-R'),
               ),
               SizedBox(height: 42),
               Row(
@@ -66,9 +65,9 @@ class LogoutModal extends StatelessWidget {
                         const Text(
                           "キャンセル",
                           style: TextStyle(
-                            fontSize: 18,
-                            color: kFontColor,
-                          ),
+                              fontSize: 18,
+                              color: kFontColor,
+                              fontFamily: 'KiwiMaru-R'),
                         ),
                       ],
                     ),
@@ -96,15 +95,16 @@ class LogoutModal extends StatelessWidget {
                         const Text(
                           "ログアウト",
                           style: TextStyle(
-                            fontSize: 18,
-                            color: kFontColor,
-                          ),
+                              fontSize: 18,
+                              color: kFontColor,
+                              fontFamily: 'KiwiMaru-R'),
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
+              SizedBox(height: 20),
             ],
           ),
         ],

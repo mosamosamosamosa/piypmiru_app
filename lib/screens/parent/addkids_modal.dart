@@ -15,10 +15,13 @@ import 'package:piyomiru_application/screens/parent/write_nfc_in_flutter.dart';
 class RecordEditor {
   final TextEditingController mediaTypeController = TextEditingController();
   final TextEditingController payloadController = TextEditingController();
+
+  String get userId => '';
 }
 
 class AddkidsModal extends StatefulWidget {
-  AddkidsModal({Key? key}) : super(key: key);
+  AddkidsModal({Key? key, required this.familyId}) : super(key: key);
+  final int familyId;
 
   @override
   State<AddkidsModal> createState() => _AddkidsModalState();
@@ -38,11 +41,13 @@ class _AddkidsModalState extends State<AddkidsModal> {
     super.initState();
   }
 
-  void _write(BuildContext context) async {
+  void _write(BuildContext context, int userId) async {
+    print("書き込みメソッド呼び出されました");
+
     List<NDEFRecord> records = _records.map((record) {
       print("メディアの内容:${record.mediaTypeController.text}");
       return NDEFRecord.type(
-        record.mediaTypeController.text,
+        record.userId,
         record.payloadController.text,
       );
     }).toList();
@@ -187,9 +192,16 @@ class _AddkidsModalState extends State<AddkidsModal> {
                   GestureDetector(
                     onTap: () {
                       //追加処理
+                      print("追加ボタンタップ");
 
                       if (name.isNotEmpty) {
-                        _write(context);
+                        Users()
+                            .postkidsUser(name, widget.familyId, 7)
+                            .then((value) => {
+                                  setState(() {
+                                    _write(context, value);
+                                  }),
+                                });
 
                         // Navigator.of(context)
                         //     .push(MaterialPageRoute(builder: (context) {

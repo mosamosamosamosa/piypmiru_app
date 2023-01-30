@@ -107,7 +107,7 @@ class _FamilyListScreenState extends State<FamilyListScreen> {
                                 barrierDismissible: false,
                                 context: context,
                                 builder: (BuildContext context) =>
-                                    AddkidsModal(),
+                                    AddkidsModal(familyId: widget.familyId),
                               );
                             },
                             child: const Addlistitem());

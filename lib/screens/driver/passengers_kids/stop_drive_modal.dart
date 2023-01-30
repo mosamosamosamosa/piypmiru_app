@@ -16,7 +16,7 @@ class StopDriveModal extends StatelessWidget {
     return Dialog(
       alignment: Alignment.center,
       insetPadding: const EdgeInsets.only(
-        bottom: 280,
+        bottom: 320,
         top: 280,
         left: 24,
         right: 24,
@@ -37,9 +37,10 @@ class StopDriveModal extends StatelessWidget {
             ),
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             //crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 38),
+              SizedBox(height: 30),
               const Text(
                 "本当に運転を終了しますか？",
                 style: TextStyle(
@@ -107,6 +108,7 @@ class StopDriveModal extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(height: 20),
             ],
           ),
         ],

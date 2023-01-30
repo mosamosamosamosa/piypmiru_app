@@ -40,31 +40,31 @@ class Users {
     }
   }
 
-  //園児の登録いるか？？？？
-  postkidsUser(String name, int groupId, int familyId) async {
-    var request_users =
-        http.Request('POST', Uri.parse('${Clients().url}/users'));
-    request_users.body = json.encode({
+  //親がNFCで登録したとき
+  postkidsUser(String name, int familyId, int groupId) async {
+    var headers = {'Content-Type': 'application/json'};
+    var request = http.Request('POST', Uri.parse('${Clients().url}/users'));
+    request.body = json.encode({
       "name": name,
-      "email": null,
+      "email": "test@gmail.com",
       "password": null,
       "driver": false,
       "passengers": true,
       "serial_number": null,
-      "group": groupId,
-      "family": familyId
+      "group_id": groupId,
+      "family_id": familyId
     });
-    //リクエストするときに使うヘッダーに上で定義したものを入れる
-    //まとめて定義
+    request.headers.addAll(headers);
 
-    request_users.headers.addAll(headers);
-    http.StreamedResponse response = await request_users.send();
+    http.StreamedResponse stream_response = await request.send();
+    var response = await http.Response.fromStream(stream_response);
 
-    if (response.statusCode == 200) {
-      debugPrint(await response.stream.bytesToString());
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      Map<String, dynamic> uinfo = jsonDecode(response.body);
+      print("成功${uinfo['id']}");
+      return uinfo['id'];
     } else {
-      debugPrint(response.reasonPhrase);
-      //debugPrint("失敗");
+      print("失敗:${response.reasonPhrase}");
     }
   }
 
@@ -75,7 +75,7 @@ class Users {
     http.StreamedResponse stream_response = await request.send();
     var response = await http.Response.fromStream(stream_response);
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       Map<String, dynamic> uname = jsonDecode(response.body);
       String userName = uname['name'];
 
@@ -108,6 +108,38 @@ class Users {
 
       for (int i = 0; i <= nameList.length; i++) {
         if (nameList[i] == name) {
+          userId = userList[i]['id'];
+          break;
+        }
+      }
+      return userId;
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  //メールアドレスからユーザIDを返す
+  getMailIdUsers(String mail) async {
+    int userId = 0;
+    late List<Map<String, dynamic>> userList;
+    List<dynamic> mailList = [];
+
+    var headers = {'Content-Type': 'text/plain'};
+    var request = http.Request('GET', Uri.parse('${Clients().url}/users'));
+    request.body = r'<file contents here>';
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse stream_response = await request.send();
+    var response = await http.Response.fromStream(stream_response);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      userList = jsonDecode(response.body).cast<Map<String, dynamic>>();
+
+      mailList = userList.map((e) => e['email']).toList();
+
+      for (int i = 0; i <= mailList.length; i++) {
+        if (mailList[i] == mail) {
           userId = userList[i]['id'];
           break;
         }
@@ -245,11 +277,11 @@ class Users {
     }
   }
 
-  //名前からfamilyIdを返してくれる
-  getFamilyUsers(String name) async {
+  //メールアドレスからfamilyIdを返してくれる
+  getFamilyUsers(String mail) async {
     int familyId = 0;
     late List<Map<String, dynamic>> userList;
-    List<dynamic> nameList = [];
+    List<dynamic> mailList = [];
 
     var headers = {'Content-Type': 'text/plain'};
     var request = http.Request('GET', Uri.parse('${Clients().url}/users'));
@@ -263,10 +295,10 @@ class Users {
     if (response.statusCode == 200 || response.statusCode == 201) {
       userList = jsonDecode(response.body).cast<Map<String, dynamic>>();
 
-      nameList = userList.map((e) => e['name']).toList();
+      mailList = userList.map((e) => e['email']).toList();
 
-      for (int i = 0; i <= nameList.length; i++) {
-        if (nameList[i] == name) {
+      for (int i = 0; i <= mailList.length; i++) {
+        if (mailList[i] == mail) {
           familyId = userList[i]['family']['id'];
           break;
         }

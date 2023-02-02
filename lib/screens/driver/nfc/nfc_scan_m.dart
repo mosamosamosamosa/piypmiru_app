@@ -159,10 +159,11 @@ class _NfcScanSampModalState extends State<NfcScanSampModal> {
                   widget.success
                       ? GestureDetector(
                           onTap: () {
-                            if ((widget.passengers) != [] &&
+                            if ((widget.passengers) != 0 &&
                                 widget.passengers != null) {
                               print(widget.passengers);
                               print("乗客リストいます");
+                              print(userId);
                               Passenger()
                                   .getpassIdPassenger(userId)
                                   .then((value) => {

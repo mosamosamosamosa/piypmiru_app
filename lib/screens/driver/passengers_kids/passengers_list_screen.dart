@@ -52,7 +52,7 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
     // TODO: implement initState
     Passenger().getAllPassenger(widget.operationId).then((value) => {
           setState(() {
-            if (value == null) {
+            if (value == null || value == 0) {
               print("nullです");
               passengerList = 0;
             } else {

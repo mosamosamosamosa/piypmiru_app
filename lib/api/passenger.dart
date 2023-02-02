@@ -17,6 +17,7 @@ class Passenger {
   //List<dynamic> nameList = [];
 
   getAllPassenger(int operationId) async {
+    print("呼び出されました");
     var request_all_passenger =
         http.Request('GET', Uri.parse('${Clients().url}/passenger'));
     request_all_passenger.body = '''''';
@@ -24,19 +25,25 @@ class Passenger {
     http.StreamedResponse stream_response = await request_all_passenger.send();
     var response = await http.Response.fromStream(stream_response);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       passengerList = jsonDecode(response.body).cast<Map<String, dynamic>>();
+      print("成功の方に行きました");
       //idList = passengerList.map((e) => e['user_id']).toList();
 
       //乗車中の園児のIDだけを取得
-      passengerList.forEach((element) {
-        if (element['operation']['id'] == operationId) {
-          if (element['status']) {
-            idList.add(element['user']);
-            print(element['status']);
+      if (passengerList.isEmpty || passengerList == []) {
+        print("passengerおらんわ");
+        return 0;
+      } else {
+        for (var element in passengerList) {
+          if (element['operation']['id'] == operationId) {
+            if (element['status']) {
+              idList.add(element['user']);
+              print(element['status']);
+            }
           }
         }
-      });
+      }
 
       if (idList.isEmpty) {
         return 0;
@@ -129,6 +136,7 @@ class Passenger {
 
   //userIdからPassengerId求める
   getpassIdPassenger(int userId) async {
+    print("呼び出されました");
     List<int> idList = [];
     var passId;
     var request_all_passenger =
@@ -138,7 +146,8 @@ class Passenger {
     http.StreamedResponse stream_response = await request_all_passenger.send();
     var response = await http.Response.fromStream(stream_response);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("成功の方");
       passengerList = jsonDecode(response.body).cast<Map<String, dynamic>>();
       //idList = passengerList.map((e) => e['user_id']).toList();
 
@@ -158,13 +167,19 @@ class Passenger {
 
       passengerList.forEach((element) {
         idList.add(element['user']['id']);
+        print(idList);
       });
 
       if (idList.isNotEmpty) {
+        print("idList: $idList\nuserId: $userId");
         for (int i = 0; i <= idList.length; i++) {
           if (idList[i] == userId) {
+            print("もう乗っている");
             passId = passengerList[i]['id'];
             return passId;
+          } else {
+            print("まだ乗っていない");
+            return 0;
           }
         }
       } else {

@@ -80,6 +80,7 @@ class Passenger {
 
   //降車
   putPassenger(int passId, int userId, int operationId) async {
+    print("put呼び出されました:passId:$passId userId:$userId operationId:$operationId");
     var headers = {'Content-Type': 'application/json'};
     var request =
         http.Request('PUT', Uri.parse('${Clients().url}/passenger/$passId'));
@@ -91,7 +92,7 @@ class Passenger {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       print(await response.stream.bytesToString());
-      return ("降車成功");
+      print("降車成功");
     } else {
       print(response.reasonPhrase);
     }
@@ -135,9 +136,10 @@ class Passenger {
   }
 
   //userIdからPassengerId求める
-  getpassIdPassenger(int userId) async {
+  getpassIdPassenger(int userId, int operationId) async {
     print("呼び出されました");
     List<int> idList = [];
+    List<int> passList = [];
     var passId;
     var request_all_passenger =
         http.Request('GET', Uri.parse('${Clients().url}/passenger'));
@@ -166,25 +168,27 @@ class Passenger {
       // }
 
       passengerList.forEach((element) {
-        idList.add(element['user']['id']);
-        print(idList);
+        if (element['operation']['id'] == operationId) {
+          idList.add(element['user']['id']);
+          passList.add(element['id']);
+          print("passList: $passList");
+          print(idList);
+        }
       });
 
+      // 初期値：乗っていない
+      passId = 0;
       if (idList.isNotEmpty) {
-        print("idList: $idList\nuserId: $userId");
-        for (int i = 0; i <= idList.length; i++) {
+        print("idList: $idList\nuserId:$userId");
+        for (int i = 0; i < idList.length; i++) {
           if (idList[i] == userId) {
             print("もう乗っている");
-            passId = passengerList[i]['id'];
+            passId = passList[i];
             return passId;
-          } else {
-            print("まだ乗っていない");
-            return 0;
           }
         }
-      } else {
-        return 0;
       }
+      return passId;
     } else {
       debugPrint("失敗");
 

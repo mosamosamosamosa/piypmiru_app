@@ -34,7 +34,7 @@ class _NfcScanSampModalState extends State<NfcScanSampModal> {
   int passId = 0;
 
   String name = '';
-  String pass = '';
+  String pass = '乗車';
   int userId = 0;
   //var enId;
 
@@ -141,7 +141,7 @@ class _NfcScanSampModalState extends State<NfcScanSampModal> {
                 children: [
                   widget.success
                       ? Text(
-                          "$nameさん\n完了！",
+                          "$nameさん\n$pass完了！",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 24,
@@ -165,7 +165,8 @@ class _NfcScanSampModalState extends State<NfcScanSampModal> {
                               print("乗客リストいます");
                               print(userId);
                               Passenger()
-                                  .getpassIdPassenger(userId)
+                                  .getpassIdPassenger(
+                                      userId, widget.operationId)
                                   .then((value) => {
                                         setState(() {
                                           passId = value;
@@ -198,7 +199,7 @@ class _NfcScanSampModalState extends State<NfcScanSampModal> {
                                           }
                                       });
                             } else {
-                              print("乗車２OK");
+                              print("乗車２OK:${widget.operationId}");
                               setState(() {
                                 pass = '乗車';
                               });

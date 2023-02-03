@@ -49,7 +49,6 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     Passenger().getAllPassenger(widget.operationId).then((value) => {
           setState(() {
             if (value == null || value == 0) {

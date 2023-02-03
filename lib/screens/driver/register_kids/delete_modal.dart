@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/driving_screen.dart';
 
 class DeleteModal extends StatelessWidget {
@@ -14,6 +15,7 @@ class DeleteModal extends StatelessWidget {
   final String image;
   final int userId;
   //final String name;
+
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
@@ -123,10 +125,13 @@ class DeleteModal extends StatelessWidget {
                     onTap: () {
                       //削除処理
                       var f = Users().deleteUser(userId);
-                      print(userId);
+                      print("userId : $userId");
 
                       f.then((value) => {
-                            Navigator.pop(context),
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RegisterkidsScreen()))
                           });
                     },
                     child: Stack(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/components/addlistitem.dart';
 import 'package:piyomiru_application/components/listitem.dart';
@@ -11,10 +12,7 @@ import 'package:piyomiru_application/screens/driver/register_kids/delete_modal.d
 class RegisterkidsScreen extends StatefulWidget {
   RegisterkidsScreen({
     Key? key,
-    required this.regiKids,
   }) : super(key: key);
-
-  var regiKids;
 
   // createState()　で"State"（Stateを継承したクラス）を返す
   @override
@@ -25,6 +23,22 @@ class _RegisterkidsScreenState extends State<RegisterkidsScreen> {
   bool editable = false;
   int edit_flag = 0;
   String action = "編集";
+  var kidsList;
+
+  @override
+  void initState() {
+    Users().getkidsAllUsers().then((value) => {
+          setState(() {
+            if (value == null || value == 0) {
+              print("nullです");
+              kidsList = 0;
+            } else {
+              kidsList = value;
+            }
+          })
+        });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,36 +86,56 @@ class _RegisterkidsScreenState extends State<RegisterkidsScreen> {
               child: ActionButton(text: action, img: 'hiyoko_pencil.png')),
         ],
       ),
-      body: ListView.builder(
-        padding: EdgeInsets.only(top: deviceH * 0.012),
-        itemCount: widget.regiKids.length + 1,
-        shrinkWrap: true,
-        itemBuilder: (BuildContext context, index) {
-          if (index == widget.regiKids.length) {
-            return GestureDetector(
-                onTap: () async {
-                  String name = await showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (BuildContext context) => AddlistModal(),
-                  );
-                  //リストに追加
-                  print(name);
-                },
-                child: Container(
-                    padding: EdgeInsets.only(top: deviceH * 0.012),
-                    child: const Addlistitem()));
-          }
+      body: kidsList == 0 || kidsList == null
+          ? SizedBox(
+              height: deviceH,
+              width: deviceW,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: deviceH * 0.12),
+                  const Text(
+                    "登録園児はまだいません",
+                    style: TextStyle(
+                        color: kFontColor,
+                        fontSize: 20,
+                        fontFamily: 'KiwiMaru-L'),
+                  ),
+                  SizedBox(height: deviceH * 0.12),
+                  Image.asset('assets/images/kids.png'),
+                ],
+              ),
+            )
+          : ListView.builder(
+              padding: EdgeInsets.only(top: deviceH * 0.012),
+              itemCount: kidsList.length,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, index) {
+                // if (index == kidsList.length) {
+                //   return GestureDetector(
+                //       onTap: () async {
+                //         String name = await showDialog(
+                //           barrierDismissible: false,
+                //           context: context,
+                //           builder: (BuildContext context) => AddlistModal(),
+                //         );
+                //         //リストに追加
+                //         print(name);
+                //       },
+                //       child: Container(
+                //           padding: EdgeInsets.only(top: deviceH * 0.012),
+                //           child: const Addlistitem()));
+                // }
 
-          return Listitem(
-              userId: 1, //仮
-              editable: editable,
-              image: users_list[index].image,
-              name: widget.regiKids[index],
-              ride: false,
-              datetime: outputFormat.format(DateTime.now()));
-        },
-      ),
+                return Listitem(
+                    userId: 1, //仮
+                    editable: editable,
+                    image: users_list[index].image,
+                    name: kidsList[index],
+                    ride: false,
+                    datetime: outputFormat.format(DateTime.now()));
+              },
+            ),
     );
   }
 }

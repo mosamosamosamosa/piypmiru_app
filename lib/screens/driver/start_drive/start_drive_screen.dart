@@ -46,10 +46,7 @@ class StartDriveScreen extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => RegisterkidsScreen(
-                            regiKids: 0,
-                          )),
+                  MaterialPageRoute(builder: (context) => RegisterkidsScreen()),
                 );
               },
               child: const ActionButton(

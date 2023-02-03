@@ -94,8 +94,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              RegisterkidsScreen(regiKids: kidsList)),
+                          builder: (context) => RegisterkidsScreen()),
                     ),
                   });
             },

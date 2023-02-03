@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/components/addlistitem.dart';
@@ -6,10 +7,11 @@ import 'package:piyomiru_application/components/listitem.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
 import 'package:intl/intl.dart';
+import 'package:piyomiru_application/provider/provider.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/addlist_modal.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/delete_modal.dart';
 
-class RegisterkidsScreen extends StatefulWidget {
+class RegisterkidsScreen extends ConsumerStatefulWidget {
   RegisterkidsScreen({
     Key? key,
   }) : super(key: key);
@@ -19,7 +21,7 @@ class RegisterkidsScreen extends StatefulWidget {
   _RegisterkidsScreenState createState() => _RegisterkidsScreenState();
 }
 
-class _RegisterkidsScreenState extends State<RegisterkidsScreen> {
+class _RegisterkidsScreenState extends ConsumerState<RegisterkidsScreen> {
   bool editable = false;
   int edit_flag = 0;
   String action = "編集";
@@ -44,6 +46,9 @@ class _RegisterkidsScreenState extends State<RegisterkidsScreen> {
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
+
+    // 状態管理している値を取得する
+    final userIdState = ref.watch(userProvider);
 
     DateFormat outputFormat = DateFormat('yyyy/MM/dd H:m');
 
@@ -128,7 +133,8 @@ class _RegisterkidsScreenState extends State<RegisterkidsScreen> {
                 // }
 
                 return Listitem(
-                    userId: 1, //仮
+                    //仮
+                    userId: 0,
                     editable: editable,
                     image: users_list[index].image,
                     name: kidsList[index],

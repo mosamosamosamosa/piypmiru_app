@@ -171,8 +171,7 @@ class _OperationScreenState extends State<OperationScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                RegisterkidsScreen(regiKids: kidsList)),
+                            builder: (context) => RegisterkidsScreen()),
                       ),
                     });
               },

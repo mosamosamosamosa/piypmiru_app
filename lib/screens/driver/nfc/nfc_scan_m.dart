@@ -141,7 +141,7 @@ class _NfcScanSampModalState extends State<NfcScanSampModal> {
                 children: [
                   widget.success
                       ? Text(
-                          "$nameさん\n$pass完了！",
+                          "$nameさん\nスキャン完了！",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 24,

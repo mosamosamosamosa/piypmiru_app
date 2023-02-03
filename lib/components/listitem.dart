@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/screens/driver/passengers_kids/completion_modal.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/delete_modal.dart';
 
-class Listitem extends StatelessWidget {
-  const Listitem(
+class Listitem extends StatefulWidget {
+  Listitem(
       {Key? key,
       required this.userId,
       required this.image,
@@ -20,6 +21,19 @@ class Listitem extends StatelessWidget {
   final String datetime;
   final bool editable;
   final bool ride;
+
+  @override
+  _ListitemState createState() => _ListitemState();
+}
+
+class _ListitemState extends State<Listitem> {
+  var ruserId;
+
+  @override
+  void initState() {
+    Users().getnameAllUsers(widget.name).then((value) => {ruserId = value});
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +70,7 @@ class Listitem extends StatelessWidget {
                       color: Color(0XFFD9D9D9),
                       borderRadius: BorderRadius.circular(10)),
                 ),
-                Image.asset('assets/images/$image'),
+                Image.asset('assets/images/${widget.image}'),
               ],
             ),
             SizedBox(width: 12),
@@ -64,7 +78,7 @@ class Listitem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "$name さん",
+                  "${widget.name} さん",
                   style: const TextStyle(
                       fontSize: 24,
                       color: kFontColor,
@@ -74,7 +88,7 @@ class Listitem extends StatelessWidget {
                   height: 6,
                 ),
                 Text(
-                  "$datetime",
+                  "${widget.datetime}",
                   style: const TextStyle(
                     fontSize: 15,
                     color: kFontColor,
@@ -84,23 +98,25 @@ class Listitem extends StatelessWidget {
             ),
           ],
         ),
-        editable
+        widget.editable
             ? Positioned(
                 top: -8,
                 right: 0,
                 child: GestureDetector(
                     onTap: () async {
-                      if (ride) {
+                      if (widget.ride) {
                       } else {
                         showDialog(
                           barrierDismissible: false,
                           context: context,
                           builder: (BuildContext context) => DeleteModal(
-                              name: name, image: image, userId: userId),
+                              name: widget.name,
+                              image: widget.image,
+                              userId: ruserId),
                         );
                       }
                     },
-                    child: ride
+                    child: widget.ride
                         ? Container()
                         : Image.asset('assets/images/batsu.png')))
             : Container(),

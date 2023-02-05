@@ -1,16 +1,21 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nfc_in_flutter/nfc_in_flutter.dart';
+import 'package:flutter/material.dart';
+
 //import 'package:nfc_in_flutter/nfc_in_flutter.dart';
+import 'package:piyomiru_application/provider/provider.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/nfc/nfc_scan.dart';
 import 'package:piyomiru_application/screens/driver/nfc/nfc_success_modal.dart';
+import 'package:piyomiru_application/screens/parent/family_list.dart';
 import 'package:piyomiru_application/screens/parent/write_nfc_in_flutter.dart';
 
 //////////package:piyomiru_application/screens/parent/addkids_modal.dartから呼ばれています！//////////
 
-class NfcScanModal extends StatefulWidget {
+class NfcScanModal extends ConsumerStatefulWidget {
   const NfcScanModal({Key? key, required this.kidName, required this.success})
       : super(key: key);
 
@@ -21,7 +26,7 @@ class NfcScanModal extends StatefulWidget {
   _NfcScanModalState createState() => _NfcScanModalState();
 }
 
-class _NfcScanModalState extends State<NfcScanModal> {
+class _NfcScanModalState extends ConsumerState<NfcScanModal> {
   bool _supportsNFC = false;
 
   bool failed = false;
@@ -35,6 +40,8 @@ class _NfcScanModalState extends State<NfcScanModal> {
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
+
+    final familyIdState = ref.watch(familyProvider);
 
     return SingleChildScrollView(
       child: Dialog(
@@ -153,9 +160,12 @@ class _NfcScanModalState extends State<NfcScanModal> {
                 widget.success || failed //////////閉じるボタン//////////
                     ? GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    FamilyListScreen(familyId: familyIdState)),
+                          );
                         },
                         child: Stack(
                           alignment: Alignment.center,

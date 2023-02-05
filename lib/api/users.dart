@@ -46,12 +46,12 @@ class Users {
     var request = http.Request('POST', Uri.parse('${Clients().url}/users'));
     request.body = json.encode({
       "name": name,
-      "email": "test@gmail.com",
+      "email": "$name@gmail.com",
       "password": null,
       "driver": false,
       "passengers": true,
       "serial_number": null,
-      "group_id": groupId,
+      "group_id": 7,
       "family_id": familyId
     });
     request.headers.addAll(headers);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
@@ -8,16 +9,18 @@ import 'package:piyomiru_application/components/listitem.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
 import 'package:intl/intl.dart';
+import 'package:piyomiru_application/provider/provider.dart';
 import 'package:piyomiru_application/screens/parent/addkids_modal.dart';
 import 'package:piyomiru_application/screens/driver/passengers_kids/completion_modal.dart';
 import 'package:piyomiru_application/screens/driver/passengers_kids/stop_drive_modal.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/addlist_modal.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_screen.dart';
+import 'package:piyomiru_application/screens/parent/home_parent_screen.dart';
 
 //////////package:piyomiru_application/screens/parent/home_parent_screen.dartから呼ばれています！//////////
 
-class FamilyListScreen extends StatefulWidget {
+class FamilyListScreen extends ConsumerStatefulWidget {
   FamilyListScreen({Key? key, required this.familyId}) : super(key: key);
 
   final int familyId;
@@ -26,7 +29,7 @@ class FamilyListScreen extends StatefulWidget {
   _FamilyListScreenState createState() => _FamilyListScreenState();
 }
 
-class _FamilyListScreenState extends State<FamilyListScreen> {
+class _FamilyListScreenState extends ConsumerState<FamilyListScreen> {
   var familyList;
 
   @override
@@ -49,6 +52,8 @@ class _FamilyListScreenState extends State<FamilyListScreen> {
 
     DateFormat outputFormat = DateFormat('yyyy/MM/dd H:m');
 
+    final familyIdState = ref.watch(familyProvider);
+
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
@@ -58,7 +63,12 @@ class _FamilyListScreenState extends State<FamilyListScreen> {
         automaticallyImplyLeading: false,
         leading: GestureDetector(
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        HomeParentScreen(familyId: familyIdState)),
+              );
             },
             child: Image.asset('assets/images/backmark.png')),
         title: const Text(

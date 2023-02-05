@@ -5,7 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 //   return 'Hello';
 // });
 
-//更新可能な値
+//更新可能な値：ユーザID
 final StateProvider<int> userProvider = StateProvider((ref) {
+  return 0;
+});
+
+//更新可能な値:familyID
+final StateProvider<int> familyProvider = StateProvider((ref) {
   return 0;
 });

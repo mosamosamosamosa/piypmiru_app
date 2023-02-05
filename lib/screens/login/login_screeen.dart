@@ -28,7 +28,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     // 状態管理している値を取得する
     final userIdState = ref.watch(userProvider);
     // 状態管理している値を操作できるようにする
+    //ユーザID
     final userIdNotifier = ref.watch(userProvider.notifier);
+    //ファミリーID
+    final familyIdNotifier = ref.watch(familyProvider.notifier);
 
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
@@ -188,6 +191,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                           Users()
                                               .getFamilyUsers(name)
                                               .then((value) => {
+                                                    familyIdNotifier.state =
+                                                        value,
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(

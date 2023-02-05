@@ -12,13 +12,6 @@ import 'package:piyomiru_application/screens/parent/write_nfc_in_flutter.dart';
 
 //////////package:piyomiru_application/screens/parent/family_lsit.dartから呼ばれています//////////
 
-class RecordEditor {
-  final TextEditingController mediaTypeController = TextEditingController();
-  final TextEditingController payloadController = TextEditingController();
-
-  String get userId => '';
-}
-
 class AddkidsModal extends StatefulWidget {
   AddkidsModal({Key? key, required this.familyId}) : super(key: key);
   final int familyId;
@@ -29,10 +22,13 @@ class AddkidsModal extends StatefulWidget {
 
 class _AddkidsModalState extends State<AddkidsModal> {
   String name = '';
-  int userId = 0;
   StreamSubscription<NDEFMessage>? _stream;
   List<RecordEditor> _records = [];
   bool _hasClosedWriteDialog = false;
+  int userId = 0;
+
+  final TextEditingController mediaTypeController = TextEditingController();
+  final TextEditingController payloadController = TextEditingController();
 
   void initState() {
     setState(() {
@@ -41,16 +37,28 @@ class _AddkidsModalState extends State<AddkidsModal> {
     super.initState();
   }
 
-  void _write(BuildContext context, int userId) async {
+  void _write(BuildContext context) async {
     print("書き込みメソッド呼び出されました");
 
     List<NDEFRecord> records = _records.map((record) {
-      print("メディアの内容:${record.mediaTypeController.text}");
+      print("受け取れたID:${userId}");
       return NDEFRecord.type(
-        record.userId,
-        record.payloadController.text,
+        userId.toString(),
+        payloadController.text,
       );
     }).toList();
+
+    // void _write(BuildContext context) async {
+    //   print("書き込みメソッド呼び出されました");
+
+    //   List<NDEFRecord> records = _records.map((record) {
+    //     print("メディアの内容:${mediaTypeController.text}");
+    //     print("受け取れたID:${userId}");
+    //     return NDEFRecord.type(
+    //       userId.toString(),
+    //       payloadController.text,
+    //     );
+    //   }).toList();
 
     print("レコードの内容：$records");
     NDEFMessage message = NDEFMessage.withRecords(records);
@@ -63,22 +71,6 @@ class _AddkidsModalState extends State<AddkidsModal> {
         builder: (BuildContext context) =>
             NfcScanModal(kidName: name, success: false),
       );
-      // showDialog(
-      //   context: context,
-      //   builder: (context) => AlertDialog(
-      //     title: const Text("Scan the tag you want to write to"),
-      //     actions: <Widget>[
-      //       TextButton(
-      //         child: const Text("Cancel"),
-      //         onPressed: () {
-      //           _hasClosedWriteDialog = true;
-      //           _stream?.cancel();
-      //           Navigator.pop(context);
-      //         },
-      //       ),
-      //     ],
-      //   ),
-      // );
     }
 
     // Write to the first tag scanned
@@ -145,7 +137,7 @@ class _AddkidsModalState extends State<AddkidsModal> {
                               name = value;
                             });
                           },
-                          controller: record.mediaTypeController,
+                          //controller: record.mediaTypeController,
                           style: const TextStyle(
                             fontSize: 24,
                             color: kFontColor,
@@ -198,8 +190,10 @@ class _AddkidsModalState extends State<AddkidsModal> {
                         Users()
                             .postkidsUser(name, widget.familyId, 7)
                             .then((value) => {
+                                  print("id: $value"),
                                   setState(() {
-                                    _write(context, value);
+                                    userId = value;
+                                    _write(context);
                                   }),
                                 });
 

@@ -13,18 +13,17 @@ class CompletionModal extends StatelessWidget {
       required this.image,
       required this.operationId,
       required this.busId,
-      required this.busName
-      //required this.name,
-      })
+      required this.busName})
       : super(key: key);
 
+  final String image;
+  final String name;
   final int passId;
   final int userId;
-  final String name;
-  final String image;
   final int operationId;
   final int busId;
   final String busName;
+
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
@@ -54,9 +53,9 @@ class CompletionModal extends StatelessWidget {
             ),
           ),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(height: 28),
+              SizedBox(height: 20),
               Text(
                 "降車を完了しますか？",
                 style: const TextStyle(
@@ -176,6 +175,7 @@ class CompletionModal extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(height: 20),
             ],
           ),
         ],

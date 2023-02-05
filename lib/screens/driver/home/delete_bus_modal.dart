@@ -47,9 +47,10 @@ class _DeleteBusModalState extends State<DeleteBusModal> {
             ),
           ),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            //crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(height: 28),
+              SizedBox(height: 20),
               const Text(
                 "バスの登録から削除しますか？",
                 style: TextStyle(
@@ -144,6 +145,7 @@ class _DeleteBusModalState extends State<DeleteBusModal> {
                   ),
                 ],
               ),
+              SizedBox(height: 20),
             ],
           ),
         ],

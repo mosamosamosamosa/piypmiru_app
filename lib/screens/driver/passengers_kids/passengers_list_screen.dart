@@ -209,7 +209,8 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                                   child: GestureDetector(
                                       onTap: () async {
                                         var g = Passenger().getnamePassenger(
-                                            passengerList[index]['name']);
+                                            passengerList[index]['name'],
+                                            widget.operationId);
                                         g.then((value) => {
                                               userId = value,
                                               print(userId),

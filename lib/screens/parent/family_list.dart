@@ -97,6 +97,23 @@ class _FamilyListScreenState extends ConsumerState<FamilyListScreen> {
                             fontSize: 20,
                             fontFamily: 'KiwiMaru-L'),
                       ),
+                      SizedBox(height: deviceH * 0.001),
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  AddkidsModal(familyId: widget.familyId));
+                        },
+                        child: const Text(
+                          "+ お子様を登録する",
+                          style: TextStyle(
+                              color: kSubBackgroundColor,
+                              fontSize: 18,
+                              fontFamily: 'KiwiMaru-L'),
+                        ),
+                      ),
                       SizedBox(height: deviceH * 0.12),
                       Image.asset('assets/images/kids.png'),
                     ],

@@ -141,6 +141,26 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                             fontSize: 20,
                             fontFamily: 'KiwiMaru-L'),
                       ),
+                      SizedBox(height: deviceH * 0.001),
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (BuildContext context) => AddpassModal(
+                                    operationId: widget.operationId,
+                                    busId: widget.busId,
+                                    busName: widget.busName,
+                                  ));
+                        },
+                        child: const Text(
+                          "+ 園児を追加する",
+                          style: TextStyle(
+                              color: kSubBackgroundColor,
+                              fontSize: 18,
+                              fontFamily: 'KiwiMaru-L'),
+                        ),
+                      ),
                       SizedBox(height: deviceH * 0.12),
                       Image.asset('assets/images/kids.png'),
                     ],

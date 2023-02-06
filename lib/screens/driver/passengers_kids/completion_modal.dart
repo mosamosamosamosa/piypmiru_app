@@ -54,9 +54,9 @@ class CompletionModal extends StatelessWidget {
             ),
           ),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(height: 28),
+              SizedBox(height: 20),
               Text(
                 "降車を完了しますか？",
                 style: const TextStyle(
@@ -176,6 +176,7 @@ class CompletionModal extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(height: 20),
             ],
           ),
         ],

@@ -1,14 +1,18 @@
 // ignore_for_file: await_only_futures
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:piyomiru_application/api/buses.dart';
+import 'package:piyomiru_application/api/family.dart';
 import 'package:piyomiru_application/api/users.dart';
 
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/components/nomal_button.dart';
+import 'package:piyomiru_application/provider/provider.dart';
 import 'package:piyomiru_application/screens/driver/home/home_driver_screen.dart';
+import 'package:piyomiru_application/screens/parent/home_parent_screen.dart';
 
-class SignupScreen2 extends StatefulWidget {
+class SignupScreen2 extends ConsumerStatefulWidget {
   SignupScreen2({Key? key, required this.driver, required this.groupId})
       : super(key: key);
 
@@ -19,7 +23,7 @@ class SignupScreen2 extends StatefulWidget {
   _SignupScreen2 createState() => _SignupScreen2();
 }
 
-class _SignupScreen2 extends State<SignupScreen2> {
+class _SignupScreen2 extends ConsumerState<SignupScreen2> {
   bool pushN = false;
   bool pushP = false;
   bool pushM = false;
@@ -34,6 +38,8 @@ class _SignupScreen2 extends State<SignupScreen2> {
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
+
+    final familyIdNotifier = ref.watch(familyProvider.notifier);
 
     return Scaffold(
         backgroundColor: kSubBackgroundColor,
@@ -321,16 +327,31 @@ class _SignupScreen2 extends State<SignupScreen2> {
                               .postUser(name, email, password, widget.driver,
                                   widget.groupId)
                               .then((value) => {
-                                    Buses().getAllBuses().then((value) => {
-                                          busList = value,
-                                          print(busList),
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HomeDriverScreen()),
-                                          )
-                                        })
+                                    if (widget.driver)
+                                      {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HomeDriverScreen()),
+                                        )
+                                      }
+                                    else
+                                      {
+                                        Families()
+                                            .postFamily(name)
+                                            .then((value) => {
+                                                  familyIdNotifier.state =
+                                                      value,
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              HomeParentScreen(
+                                                                  familyId:
+                                                                      value)))
+                                                })
+                                      }
                                   });
                         },
                         child: NomalButton(

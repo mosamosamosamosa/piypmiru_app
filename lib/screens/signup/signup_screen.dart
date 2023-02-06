@@ -200,17 +200,33 @@ class _SignupScreen extends State<SignupScreen> {
                     child: GestureDetector(
                         onTap: () {
                           //intで確定
-                          var f = Groups().postGroups(groupName, groupAdd);
-                          f.then((value) => {
+                          Groups().getIdgroups(groupName).then((value) => {
                                 groupId = value,
-                                print(groupId),
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SignupScreen2(
-                                          driver: widget.driver,
-                                          groupId: groupId)),
-                                ),
+                                if (groupId == 0)
+                                  {
+                                    Groups()
+                                        .postGroups(groupName, groupAdd)
+                                        .then((value) => {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SignupScreen2(
+                                                            driver:
+                                                                widget.driver,
+                                                            groupId: value)),
+                                              ),
+                                            })
+                                  }
+                                else
+                                  {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => SignupScreen2(
+                                                driver: widget.driver,
+                                                groupId: groupId)))
+                                  }
                               });
 
                           // print(groupId);

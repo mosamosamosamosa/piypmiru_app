@@ -99,10 +99,10 @@ class Passenger {
   }
 
   //名前が同じ子のIDを返してくれる
-  //名前からユーザIDを返してくれる
-  getnamePassenger(String name) async {
+  getnamePassenger(String name, int operationId) async {
     List<dynamic> nameList = [];
     var passId;
+    List<dynamic> passList = [];
 
     var request_all_passenger =
         http.Request('GET', Uri.parse('${Clients().url}/passenger'));
@@ -111,17 +111,28 @@ class Passenger {
     http.StreamedResponse stream_response = await request_all_passenger.send();
     var response = await http.Response.fromStream(stream_response);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       passengerList = jsonDecode(response.body).cast<Map<String, dynamic>>();
 
       passengerList.forEach((element) {
-        nameList.add(element['user']['name']);
+        if (element['operation']['id'] == operationId) {
+          nameList.add(element['user']['name']);
+          passList.add(element['id']);
+          print("passList: $passList");
+          print(idList);
+        }
       });
 
-      for (int i = 0; i <= nameList.length; i++) {
-        if (nameList[i] == name) {
-          passId = passengerList[i]['id'];
-          break;
+      // 初期値：乗っていない
+      passId = 0;
+      if (nameList.isNotEmpty) {
+        print("nameList: $nameList\nname:$name");
+        for (int i = 0; i < nameList.length; i++) {
+          if (nameList[i] == name) {
+            print("もう乗っている");
+            passId = passList[i];
+            return passId;
+          }
         }
       }
 

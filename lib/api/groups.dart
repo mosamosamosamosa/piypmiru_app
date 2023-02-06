@@ -34,4 +34,27 @@ class Groups {
       //debugPrint("失敗");
     }
   }
+
+  getIdgroups(String name) async {
+    late List<Map<String, dynamic>> groupList;
+
+    var request = http.Request('GET', Uri.parse('${Clients().url}/groups'));
+
+    http.StreamedResponse stream_response = await request.send();
+    var response = await http.Response.fromStream(stream_response);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      groupList = jsonDecode(response.body).cast<Map<String, dynamic>>();
+
+      groupList.forEach((element) {
+        if (element['name'] == name) {
+          groupId = element['id'];
+        }
+      });
+
+      return groupId;
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
 }

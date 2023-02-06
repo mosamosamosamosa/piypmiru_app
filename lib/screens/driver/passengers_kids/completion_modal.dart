@@ -139,8 +139,8 @@ class CompletionModal extends StatelessWidget {
                           Passenger().putPassenger(passId, userId, operationId);
 
                       f.then((value) => {
-                            print(passId),
-                            print(userId),
+                            print("passId:$passId"),
+                            print("userId:$userId"),
                             Navigator.push(
                               context,
                               MaterialPageRoute(

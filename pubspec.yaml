@@ -47,6 +47,7 @@ dependencies:
   path_provider: ^2.0.11
   flutter_native_splash: ^2.2.17
   flutter_riverpod: ^1.0.3
+  audioplayers: ^0.19.1
   
 
 
@@ -113,5 +114,8 @@ flutter:
         
   assets:
     - assets/images/
+
+
+    - assets/
   
   

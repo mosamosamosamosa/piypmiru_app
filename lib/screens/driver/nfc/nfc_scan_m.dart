@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:nfc_in_flutter/nfc_in_flutter.dart';
 import 'package:piyomiru_application/api/passenger.dart';
@@ -37,6 +38,7 @@ class _NfcScanSampModalState extends State<NfcScanSampModal> {
   String pass = '乗車';
   int userId = 0;
   //var enId;
+  final _audio = AudioCache();
 
   void _startScanning() {
     setState(() {
@@ -57,9 +59,11 @@ class _NfcScanSampModalState extends State<NfcScanSampModal> {
                     name = value;
 
                     widget.success = true;
+                    _audio.play('piyo.mov');
                   })
                 });
           });
+
           print(name);
           print(
               "Record '${record.id ?? "[NO ID]"}' with TNF '${record.tnf}', type '${record.type}', payload '${record.payload}' and data '${record.data}' and language code '${record.languageCode}'");

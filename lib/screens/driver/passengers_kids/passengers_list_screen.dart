@@ -63,6 +63,21 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
     super.initState();
   }
 
+  void _onReflesh() {
+    Passenger().getAllPassenger(widget.operationId).then((value) => {
+          setState(() {
+            if (value == null || value == 0) {
+              print("nullです");
+              passengerList = 0;
+            } else {
+              passengerList = value;
+              print('乗客:$passengerList');
+            }
+          })
+        });
+    super.initState();
+  }
+
 //運転終了ボタン
   @override
   Widget build(BuildContext context) {
@@ -124,152 +139,158 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
               child: ActionButton(text: action, img: 'hiyoko_pencil.png')),
         ],
       ),
-      body: Stack(
-        children: [
-          passengerList == null || passengerList == 0
-              ? SizedBox(
-                  height: deviceH,
-                  width: deviceW,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: deviceH * 0.12),
-                      const Text(
-                        "現在乗車中の園児はいません",
-                        style: TextStyle(
-                            color: kFontColor,
-                            fontSize: 20,
-                            fontFamily: 'KiwiMaru-L'),
-                      ),
-                      SizedBox(height: deviceH * 0.001),
-                      GestureDetector(
-                        onTap: () {
-                          showDialog(
-                              barrierDismissible: false,
-                              context: context,
-                              builder: (BuildContext context) => AddpassModal(
-                                    operationId: widget.operationId,
-                                    busId: widget.busId,
-                                    busName: widget.busName,
-                                  ));
-                        },
-                        child: const Text(
-                          "+ 園児を追加する",
+      body: RefreshIndicator(
+        onRefresh: () async {
+          _onReflesh();
+        },
+        child: Stack(
+          children: [
+            passengerList == null || passengerList == 0
+                ? SizedBox(
+                    height: deviceH,
+                    width: deviceW,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: deviceH * 0.12),
+                        const Text(
+                          "現在乗車中の園児はいません",
                           style: TextStyle(
-                              color: kSubBackgroundColor,
-                              fontSize: 18,
+                              color: kFontColor,
+                              fontSize: 20,
                               fontFamily: 'KiwiMaru-L'),
                         ),
-                      ),
-                      SizedBox(height: deviceH * 0.12),
-                      Image.asset('assets/images/kids.png'),
-                    ],
-                  ),
-                )
-              : SizedBox(
-                  height: deviceH * 0.67,
-                  width: deviceW,
-                  child: ListView.builder(
-                    padding: EdgeInsets.only(top: deviceH * 0.06),
-                    itemCount: passengerList.length + 1,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, index) {
-                      if (index == passengerList.length) {
-                        return GestureDetector(
-                            onTap: () async {
-                              showDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AddpassModal(
-                                        operationId: widget.operationId,
-                                        busId: widget.busId,
-                                        busName: widget.busName,
-                                      ));
-                            },
-                            child: const Addlistitem());
-                      }
+                        SizedBox(height: deviceH * 0.001),
+                        GestureDetector(
+                          onTap: () {
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (BuildContext context) => AddpassModal(
+                                      operationId: widget.operationId,
+                                      busId: widget.busId,
+                                      busName: widget.busName,
+                                    ));
+                          },
+                          child: const Text(
+                            "+ 園児を追加する",
+                            style: TextStyle(
+                                color: kSubBackgroundColor,
+                                fontSize: 18,
+                                fontFamily: 'KiwiMaru-L'),
+                          ),
+                        ),
+                        SizedBox(height: deviceH * 0.12),
+                        Image.asset('assets/images/kids.png'),
+                      ],
+                    ),
+                  )
+                : SizedBox(
+                    height: deviceH * 0.67,
+                    width: deviceW,
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(top: deviceH * 0.06),
+                      itemCount: passengerList.length + 1,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, index) {
+                        if (index == passengerList.length) {
+                          return GestureDetector(
+                              onTap: () async {
+                                showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        AddpassModal(
+                                          operationId: widget.operationId,
+                                          busId: widget.busId,
+                                          busName: widget.busName,
+                                        ));
+                              },
+                              child: const Addlistitem());
+                        }
 
-                      return Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Listitem(
-                              userId: passengerList[index]['id'],
-                              editable: editable,
-                              image: passengers_list[index].image,
-                              //passenger
-                              name: passengerList[index]['name'],
-                              ride: true,
-                              datetime: outputFormat.format(DateTime.parse(
-                                  passengerList[index]['created']))),
-                          editable
-                              ? Positioned(
-                                  right: 8,
-                                  top: -10,
-                                  child: GestureDetector(
-                                      onTap: () async {
-                                        var g = Passenger().getnamePassenger(
-                                            passengerList[index]['name'],
-                                            widget.operationId);
-                                        g.then((value) => {
-                                              userId = value,
-                                              print(userId),
-                                              showDialog(
-                                                barrierDismissible: false,
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        CompletionModal(
-                                                  passId: userId,
-                                                  userId: passengerList[index]
-                                                      ['id'],
-                                                  name: passengerList[index]
-                                                      ['name'],
-                                                  image: passengers_list[index]
-                                                      .image,
-                                                  operationId:
-                                                      widget.operationId,
-                                                  busId: widget.busId,
-                                                  busName: widget.busName,
-                                                ),
-                                              )
-                                            });
-                                      },
-                                      child: Image.asset(
-                                          'assets/images/minus.png')))
-                              : Container()
-                        ],
-                      );
-                    },
+                        return Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Listitem(
+                                userId: passengerList[index]['id'],
+                                editable: editable,
+                                image: passengers_list[index].image,
+                                //passenger
+                                name: passengerList[index]['name'],
+                                ride: true,
+                                datetime: outputFormat.format(DateTime.parse(
+                                    passengerList[index]['created']))),
+                            editable
+                                ? Positioned(
+                                    right: 8,
+                                    top: -10,
+                                    child: GestureDetector(
+                                        onTap: () async {
+                                          var g = Passenger().getnamePassenger(
+                                              passengerList[index]['name'],
+                                              widget.operationId);
+                                          g.then((value) => {
+                                                userId = value,
+                                                print(userId),
+                                                showDialog(
+                                                  barrierDismissible: false,
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          CompletionModal(
+                                                    passId: userId,
+                                                    userId: passengerList[index]
+                                                        ['id'],
+                                                    name: passengerList[index]
+                                                        ['name'],
+                                                    image:
+                                                        passengers_list[index]
+                                                            .image,
+                                                    operationId:
+                                                        widget.operationId,
+                                                    busId: widget.busId,
+                                                    busName: widget.busName,
+                                                  ),
+                                                )
+                                              });
+                                        },
+                                        child: Image.asset(
+                                            'assets/images/minus.png')))
+                                : Container()
+                          ],
+                        );
+                      },
+                    ),
                   ),
-                ),
-          Container(
-              alignment: Alignment.bottomCenter,
-              margin: EdgeInsets.only(bottom: deviceH * 0.08),
-              child: GestureDetector(
-                onTap: () {
-                  if (pushable) {
-                    showDialog(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (BuildContext context) =>
-                          StopDriveModal(busId: widget.busId),
-                    );
-                  } else {
-                    showDialog(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (BuildContext context) => NostopDriveModal(),
-                    );
-                  }
-                },
-                child: AppButton(
-                  text: "運転終了",
-                  start: false,
-                  pushable: pushable,
-                ),
-              )),
-        ],
+            Container(
+                alignment: Alignment.bottomCenter,
+                margin: EdgeInsets.only(bottom: deviceH * 0.08),
+                child: GestureDetector(
+                  onTap: () {
+                    if (pushable) {
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) =>
+                            StopDriveModal(busId: widget.busId),
+                      );
+                    } else {
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) => NostopDriveModal(),
+                      );
+                    }
+                  },
+                  child: AppButton(
+                    text: "運転終了",
+                    start: false,
+                    pushable: pushable,
+                  ),
+                )),
+          ],
+        ),
       ),
     );
   }

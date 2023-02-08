@@ -22,6 +22,7 @@ class Users {
       "email": email,
       "password": password,
       "driver": driver,
+      "passenger": false,
       "serial_number": null,
       "group_id": groupId,
       "family_id": null
@@ -30,10 +31,14 @@ class Users {
     //まとめて定義
 
     request_users.headers.addAll(headers);
-    http.StreamedResponse response = await request_users.send();
 
-    if (response.statusCode == 200) {
-      debugPrint(await response.stream.bytesToString());
+    http.StreamedResponse stream_response = await request_users.send();
+    var response = await http.Response.fromStream(stream_response);
+
+    if (response.statusCode == 200 || response.statusCode == 200) {
+      Map<String, dynamic> uinfo = jsonDecode(response.body);
+
+      return uinfo['id'];
     } else {
       debugPrint(response.reasonPhrase);
       //debugPrint("失敗");

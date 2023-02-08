@@ -8,12 +8,12 @@ import 'package:piyomiru_application/data/database.dart';
 import 'package:piyomiru_application/screens/driver/home/add_bus_modal.dart';
 import 'package:piyomiru_application/screens/driver/home/delete_bus_modal.dart';
 
-import 'package:piyomiru_application/screens/driver/home/logout_modal.dart';
 import 'package:piyomiru_application/screens/driver/operation/operation_screen.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_screen.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:piyomiru_application/api/users.dart';
+import 'package:piyomiru_application/screens/setting_screen.dart';
 
 class HomeDriverScreen extends StatefulWidget {
   HomeDriverScreen({
@@ -105,10 +105,9 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
           ),
           GestureDetector(
             onTap: () {
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (BuildContext context) => LogoutModal(),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingScreen()),
               );
             },
             child: const ActionButton(

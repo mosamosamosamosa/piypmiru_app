@@ -12,13 +12,13 @@ import 'package:piyomiru_application/components/app_sub_button.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/screens/driver/home/home_driver_screen.dart';
 
-import 'package:piyomiru_application/screens/driver/home/logout_modal.dart';
 import 'package:piyomiru_application/screens/driver/nfc/nfc_scan_m.dart';
 
 import 'package:piyomiru_application/screens/driver/passengers_kids/passengers_list_screen.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
 
 import 'package:piyomiru_application/screens/parent/nfc_scan_modal.dart';
+import 'package:piyomiru_application/screens/setting_screen.dart';
 
 //バス運行中画面
 class OperationScreen extends StatefulWidget {
@@ -182,10 +182,9 @@ class _OperationScreenState extends State<OperationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (BuildContext context) => LogoutModal(),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingScreen()),
                 );
               },
               child: const ActionButton(

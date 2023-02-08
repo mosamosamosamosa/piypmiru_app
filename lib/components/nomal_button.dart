@@ -22,6 +22,14 @@ class NomalButton extends StatelessWidget {
             height: 66,
             width: 286,
             decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey, //色
+                  spreadRadius: 1,
+                  blurRadius: 2,
+                  offset: Offset(0, 5),
+                ),
+              ],
               borderRadius: BorderRadius.circular(20),
               color: kTitleColor,
             ),

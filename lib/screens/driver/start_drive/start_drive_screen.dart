@@ -3,9 +3,9 @@ import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/components/app_button.dart';
 import 'package:piyomiru_application/constants.dart';
 
-import 'package:piyomiru_application/screens/driver/home/logout_modal.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_modal.dart';
+import 'package:piyomiru_application/screens/setting_screen.dart';
 
 class StartDriveScreen extends StatelessWidget {
   StartDriveScreen({
@@ -56,10 +56,9 @@ class StartDriveScreen extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (BuildContext context) => LogoutModal(),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingScreen()),
                 );
               },
               child: const ActionButton(

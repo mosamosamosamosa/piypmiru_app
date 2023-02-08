@@ -7,13 +7,13 @@ import 'package:piyomiru_application/components/app_sub_button.dart';
 import 'package:piyomiru_application/components/passenger_button.dart';
 import 'package:piyomiru_application/constants.dart';
 
-import 'package:piyomiru_application/screens/driver/home/logout_modal.dart';
 import 'package:piyomiru_application/screens/driver/nfc/nfc_scan_modal.dart';
 import 'package:piyomiru_application/screens/driver/nfc/nfc_success_modal.dart';
 import 'package:piyomiru_application/screens/driver/passengers_kids/passengers_list_screen.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_modal.dart';
 import 'package:piyomiru_application/screens/parent/passengers_parent_screen.dart';
+import 'package:piyomiru_application/screens/setting_screen.dart';
 
 class StopParentScreen extends StatefulWidget {
   StopParentScreen({Key? key, required this.busName}) : super(key: key);
@@ -86,10 +86,9 @@ class _StopParentScreenState extends State<StopParentScreen> {
           actions: [
             GestureDetector(
               onTap: () {
-                showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (BuildContext context) => LogoutModal(),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingScreen()),
                 );
               },
               child: const ActionButton(

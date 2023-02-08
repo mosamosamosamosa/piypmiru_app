@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:piyomiru_application/components/chose.dart';
 import 'package:piyomiru_application/components/nomal_button.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/provider/provider.dart';
 import 'package:piyomiru_application/screens/login/login_screeen.dart';
 import 'package:piyomiru_application/screens/signup/signup_screen.dart';
 import 'package:piyomiru_application/screens/splash_screen.dart';
 
-class ChoseScreen extends StatefulWidget {
+class ChoseScreen extends ConsumerStatefulWidget {
   ChoseScreen({Key? key}) : super(key: key);
 
   @override
   _ChoseScreenState createState() => _ChoseScreenState();
 }
 
-class _ChoseScreenState extends State<ChoseScreen> {
+class _ChoseScreenState extends ConsumerState<ChoseScreen> {
   bool selected_parent = false;
   bool selected_driver = false;
 
@@ -21,6 +23,8 @@ class _ChoseScreenState extends State<ChoseScreen> {
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
+    //運転手か、保護者か
+    final roleNotifier = ref.watch(roleProvider.notifier);
 
     return Scaffold(
       backgroundColor: kSubBackgroundColor,
@@ -91,12 +95,15 @@ class _ChoseScreenState extends State<ChoseScreen> {
                   right: 0,
                   child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  SignupScreen(driver: selected_driver)),
-                        );
+                        setState(() {
+                          roleNotifier.state = selected_driver;
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SignupScreen(driver: selected_driver)),
+                          );
+                        });
                       },
                       child: NomalButton(
                         text: "決定",

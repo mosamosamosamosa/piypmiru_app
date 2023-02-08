@@ -40,6 +40,7 @@ class _SignupScreen2 extends ConsumerState<SignupScreen2> {
     double deviceH = MediaQuery.of(context).size.height;
 
     final familyIdNotifier = ref.watch(familyProvider.notifier);
+    final userIdNotifier = ref.watch(userProvider.notifier);
 
     return Scaffold(
         backgroundColor: kSubBackgroundColor,
@@ -327,6 +328,9 @@ class _SignupScreen2 extends ConsumerState<SignupScreen2> {
                               .postUser(name, email, password, widget.driver,
                                   widget.groupId)
                               .then((value) => {
+                                    setState(() {
+                                      userIdNotifier.state = value;
+                                    }),
                                     if (widget.driver)
                                       {
                                         Navigator.push(

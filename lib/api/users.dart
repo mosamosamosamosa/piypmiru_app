@@ -166,13 +166,17 @@ class Users {
     var response = await http.Response.fromStream(stream_response);
 
     if (response.statusCode == 200) {
+      print("成功の方");
       userList = jsonDecode(response.body).cast<Map<String, dynamic>>();
+      print(userList);
 
-      userList.forEach((element) {
-        if (element['passengers']) {
-          nameList.add(element['name']);
+      if (userList.isNotEmpty || userList != []) {
+        for (var element in userList) {
+          if (element['passengers']) {
+            nameList.add(element['name']);
+          }
         }
-      });
+      }
 
       print(userList);
       return nameList;
@@ -304,6 +308,27 @@ class Users {
         }
       }
       return familyId;
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  //idから情報を取得
+  getInfoUser(int userId) async {
+    print("info呼び出されました");
+    late Map<String, dynamic> userList;
+
+    var request =
+        http.Request('GET', Uri.parse('${Clients().url}/users/$userId'));
+
+    http.StreamedResponse stream_response = await request.send();
+    var response = await http.Response.fromStream(stream_response);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("成功の方に来ました");
+      userList = jsonDecode(response.body);
+
+      return userList;
     } else {
       print(response.reasonPhrase);
     }

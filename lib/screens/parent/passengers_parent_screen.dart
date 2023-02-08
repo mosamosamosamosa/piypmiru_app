@@ -1,3 +1,4 @@
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:piyomiru_application/api/passenger.dart';
@@ -45,6 +46,21 @@ class _PassengerParentScreenState extends State<PassengerParentScreen> {
     super.initState();
   }
 
+  void _onReflesh() {
+    Passenger().getAllPassenger(widget.operationId).then((value) => {
+          setState(() {
+            if (value == null) {
+              print("nullです");
+              passengerList = 0;
+            } else {
+              passengerList = value;
+              print('乗客:$passengerList');
+            }
+          })
+        });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
@@ -73,47 +89,57 @@ class _PassengerParentScreenState extends State<PassengerParentScreen> {
         //影消す
         elevation: 0.0,
       ),
-      body: Stack(
-        children: [
-          passengerList == null || passengerList == 0
-              ? SizedBox(
-                  height: deviceH,
-                  width: deviceW,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: deviceH * 0.12),
-                      const Text(
-                        "現在乗車中の園児はいません",
-                        style: TextStyle(
-                            color: kFontColor,
-                            fontSize: 20,
-                            fontFamily: 'KiwiMaru-L'),
-                      ),
-                      SizedBox(height: deviceH * 0.12),
-                      Image.asset('assets/images/kids.png'),
-                    ],
-                  ),
-                )
-              : SizedBox(
-                  height: deviceH,
-                  width: deviceW,
-                  child: ListView.builder(
-                    padding: EdgeInsets.only(top: deviceH * 0.05),
-                    itemCount: passengerList.length,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, index) {
-                      return Listitem(
-                          userId: 1, //仮
-                          editable: false,
-                          image: passengers_list[index].image,
-                          name: passengerList[index]['name'],
-                          ride: true,
-                          datetime: outputFormat.format(DateTime.now()));
-                    },
-                  ),
-                )
-        ],
+      body: CustomRefreshIndicator(
+        onRefresh: () async {
+          _onReflesh();
+        },
+        builder: MaterialIndicatorDelegate(
+          builder: (context, controller) {
+            return Image.asset('assets/images/hiyoko_anzen.png');
+          },
+        ),
+        child: Stack(
+          children: [
+            passengerList == null || passengerList == 0
+                ? SizedBox(
+                    height: deviceH,
+                    width: deviceW,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: deviceH * 0.12),
+                        const Text(
+                          "現在乗車中の園児はいません",
+                          style: TextStyle(
+                              color: kFontColor,
+                              fontSize: 20,
+                              fontFamily: 'KiwiMaru-L'),
+                        ),
+                        SizedBox(height: deviceH * 0.12),
+                        Image.asset('assets/images/kids.png'),
+                      ],
+                    ),
+                  )
+                : SizedBox(
+                    height: deviceH,
+                    width: deviceW,
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(top: deviceH * 0.05),
+                      itemCount: passengerList.length,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, index) {
+                        return Listitem(
+                            userId: 1, //仮
+                            editable: false,
+                            image: passengers_list[index].image,
+                            name: passengerList[index]['name'],
+                            ride: true,
+                            datetime: outputFormat.format(DateTime.now()));
+                      },
+                    ),
+                  )
+          ],
+        ),
       ),
     );
   }

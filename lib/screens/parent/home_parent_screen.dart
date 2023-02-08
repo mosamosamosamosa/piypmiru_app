@@ -1,3 +1,4 @@
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:piyomiru_application/api/buses.dart';
 import 'package:piyomiru_application/api/operation.dart';
@@ -106,102 +107,119 @@ class _HomeParentScreenState extends State<HomeParentScreen> {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          Container(
-              alignment: Alignment.bottomCenter,
-              child: Image.asset('assets/images/background.png')),
-          Column(
-            children: [
-              SizedBox(height: deviceH * 1 / 16),
-              Text(
-                '--ぴよみる幼稚園--',
-                style: TextStyle(
-                    fontSize: 31, color: kFontColor, fontFamily: 'KiwiMaru-R'),
-              ),
-              Container(
-                height: deviceH * 0.7,
-                width: deviceW,
-                child: GridView.count(
-                  padding: const EdgeInsets.all(25),
-                  childAspectRatio: 1.2,
-                  mainAxisSpacing: 28,
-                  crossAxisSpacing: 28,
-                  crossAxisCount: 2,
-                  children: List.generate(
-                    widget.busList.length,
-                    (index) => GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          if (statusList[index]) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OperationParentScreen(
-                                        busName: widget.busList[index],
-                                      )),
-                            );
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => StopParentScreen(
-                                        busName: widget.busList[index],
-                                      )),
-                            );
-                          }
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: kBusItemColor,
-                        ),
-                        child: Stack(
-                          children: [
-                            Stack(
-                              children: [
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  padding:
-                                      const EdgeInsets.only(left: 10, top: 5),
-                                  child: Text(
-                                    widget.busList[index],
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontFamily: 'KiwiMaru-R',
-                                        color: kFontColor),
+      body: CustomRefreshIndicator(
+        onRefresh: () async {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    HomeParentScreen(familyId: widget.familyId)),
+          );
+        },
+        builder: MaterialIndicatorDelegate(
+          builder: (context, controller) {
+            return Image.asset('assets/images/hiyoko_anzen.png');
+          },
+        ),
+        child: Stack(
+          children: [
+            Container(
+                alignment: Alignment.bottomCenter,
+                child: Image.asset('assets/images/background.png')),
+            Column(
+              children: [
+                SizedBox(height: deviceH * 1 / 16),
+                Text(
+                  '--ぴよみる幼稚園--',
+                  style: TextStyle(
+                      fontSize: 31,
+                      color: kFontColor,
+                      fontFamily: 'KiwiMaru-R'),
+                ),
+                Container(
+                  height: deviceH * 0.7,
+                  width: deviceW,
+                  child: GridView.count(
+                    padding: const EdgeInsets.all(25),
+                    childAspectRatio: 1.2,
+                    mainAxisSpacing: 28,
+                    crossAxisSpacing: 28,
+                    crossAxisCount: 2,
+                    children: List.generate(
+                      widget.busList.length,
+                      (index) => GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            if (statusList[index]) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => OperationParentScreen(
+                                          busName: widget.busList[index],
+                                        )),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => StopParentScreen(
+                                          busName: widget.busList[index],
+                                        )),
+                              );
+                            }
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: kBusItemColor,
+                          ),
+                          child: Stack(
+                            children: [
+                              Stack(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    padding:
+                                        const EdgeInsets.only(left: 10, top: 5),
+                                    child: Text(
+                                      widget.busList[index],
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'KiwiMaru-R',
+                                          color: kFontColor),
+                                    ),
                                   ),
-                                ),
-                                statusList[index]
-                                    ? Column(children: [
-                                        SizedBox(height: 16),
-                                        Container(
-                                          alignment: Alignment.topRight,
+                                  statusList[index]
+                                      ? Column(children: [
+                                          SizedBox(height: 16),
+                                          Container(
+                                            alignment: Alignment.topRight,
+                                            child: Image.asset(
+                                                'assets/images/drive_mark.png'),
+                                          ),
+                                          SizedBox(height: 20),
+                                          Image.asset(
+                                              'assets/images/bus_drive.png')
+                                        ])
+                                      : Container(
+                                          alignment: Alignment.bottomCenter,
                                           child: Image.asset(
-                                              'assets/images/drive_mark.png'),
-                                        ),
-                                        SizedBox(height: 20),
-                                        Image.asset(
-                                            'assets/images/bus_drive.png')
-                                      ])
-                                    : Container(
-                                        alignment: Alignment.bottomCenter,
-                                        child: Image.asset(
-                                            'assets/images/bus_stop.png'),
-                                      )
-                              ],
-                            ),
-                          ],
+                                              'assets/images/bus_stop.png'),
+                                        )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

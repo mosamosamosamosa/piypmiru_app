@@ -1,3 +1,4 @@
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -45,6 +46,17 @@ class _FamilyListScreenState extends ConsumerState<FamilyListScreen> {
     super.initState();
   }
 
+  void _onReflesh() {
+    Users().getkidsUsers(widget.familyId).then((value) => {
+          setState(() {
+            familyList = value;
+            print('家族：$familyList');
+          }),
+        });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
@@ -80,77 +92,87 @@ class _FamilyListScreenState extends ConsumerState<FamilyListScreen> {
         //影消す
         elevation: 0.0,
       ),
-      body: Stack(
-        children: [
-          familyList == null || familyList.isEmpty
-              ? SizedBox(
-                  height: deviceH,
-                  width: deviceW,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: deviceH * 0.12),
-                      const Text(
-                        "お子様を登録してください",
-                        style: TextStyle(
-                            color: kFontColor,
-                            fontSize: 20,
-                            fontFamily: 'KiwiMaru-L'),
-                      ),
-                      SizedBox(height: deviceH * 0.001),
-                      GestureDetector(
-                        onTap: () {
-                          showDialog(
-                              barrierDismissible: false,
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  AddkidsModal(familyId: widget.familyId));
-                        },
-                        child: const Text(
-                          "+ お子様を登録する",
+      body: CustomRefreshIndicator(
+        onRefresh: () async {
+          _onReflesh();
+        },
+        builder: MaterialIndicatorDelegate(
+          builder: (context, controller) {
+            return Image.asset('assets/images/hiyoko_anzen.png');
+          },
+        ),
+        child: Stack(
+          children: [
+            familyList == null || familyList.isEmpty
+                ? SizedBox(
+                    height: deviceH,
+                    width: deviceW,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: deviceH * 0.12),
+                        const Text(
+                          "お子様を登録してください",
                           style: TextStyle(
-                              color: kSubBackgroundColor,
-                              fontSize: 18,
+                              color: kFontColor,
+                              fontSize: 20,
                               fontFamily: 'KiwiMaru-L'),
                         ),
-                      ),
-                      SizedBox(height: deviceH * 0.12),
-                      Image.asset('assets/images/kids.png'),
-                    ],
-                  ),
-                )
-              : SizedBox(
-                  height: deviceH,
-                  width: deviceW,
-                  child: ListView.builder(
-                    padding: EdgeInsets.only(top: deviceH * 0.05),
-                    itemCount: familyList.length + 1,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, index) {
-                      if (index == familyList.length) {
-                        return GestureDetector(
-                            onTap: () {
-                              showDialog(
+                        SizedBox(height: deviceH * 0.001),
+                        GestureDetector(
+                          onTap: () {
+                            showDialog(
                                 barrierDismissible: false,
                                 context: context,
                                 builder: (BuildContext context) =>
-                                    AddkidsModal(familyId: widget.familyId),
-                              );
-                            },
-                            child: const Addlistitem());
-                      }
+                                    AddkidsModal(familyId: widget.familyId));
+                          },
+                          child: const Text(
+                            "+ お子様を登録する",
+                            style: TextStyle(
+                                color: kSubBackgroundColor,
+                                fontSize: 18,
+                                fontFamily: 'KiwiMaru-L'),
+                          ),
+                        ),
+                        SizedBox(height: deviceH * 0.12),
+                        Image.asset('assets/images/kids.png'),
+                      ],
+                    ),
+                  )
+                : SizedBox(
+                    height: deviceH,
+                    width: deviceW,
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(top: deviceH * 0.05),
+                      itemCount: familyList.length + 1,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, index) {
+                        if (index == familyList.length) {
+                          return GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AddkidsModal(familyId: widget.familyId),
+                                );
+                              },
+                              child: const Addlistitem());
+                        }
 
-                      return Listitem(
-                          userId: 1, //仮
-                          editable: false,
-                          image: passengers_list[index].image,
-                          name: familyList[index],
-                          ride: true,
-                          datetime: outputFormat.format(DateTime.now()));
-                    },
-                  ),
-                )
-        ],
+                        return Listitem(
+                            userId: 1, //仮
+                            editable: false,
+                            image: passengers_list[index].image,
+                            name: familyList[index],
+                            ride: true,
+                            datetime: outputFormat.format(DateTime.now()));
+                      },
+                    ),
+                  )
+          ],
+        ),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:piyomiru_application/api/users.dart';
@@ -29,6 +30,20 @@ class _RegisterkidsScreenState extends ConsumerState<RegisterkidsScreen> {
 
   @override
   void initState() {
+    Users().getkidsAllUsers().then((value) => {
+          setState(() {
+            if (value == null || value == 0) {
+              print("nullです");
+              kidsList = 0;
+            } else {
+              kidsList = value;
+            }
+          })
+        });
+    super.initState();
+  }
+
+  void _onReflesh() {
     Users().getkidsAllUsers().then((value) => {
           setState(() {
             if (value == null || value == 0) {
@@ -91,57 +106,67 @@ class _RegisterkidsScreenState extends ConsumerState<RegisterkidsScreen> {
               child: ActionButton(text: action, img: 'hiyoko_pencil.png')),
         ],
       ),
-      body: kidsList == 0 || kidsList == null
-          ? SizedBox(
-              height: deviceH,
-              width: deviceW,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: deviceH * 0.12),
-                  const Text(
-                    "登録園児はまだいません",
-                    style: TextStyle(
-                        color: kFontColor,
-                        fontSize: 20,
-                        fontFamily: 'KiwiMaru-L'),
-                  ),
-                  SizedBox(height: deviceH * 0.12),
-                  Image.asset('assets/images/kids.png'),
-                ],
-              ),
-            )
-          : ListView.builder(
-              padding: EdgeInsets.only(top: deviceH * 0.012),
-              itemCount: kidsList.length,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, index) {
-                // if (index == kidsList.length) {
-                //   return GestureDetector(
-                //       onTap: () async {
-                //         String name = await showDialog(
-                //           barrierDismissible: false,
-                //           context: context,
-                //           builder: (BuildContext context) => AddlistModal(),
-                //         );
-                //         //リストに追加
-                //         print(name);
-                //       },
-                //       child: Container(
-                //           padding: EdgeInsets.only(top: deviceH * 0.012),
-                //           child: const Addlistitem()));
-                // }
+      body: CustomRefreshIndicator(
+        onRefresh: () async {
+          _onReflesh();
+        },
+        builder: MaterialIndicatorDelegate(
+          builder: (context, controller) {
+            return Image.asset('assets/images/hiyoko_anzen.png');
+          },
+        ),
+        child: kidsList == 0 || kidsList == null
+            ? SizedBox(
+                height: deviceH,
+                width: deviceW,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: deviceH * 0.12),
+                    const Text(
+                      "登録園児はまだいません",
+                      style: TextStyle(
+                          color: kFontColor,
+                          fontSize: 20,
+                          fontFamily: 'KiwiMaru-L'),
+                    ),
+                    SizedBox(height: deviceH * 0.12),
+                    Image.asset('assets/images/kids.png'),
+                  ],
+                ),
+              )
+            : ListView.builder(
+                padding: EdgeInsets.only(top: deviceH * 0.012),
+                itemCount: kidsList.length,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, index) {
+                  // if (index == kidsList.length) {
+                  //   return GestureDetector(
+                  //       onTap: () async {
+                  //         String name = await showDialog(
+                  //           barrierDismissible: false,
+                  //           context: context,
+                  //           builder: (BuildContext context) => AddlistModal(),
+                  //         );
+                  //         //リストに追加
+                  //         print(name);
+                  //       },
+                  //       child: Container(
+                  //           padding: EdgeInsets.only(top: deviceH * 0.012),
+                  //           child: const Addlistitem()));
+                  // }
 
-                return Listitem(
-                    //仮
-                    userId: 0,
-                    editable: editable,
-                    image: users_list[index].image,
-                    name: kidsList[index],
-                    ride: false,
-                    datetime: outputFormat.format(DateTime.now()));
-              },
-            ),
+                  return Listitem(
+                      //仮
+                      userId: 0,
+                      editable: editable,
+                      image: users_list[index].image,
+                      name: kidsList[index],
+                      ride: false,
+                      datetime: outputFormat.format(DateTime.now()));
+                },
+              ),
+      ),
     );
   }
 }

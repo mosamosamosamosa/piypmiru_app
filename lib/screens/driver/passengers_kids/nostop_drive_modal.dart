@@ -13,8 +13,8 @@ class NostopDriveModal extends StatelessWidget {
     return Dialog(
       alignment: Alignment.center,
       insetPadding: const EdgeInsets.only(
-        bottom: 250,
-        top: 250,
+        bottom: 280,
+        top: 280,
         left: 24,
         right: 24,
       ),
@@ -34,17 +34,17 @@ class NostopDriveModal extends StatelessWidget {
             ),
           ),
           Column(
-            //crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(height: 38),
+              //SizedBox(height: 38),
               const Text(
                 "バスに園児が残っています",
                 style: TextStyle(
                     fontSize: 24, color: kFontColor, fontFamily: 'KiwiMaru-R'),
               ),
-              SizedBox(height: 10),
+              //SizedBox(height: 10),
               Image.asset('assets/images/hiyoko_batsu.png'),
-              SizedBox(height: 12),
+              //SizedBox(height: 12),
               GestureDetector(
                 onTap: () {
                   Navigator.pop(context);

@@ -1,3 +1,4 @@
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:piyomiru_application/api/passenger.dart';
@@ -139,10 +140,15 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
               child: ActionButton(text: action, img: 'hiyoko_pencil.png')),
         ],
       ),
-      body: RefreshIndicator(
+      body: CustomRefreshIndicator(
         onRefresh: () async {
           _onReflesh();
         },
+        builder: MaterialIndicatorDelegate(
+          builder: (context, controller) {
+            return Image.asset('assets/images/hiyoko_anzen.png');
+          },
+        ),
         child: Stack(
           children: [
             passengerList == null || passengerList == 0

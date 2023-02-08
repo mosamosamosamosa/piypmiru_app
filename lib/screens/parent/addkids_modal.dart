@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nfc_in_flutter/nfc_in_flutter.dart';
@@ -27,6 +28,7 @@ class _AddkidsModalState extends State<AddkidsModal> {
   bool _hasClosedWriteDialog = false;
   int userId = 0;
 
+  final _audio = AudioCache();
   final TextEditingController mediaTypeController = TextEditingController();
   final TextEditingController payloadController = TextEditingController();
 
@@ -76,6 +78,7 @@ class _AddkidsModalState extends State<AddkidsModal> {
     // Write to the first tag scanned
     await NFC.writeNDEF(message).first;
     if (!_hasClosedWriteDialog) {
+      _audio.play('piyo.mov');
       showDialog(
         barrierDismissible: false,
         context: context,

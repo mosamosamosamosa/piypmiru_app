@@ -1,23 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:piyomiru_application/api/passenger.dart';
+import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/provider/provider.dart';
 import 'package:piyomiru_application/screens/driver/passengers_kids/passengers_list_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/driving_screen.dart';
 
-class ProfileModal extends StatefulWidget {
+class ProfileModal extends ConsumerStatefulWidget {
   ProfileModal({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<ProfileModal> createState() => _ProfileModalState();
+  _ProfileModalState createState() => _ProfileModalState();
 }
 
-class _ProfileModalState extends State<ProfileModal> {
+class _ProfileModalState extends ConsumerState<ProfileModal> {
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
+
+    //状態管理している値を取得する
+    final userIdState = ref.watch(userProvider);
+    final roleState = ref.watch(roleProvider);
+    final nameState = ref.watch(nameProvider);
+    final mailState = ref.watch(mailProvider);
+    final groupState = ref.watch(groupProvider);
+
+    //状態管理している値を操作できるようにする
+    final roleNotifier = ref.watch(roleProvider.notifier);
+    final nameNotifier = ref.watch(nameProvider.notifier);
+    final mailNotifier = ref.watch(mailProvider.notifier);
+    final groupNotifier = ref.watch(groupProvider.notifier);
 
     return Dialog(
       alignment: Alignment.center,
@@ -82,7 +98,7 @@ class _ProfileModalState extends State<ProfileModal> {
                         children: [
                           SizedBox(width: 20),
                           Text(
-                            "〇〇 〇〇さん",
+                            "$nameStateさん",
                             style: const TextStyle(
                                 fontSize: 24,
                                 color: kFontColor,
@@ -112,14 +128,24 @@ class _ProfileModalState extends State<ProfileModal> {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: kSubBackgroundColor,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
+                      roleState
+                          ? Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: kSubBackgroundColor,
+                                shape: BoxShape.circle,
+                              ),
+                            )
+                          : Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: Color(0XFFD9D9D9),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                      SizedBox(width: 5),
                       Text(
                         "運転手または添乗員",
                         style: const TextStyle(
@@ -131,14 +157,24 @@ class _ProfileModalState extends State<ProfileModal> {
                   ),
                   Row(
                     children: [
-                      Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: Color(0XFFD9D9D9),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
+                      roleState
+                          ? Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: Color(0XFFD9D9D9),
+                                shape: BoxShape.circle,
+                              ),
+                            )
+                          : Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: kSubBackgroundColor,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                      SizedBox(width: 5),
                       Text(
                         "保護者",
                         style: const TextStyle(
@@ -179,7 +215,7 @@ class _ProfileModalState extends State<ProfileModal> {
                         children: [
                           SizedBox(width: 20),
                           Text(
-                            "test.gmail.com",
+                            mailState,
                             style: const TextStyle(
                                 fontSize: 24,
                                 color: kFontColor,
@@ -220,11 +256,11 @@ class _ProfileModalState extends State<ProfileModal> {
                         children: [
                           SizedBox(width: 20),
                           Text(
-                            "ぴよみる幼稚園",
+                            groupState,
                             style: const TextStyle(
                                 fontSize: 24,
                                 color: kFontColor,
-                                fontFamily: 'Rajdhani-M'),
+                                fontFamily: 'KiwiMaru-L'),
                           ),
                         ],
                       ),

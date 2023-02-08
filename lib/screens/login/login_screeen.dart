@@ -25,13 +25,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // 状態管理している値を取得する
-    final userIdState = ref.watch(userProvider);
     // 状態管理している値を操作できるようにする
     //ユーザID
     final userIdNotifier = ref.watch(userProvider.notifier);
+
     //ファミリーID
     final familyIdNotifier = ref.watch(familyProvider.notifier);
+
+    //運転手か、保護者か
+    final roleNotifier = ref.watch(roleProvider.notifier);
 
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
@@ -178,6 +180,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           Users().getMailIdUsers(name).then((value) => {
                                 userIdNotifier.state = value,
                                 Users().getroleUser(value).then((value) => {
+                                      roleNotifier.state = value,
                                       if (value == true)
                                         {
                                           Navigator.push(

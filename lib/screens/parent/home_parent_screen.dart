@@ -5,7 +5,6 @@ import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/screens/driver/home/add_bus_modal.dart';
 
-import 'package:piyomiru_application/screens/driver/home/logout_modal.dart';
 import 'package:piyomiru_application/screens/driver/operation/operation_screen.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/driving_screen.dart';
@@ -15,6 +14,7 @@ import 'package:piyomiru_application/screens/parent/family_list.dart';
 import 'package:piyomiru_application/screens/parent/operation_parent_screen.dart';
 import 'package:piyomiru_application/screens/parent/passengers_parent_screen.dart';
 import 'package:piyomiru_application/screens/parent/stop_parent_screen.dart';
+import 'package:piyomiru_application/screens/setting_screen.dart';
 
 class HomeParentScreen extends StatefulWidget {
   HomeParentScreen({Key? key, required this.familyId}) : super(key: key);
@@ -94,10 +94,9 @@ class _HomeParentScreenState extends State<HomeParentScreen> {
           ),
           GestureDetector(
             onTap: () {
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (BuildContext context) => LogoutModal(),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingScreen()),
               );
             },
             child: const ActionButton(

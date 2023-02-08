@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nfc_in_flutter/nfc_in_flutter.dart';
@@ -27,6 +28,7 @@ class NfcScanModal extends ConsumerStatefulWidget {
 }
 
 class _NfcScanModalState extends ConsumerState<NfcScanModal> {
+  final _audio = AudioCache();
   bool _supportsNFC = false;
 
   bool failed = false;
@@ -74,7 +76,7 @@ class _NfcScanModalState extends ConsumerState<NfcScanModal> {
               children: [
                 widget.success //////////スキャン成功したら表示//////////
                     ? Text(
-                        "${widget.kidName}さん登録完了！",
+                        "${widget.kidName}さん\n登録が完了しました！",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 24,
@@ -100,7 +102,7 @@ class _NfcScanModalState extends ConsumerState<NfcScanModal> {
                                 fontFamily: 'KiwiMaru-R'),
                           ),
                 widget.success //////////スキャン成功したら表示//////////
-                    ? Image.asset('assets/images/hiyoko_success.png')
+                    ? Image.asset('assets/images/hiyoko_success_deden.png')
                     : failed //////////スキャン失敗したら表示//////////
                         ? Image.asset('assets/images/hiyoko_batsu.png')
 

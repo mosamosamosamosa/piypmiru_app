@@ -113,15 +113,15 @@ class _NfcScanSampModalState extends State<NfcScanSampModal> {
 
     return Stack(
       children: [
-        Positioned(
-            top: 210,
-            left: 35,
-            child: Image.asset('assets/images/hiyoko_anzen.png')),
+        // Positioned(
+        //     top: 210,
+        //     left: 35,
+        //     child: Image.asset('assets/images/hiyoko_anzen.png')),
         Dialog(
           alignment: Alignment.center,
           insetPadding: const EdgeInsets.only(
-            bottom: 280,
-            top: 280,
+            bottom: 260,
+            top: 260,
             left: 24,
             right: 24,
           ),
@@ -144,21 +144,83 @@ class _NfcScanSampModalState extends State<NfcScanSampModal> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   widget.success
-                      ? Text(
-                          "$nameさん\nスキャン完了！",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 24,
-                            color: kFontColor,
-                          ),
+                      ? Column(
+                          children: [
+                            Text(
+                              "$nameさん\nスキャンが完了しました！",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 24,
+                                color: kFontColor,
+                              ),
+                            ),
+                            Image.asset(
+                                'assets/images/hiyoko_success_deden.png')
+                          ],
                         )
-                      : const Text(
-                          "NFCカードを\nスキャンしてください",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 24,
-                              color: kFontColor,
-                              fontFamily: 'KiwiMaru-R'),
+                      : Column(
+                          children: [
+                            const Text(
+                              "NFCカードを\nスキャンしてください",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  color: kFontColor,
+                                  fontFamily: 'KiwiMaru-R'),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Stack(
+                                  alignment: AlignmentDirectional.center,
+                                  children: [
+                                    Container(
+                                      height: 86,
+                                      width: 86,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: kInputColor,
+                                        //color: kSubBackgroundColor,
+                                      ),
+                                    ),
+                                    Image.asset(
+                                        'assets/images/hiyoko_nfc_left.png')
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Image.asset('assets/images/nfc_sannkaku.png'),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Image.asset('assets/images/nfc_sannkaku.png'),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Image.asset('assets/images/nfc_sannkaku.png'),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Stack(
+                                  alignment: AlignmentDirectional.center,
+                                  children: [
+                                    Container(
+                                      height: 86,
+                                      width: 86,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: kInputColor,
+                                        //color: kSubBackgroundColor,
+                                      ),
+                                    ),
+                                    Image.asset(
+                                        'assets/images/hiyoko_nfc_right.png')
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                   widget.success
                       ? GestureDetector(

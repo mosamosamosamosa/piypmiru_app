@@ -116,7 +116,7 @@ class _PassengerParentScreenState extends State<PassengerParentScreen> {
                               fontFamily: 'KiwiMaru-L'),
                         ),
                         SizedBox(height: deviceH * 0.12),
-                        Image.asset('assets/images/kids.png'),
+                        Image.asset('assets/images/kids_trio.png'),
                       ],
                     ),
                   )

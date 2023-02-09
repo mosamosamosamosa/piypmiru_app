@@ -6,6 +6,7 @@ import 'package:piyomiru_application/screens/driver/home/home_driver_screen.dart
 import 'package:piyomiru_application/screens/login/login_screeen.dart';
 
 import 'package:piyomiru_application/screens/signup/chose_screen.dart';
+import 'package:piyomiru_application/screens/signup/lp_screen.dart';
 
 void main() {
   runApp(ProviderScope(child: MyApp()));
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/': (BuildContext context) => LoginScreen(),
         '/home': (BuildContext context) => HomeDriverScreen(),
-        '/signup': (BuildContext context) => ChoseScreen(),
+        '/lp': (BuildContext context) => LpScreen(),
       },
     );
   }

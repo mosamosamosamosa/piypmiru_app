@@ -111,7 +111,7 @@ class _LpScreenState extends State<LpScreen> {
                           SizedBox(
                             height: 56,
                           ),
-                          Image.asset('assets/images/kids.png'),
+                          Image.asset('assets/images/kids_trio.png'),
                           SizedBox(
                             height: 52,
                           ),
@@ -162,7 +162,7 @@ class _LpScreenState extends State<LpScreen> {
                         /////////////lpページ1の右矢印ボタン//////////////////
                         top: 175,
                         bottom: 175,
-                        right: 25,
+                        right: 12,
                         child: GestureDetector(
                             onTap: () {
                               //print("PageCount=$LpPageIndex");//LpPageIndexの値確認
@@ -278,7 +278,7 @@ class _LpScreenState extends State<LpScreen> {
                         /////////////lpページ2の左矢印ボタン//////////////////
                         top: 175,
                         bottom: 175,
-                        left: 25,
+                        left: 12,
                         child: GestureDetector(
                             onTap: () {
                               //print("PageCount=$LpPageIndex");//LpPageIndexの値確認
@@ -295,7 +295,7 @@ class _LpScreenState extends State<LpScreen> {
                         /////////////lpページ2の右矢印ボタン//////////////////
                         top: 175,
                         bottom: 175,
-                        right: 25,
+                        right: 12,
                         child: GestureDetector(
                             onTap: () {
                               //print("PageCount=$LpPageIndex");//LpPageIndexの値確認
@@ -412,7 +412,7 @@ class _LpScreenState extends State<LpScreen> {
                         /////////////lpページの3右矢印ボタン//////////////////
                         top: 175,
                         bottom: 175,
-                        left: 25,
+                        left: 12,
                         child: GestureDetector(
                             onTap: () {
                               //print("PageCount=$LpPageIndex");//LpPageIndexの値確認

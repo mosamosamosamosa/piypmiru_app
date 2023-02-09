@@ -112,7 +112,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
             },
             child: const ActionButton(
               text: "設定",
-              img: "frog.png",
+              img: "setting.png",
             ),
           ),
         ],

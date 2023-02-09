@@ -102,7 +102,7 @@ class _HomeParentScreenState extends State<HomeParentScreen> {
             },
             child: const ActionButton(
               text: "設定",
-              img: "frog.png",
+              img: "setting.png",
             ),
           ),
         ],

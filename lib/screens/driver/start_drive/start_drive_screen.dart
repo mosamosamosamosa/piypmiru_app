@@ -63,7 +63,7 @@ class StartDriveScreen extends StatelessWidget {
               },
               child: const ActionButton(
                 text: "設定",
-                img: "frog.png",
+                img: "setting.png",
               ),
             ),
           ],

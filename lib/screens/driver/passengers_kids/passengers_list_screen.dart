@@ -187,7 +187,7 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                           ),
                         ),
                         SizedBox(height: deviceH * 0.12),
-                        Image.asset('assets/images/kids.png'),
+                        Image.asset('assets/images/kids_trio.png'),
                       ],
                     ),
                   )

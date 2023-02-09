@@ -136,7 +136,7 @@ class _FamilyListScreenState extends ConsumerState<FamilyListScreen> {
                           ),
                         ),
                         SizedBox(height: deviceH * 0.12),
-                        Image.asset('assets/images/kids.png'),
+                        Image.asset('assets/images/kids_trio.png'),
                       ],
                     ),
                   )

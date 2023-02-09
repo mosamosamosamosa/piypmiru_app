@@ -189,7 +189,7 @@ class _OperationScreenState extends State<OperationScreen> {
               },
               child: const ActionButton(
                 text: "設定",
-                img: "frog.png",
+                img: "setting.png",
               ),
             ),
           ],

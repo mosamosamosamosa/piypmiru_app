@@ -238,7 +238,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         )),
                     GestureDetector(
                       onTap: () {
-                        Navigator.of(context).pushReplacementNamed("/signup");
+                        Navigator.of(context).pushReplacementNamed("/lp");
                       },
                       child: const Text("登録はこちら",
                           style: TextStyle(

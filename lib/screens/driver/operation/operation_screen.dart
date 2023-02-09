@@ -239,7 +239,7 @@ class _OperationScreenState extends State<OperationScreen> {
                         ],
                       ),
                       SizedBox(height: deviceH * 0.04),
-                      Image.asset('assets/images/bus_drive_home.png'),
+                      Image.asset('assets/images/bus_start_home.png'),
                     ],
                   ),
                 ],
@@ -248,63 +248,113 @@ class _OperationScreenState extends State<OperationScreen> {
             Positioned(
               height: deviceH,
               width: deviceW,
-              bottom: -deviceH * 0.3,
+              bottom: -deviceH * 0.7,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          var f = Passenger().getAllPassenger(operationId);
+                    onTap: () {
+                      setState(() {
+                        var f = Passenger().getAllPassenger(operationId);
 
-                          f.then((value) => {
-                                idList = value,
-                                print(idList),
-                                //nameList[0] = Users().getUser(1),
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => PassengerListScreen(
-                                            drive: true,
-                                            busId: busId,
-                                            operationId: operationId,
-                                            busName: widget.busName,
-                                          )),
-                                ),
-                              });
-                        });
-                      },
-                      child:
-                          AppSubButton(text: "乗車中園児確認", image: "chulip.png")),
+                        f.then((value) => {
+                              idList = value,
+                              print(idList),
+                              //nameList[0] = Users().getUser(1),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PassengerListScreen(
+                                          drive: true,
+                                          busId: busId,
+                                          operationId: operationId,
+                                          busName: widget.busName,
+                                        )),
+                              ),
+                            });
+                      });
+                    },
+                    child: Column(
+                      children: [
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              //alignment: Alignment.center,
+                              width: 145,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  color: kSubBackgroundColor,
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
+                            Text(
+                              "乗車中園児確認",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                //fontWeight: FontWeight.bold,
+                                fontFamily: 'KiwiMaru-M', color: kFontColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Image.asset('assets/images/tulip_red.png'),
+                      ],
+                    ),
+                  ),
                   GestureDetector(
-                      onTap: () {
-                        //押した時の処理
+                    onTap: () {
+                      //押した時の処理
 
-                        Passenger()
-                            .getAllPassenger(operationId)
-                            .then((passengerList) => {
-                                  showDialog(
-                                    barrierDismissible: false,
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        NfcScanSampModal(
-                                            passengers: passengerList,
-                                            operationId: operationId,
-                                            success: false),
-                                  )
-                                });
+                      Passenger()
+                          .getAllPassenger(operationId)
+                          .then((passengerList) => {
+                                showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      NfcScanSampModal(
+                                          passengers: passengerList,
+                                          operationId: operationId,
+                                          success: false),
+                                )
+                              });
 
-                        // showDialog(
-                        //   barrierDismissible: true,
-                        //   context: context,
-                        //   builder: (BuildContext context) => NfcScanModal(
-                        //     passengers: idList,
-                        //     operationId: operationId,
-                        //   ),
-                        // );
-                      },
-                      child:
-                          AppSubButton(text: "NFCスキャナー", image: "hiyoko.png")),
+                      // showDialog(
+                      //   barrierDismissible: true,
+                      //   context: context,
+                      //   builder: (BuildContext context) => NfcScanModal(
+                      //     passengers: idList,
+                      //     operationId: operationId,
+                      //   ),
+                      // );
+                    },
+                    child: Column(
+                      children: [
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              //alignment: Alignment.center,
+                              width: 145,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  color: kSubBackgroundColor,
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
+                            Text(
+                              "NFCスキャナー",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                //fontWeight: FontWeight.bold,
+                                fontFamily: 'KiwiMaru-M', color: kFontColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Image.asset('assets/images/tulip_yellow.png'),
+                      ],
+                    ),
+                  )
                 ],
               ),
             )

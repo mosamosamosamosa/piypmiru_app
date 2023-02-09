@@ -22,7 +22,7 @@ class PassengerButton extends StatelessWidget {
               // ボタン下
               BoxShadow(
                 color: Color(0xFFDAB357),
-                offset: Offset(0, 18),
+                offset: Offset(0, 12),
               ),
 
               // ボタン上
@@ -41,10 +41,10 @@ class PassengerButton extends StatelessWidget {
               Text(
                 "乗車中園児確認",
                 style: TextStyle(
-                    fontSize: 30, color: kFontColor, fontFamily: 'KiwiMaru-M'),
+                    fontSize: 30, color: kFontColor, fontFamily: 'KiwiMaru-R'),
               ),
               SizedBox(width: 6),
-              Image.asset('assets/images/chulip.png'),
+              Image.asset('assets/images/tulip_red_small.png'),
             ]),
       ],
     );

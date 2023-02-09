@@ -130,7 +130,7 @@ class _OperationParentScreenState extends State<OperationParentScreen> {
                         ),
                       ),
                       SizedBox(height: deviceH * 0.04),
-                      Image.asset('assets/images/bus_drive_home.png'),
+                      Image.asset('assets/images/bus_start_home.png'),
                     ],
                   ),
                 ],

@@ -11,13 +11,13 @@ class Passenger {
   int passengerUser = 0;
   int index = 0;
   //late Map<String, dynamic> passenger;
-  late List<Map<String, dynamic>> passengerList;
+  late List<Map<String, dynamic>> passengerList = [];
   var passengerMap;
   List<Map<String, dynamic>> idList = [];
   //List<dynamic> nameList = [];
 
   getAllPassenger(int operationId) async {
-    print("呼び出されました");
+    print("呼び出されました:$operationId");
     var request_all_passenger =
         http.Request('GET', Uri.parse('${Clients().url}/passenger'));
     request_all_passenger.body = '''''';

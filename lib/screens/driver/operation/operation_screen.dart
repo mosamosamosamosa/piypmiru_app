@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nfc_in_flutter/nfc_in_flutter.dart';
 import 'package:piyomiru_application/api/buses.dart';
 import 'package:piyomiru_application/api/operation.dart';
@@ -21,22 +22,24 @@ import 'package:piyomiru_application/screens/parent/nfc_scan_modal.dart';
 import 'package:piyomiru_application/screens/setting_screen.dart';
 
 //バス運行中画面
-class OperationScreen extends StatefulWidget {
-  OperationScreen({Key? key, required this.busName}) : super(key: key);
+class OperationScreen extends ConsumerStatefulWidget {
+  OperationScreen({Key? key, required this.busName, required this.operationId})
+      : super(key: key);
 
   final String busName;
+  final int operationId;
   @override
   _OperationScreenState createState() => _OperationScreenState();
 }
 
-class _OperationScreenState extends State<OperationScreen> {
+class _OperationScreenState extends ConsumerState<OperationScreen> {
   StreamSubscription<NDEFMessage>? _stream;
 
   var idList;
   var kidsList;
   var nameList;
   var busId;
-  var operationId;
+
   int userId = 0;
 
   void _startScanning() {
@@ -85,13 +88,13 @@ class _OperationScreenState extends State<OperationScreen> {
   void _toggleScan() {
     if (_stream == null) {
       _startScanning();
-      Passenger().getAllPassenger(operationId).then((passengerList) => {
+      Passenger().getAllPassenger(widget.operationId).then((passengerList) => {
             showDialog(
               barrierDismissible: false,
               context: context,
               builder: (BuildContext context) => NfcScanSampModal(
                   passengers: passengerList,
-                  operationId: operationId,
+                  operationId: widget.operationId,
                   success: false),
             )
           });
@@ -108,11 +111,6 @@ class _OperationScreenState extends State<OperationScreen> {
           setState(() {
             busId = value;
           }),
-          Operation().getIdOperation(busId).then((value) => {
-                setState(() {
-                  operationId = value;
-                }),
-              })
         });
     super.initState();
   }
@@ -255,7 +253,7 @@ class _OperationScreenState extends State<OperationScreen> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        var f = Passenger().getAllPassenger(operationId);
+                        var f = Passenger().getAllPassenger(widget.operationId);
 
                         f.then((value) => {
                               idList = value,
@@ -267,7 +265,7 @@ class _OperationScreenState extends State<OperationScreen> {
                                     builder: (context) => PassengerListScreen(
                                           drive: true,
                                           busId: busId,
-                                          operationId: operationId,
+                                          operationId: widget.operationId,
                                           busName: widget.busName,
                                         )),
                               ),
@@ -306,7 +304,7 @@ class _OperationScreenState extends State<OperationScreen> {
                       //押した時の処理
 
                       Passenger()
-                          .getAllPassenger(operationId)
+                          .getAllPassenger(widget.operationId)
                           .then((passengerList) => {
                                 showDialog(
                                   barrierDismissible: false,
@@ -314,7 +312,7 @@ class _OperationScreenState extends State<OperationScreen> {
                                   builder: (BuildContext context) =>
                                       NfcScanSampModal(
                                           passengers: passengerList,
-                                          operationId: operationId,
+                                          operationId: widget.operationId,
                                           success: false),
                                 )
                               });

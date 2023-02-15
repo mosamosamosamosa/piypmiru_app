@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:piyomiru_application/api/buses.dart';
 import 'package:piyomiru_application/api/operation.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
+import 'package:piyomiru_application/provider/provider.dart';
 import 'package:piyomiru_application/screens/driver/operation/operation_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/driving_screen.dart';
 
-class StartDriveModal extends StatelessWidget {
-  StartDriveModal({
-    Key? key,
-    required this.busName,
-  }) : super(key: key);
+class StartDriveModal extends ConsumerStatefulWidget {
+  StartDriveModal({Key? key, required this.busName}) : super(key: key);
 
   final String busName;
+  @override
+  _StartDriveModalState createState() => _StartDriveModalState();
+}
+
+class _StartDriveModalState extends ConsumerState<StartDriveModal> {
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
+
+    final opeNotifier = ref.watch(opeProvider.notifier);
 
     return Dialog(
       alignment: Alignment.center,
@@ -82,16 +88,22 @@ class StartDriveModal extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Buses().getIdBuses(busName).then((value) => {
+                      Buses().getIdBuses(widget.busName).then((value) => {
                             Operation()
                                 .postOperation(true, false, value)
                                 .then((value) => {
+                                      print("opeId:$value"),
+                                      setState(() {
+                                        opeNotifier.state = value;
+                                      }),
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 OperationScreen(
-                                                    busName: busName)),
+                                                  busName: widget.busName,
+                                                  operationId: value,
+                                                )),
                                       )
                                     })
                           });

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:piyomiru_application/api/buses.dart';
 import 'package:piyomiru_application/api/operation.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/components/compbutton.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
+import 'package:piyomiru_application/provider/provider.dart';
 import 'package:piyomiru_application/screens/driver/home/add_bus_modal.dart';
 import 'package:piyomiru_application/screens/driver/home/delete_bus_modal.dart';
 
@@ -15,7 +17,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/screens/setting_screen.dart';
 
-class HomeDriverScreen extends StatefulWidget {
+class HomeDriverScreen extends ConsumerStatefulWidget {
   HomeDriverScreen({
     Key? key,
   }) : super(key: key);
@@ -26,7 +28,7 @@ class HomeDriverScreen extends StatefulWidget {
   _HomeDriverScreenState createState() => _HomeDriverScreenState();
 }
 
-class _HomeDriverScreenState extends State<HomeDriverScreen> {
+class _HomeDriverScreenState extends ConsumerState<HomeDriverScreen> {
   int? selectedId;
   bool del = false;
   var kidsList;
@@ -62,6 +64,8 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
     String group_name = groups_list[0].name;
+
+    final opeState = ref.watch(opeProvider);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -171,7 +175,8 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => OperationScreen(
-                                    busName: widget.busList[index])),
+                                    busName: widget.busList[index],
+                                    operationId: opeState)),
                           );
                         }
 

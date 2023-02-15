@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/components/app_button.dart';
 import 'package:piyomiru_application/constants.dart';
@@ -7,14 +8,15 @@ import 'package:piyomiru_application/screens/driver/register_kids/registeredkids
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_modal.dart';
 import 'package:piyomiru_application/screens/setting_screen.dart';
 
-class StartDriveScreen extends StatelessWidget {
-  StartDriveScreen({
-    Key? key,
-    required this.busName,
-  }) : super(key: key);
+class StartDriveScreen extends ConsumerStatefulWidget {
+  StartDriveScreen({Key? key, required this.busName}) : super(key: key);
 
   final String busName;
+  @override
+  _StartDriveScreenState createState() => _StartDriveScreenState();
+}
 
+class _StartDriveScreenState extends ConsumerState<StartDriveScreen> {
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
@@ -78,7 +80,7 @@ class StartDriveScreen extends StatelessWidget {
                 children: [
                   SizedBox(height: deviceH * 0.18),
                   Text(
-                    "$busName停車中",
+                    "${widget.busName}停車中",
                     style: const TextStyle(
                         fontSize: 40,
                         //fontWeight: FontWeight.bold,
@@ -100,7 +102,7 @@ class StartDriveScreen extends StatelessWidget {
                               barrierDismissible: false,
                               context: context,
                               builder: (BuildContext context) =>
-                                  StartDriveModal(busName: busName),
+                                  StartDriveModal(busName: widget.busName),
                             );
                           },
                           child: const AppButton(

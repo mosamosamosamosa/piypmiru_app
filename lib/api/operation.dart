@@ -50,6 +50,8 @@ class Operation {
   }
 
   postOperation(bool start, bool end, int busId) async {
+    late Map<String, dynamic> operationList;
+
     var request = http.Request('POST', Uri.parse('${Clients().url}/operation'));
     request.body = json.encode({"start": start, "end": end, "bus_id": busId});
     request.headers.addAll(headers);
@@ -57,8 +59,10 @@ class Operation {
     http.StreamedResponse stream_response = await request.send();
     var response = await http.Response.fromStream(stream_response);
 
-    if (response.statusCode == 200) {
-      print("成功");
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      operationList = jsonDecode(response.body);
+      print(operationList['id']);
+      return operationList['id'];
     } else {
       print(response.reasonPhrase);
     }

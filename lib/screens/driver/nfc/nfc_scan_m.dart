@@ -2,15 +2,17 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nfc_in_flutter/nfc_in_flutter.dart';
 import 'package:piyomiru_application/api/passenger.dart';
 import 'package:piyomiru_application/api/users.dart';
 //import 'package:nfc_in_flutter/nfc_in_flutter.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/nfc/nfc_scan.dart';
+import 'package:piyomiru_application/provider/provider.dart';
 import 'package:piyomiru_application/screens/driver/nfc/nfc_success_modal.dart';
 
-class NfcScanSampModal extends StatefulWidget {
+class NfcScanSampModal extends ConsumerStatefulWidget {
   NfcScanSampModal(
       {Key? key,
       required this.passengers,
@@ -27,7 +29,7 @@ class NfcScanSampModal extends StatefulWidget {
   _NfcScanSampModalState createState() => _NfcScanSampModalState();
 }
 
-class _NfcScanSampModalState extends State<NfcScanSampModal> {
+class _NfcScanSampModalState extends ConsumerState<NfcScanSampModal> {
   StreamSubscription<NDEFMessage>? _stream;
   bool _supportsNFC = false;
   bool _reading = false;
@@ -110,6 +112,9 @@ class _NfcScanSampModalState extends State<NfcScanSampModal> {
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
+
+    //状態管理している値を取得する
+    final operationState = ref.watch(opeProvider);
 
     return Stack(
       children: [
@@ -226,7 +231,8 @@ class _NfcScanSampModalState extends State<NfcScanSampModal> {
                       ? GestureDetector(
                           onTap: () {
                             if ((widget.passengers) != 0 &&
-                                widget.passengers != null) {
+                                widget.passengers != null &&
+                                widget.passengers != []) {
                               print(widget.passengers);
                               print("乗客リストいます");
                               print(userId);

@@ -45,8 +45,8 @@ class _AddkidsModalState extends State<AddkidsModal> {
     List<NDEFRecord> records = _records.map((record) {
       print("受け取れたID:${userId}");
       return NDEFRecord.type(
-        userId.toString(),
         payloadController.text,
+        userId.toString(),
       );
     }).toList();
 

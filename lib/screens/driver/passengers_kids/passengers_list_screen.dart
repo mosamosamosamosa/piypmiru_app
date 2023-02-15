@@ -1,5 +1,6 @@
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:piyomiru_application/api/passenger.dart';
 import 'package:piyomiru_application/api/users.dart';
@@ -10,6 +11,7 @@ import 'package:piyomiru_application/components/listitem.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
 import 'package:intl/intl.dart';
+import 'package:piyomiru_application/provider/provider.dart';
 import 'package:piyomiru_application/screens/driver/home/home_driver_screen.dart';
 import 'package:piyomiru_application/screens/driver/operation/operation_screen.dart';
 import 'package:piyomiru_application/screens/driver/passengers_kids/addpass_modal.dart';
@@ -20,7 +22,7 @@ import 'package:piyomiru_application/screens/driver/register_kids/addlist_modal.
 import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_screen.dart';
 
-class PassengerListScreen extends StatefulWidget {
+class PassengerListScreen extends ConsumerStatefulWidget {
   PassengerListScreen(
       {Key? key,
       required this.busName,
@@ -38,7 +40,7 @@ class PassengerListScreen extends StatefulWidget {
   _PassengerListScreenState createState() => _PassengerListScreenState();
 }
 
-class _PassengerListScreenState extends State<PassengerListScreen> {
+class _PassengerListScreenState extends ConsumerState<PassengerListScreen> {
   late bool pushable;
 
   bool editable = false;
@@ -94,6 +96,8 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
 
     DateFormat outputFormat = DateFormat('yyyy/MM/dd H:m');
 
+    final opeState = ref.watch(opeProvider);
+
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
@@ -108,6 +112,7 @@ class _PassengerListScreenState extends State<PassengerListScreen> {
                 MaterialPageRoute(
                     builder: (context) => OperationScreen(
                           busName: widget.busName,
+                          operationId: opeState,
                         )),
               );
             },

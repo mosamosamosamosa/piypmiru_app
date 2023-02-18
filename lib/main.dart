@@ -1,5 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:piyomiru_application/firebase_options.dart';
 import 'package:piyomiru_application/riverpod_samp/my_widget.dart';
 
 import 'package:piyomiru_application/screens/driver/home/home_driver_screen.dart';
@@ -8,7 +10,11 @@ import 'package:piyomiru_application/screens/login/login_screeen.dart';
 import 'package:piyomiru_application/screens/signup/chose_screen.dart';
 import 'package:piyomiru_application/screens/signup/lp_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.android,
+  );
   runApp(ProviderScope(child: MyApp()));
 }
 

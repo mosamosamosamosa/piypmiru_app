@@ -49,6 +49,11 @@ dependencies:
   flutter_riverpod: ^1.0.3
   audioplayers: ^0.19.1
   custom_refresh_indicator: ^2.0.1
+  firebase_core: ^2.6.0
+  firebase_messaging: ^14.2.3
+  flutter_local_notifications: ^9.0.0
+
+
   
 
 

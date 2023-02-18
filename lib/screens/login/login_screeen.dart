@@ -1,3 +1,4 @@
+//import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -22,6 +23,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool pushP = false;
   String name = '';
   var busList;
+
+  // FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   _firebaseMessaging.getToken().then((value) {
+  //     print("$value");
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

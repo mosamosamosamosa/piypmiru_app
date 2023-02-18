@@ -1,11 +1,13 @@
-//import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:piyomiru_application/api/buses.dart';
 import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/components/nomal_button.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/main.dart';
 import 'package:piyomiru_application/provider/provider.dart';
 import 'package:piyomiru_application/screens/driver/home/home_driver_screen.dart';
 import 'package:piyomiru_application/screens/parent/home_parent_screen.dart';
@@ -24,16 +26,37 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   String name = '';
   var busList;
 
-  // FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
-  // @override
-  // void initState() {
-  //   super.initState();
+  @override
+  void initState() {
+    super.initState();
 
-  //   _firebaseMessaging.getToken().then((value) {
-  //     print("$value");
-  //   });
-  // }
+    _firebaseMessaging.getToken().then((value) {
+      print("トークン:$value");
+    });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("フォアグラウンドでメッセージを受け取りました");
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                // channel.description,
+                icon: 'launch_background',
+              ),
+            ));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

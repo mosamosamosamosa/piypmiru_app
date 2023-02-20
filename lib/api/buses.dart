@@ -23,7 +23,6 @@ class Buses {
         busList.add(element['name']);
       });
       return busList;
-      print(busList);
     } else {
       print(response.reasonPhrase);
     }

@@ -7,6 +7,7 @@ import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/components/addlistitem.dart';
 import 'package:piyomiru_application/components/app_button.dart';
 import 'package:piyomiru_application/components/listitem.dart';
+import 'package:piyomiru_application/components/listitem_family.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/data/database.dart';
 import 'package:intl/intl.dart';
@@ -17,6 +18,8 @@ import 'package:piyomiru_application/screens/driver/passengers_kids/stop_drive_m
 import 'package:piyomiru_application/screens/driver/register_kids/addlist_modal.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/start_drive_screen.dart';
+import 'package:piyomiru_application/screens/parent/family_comp2_modak.dart';
+import 'package:piyomiru_application/screens/parent/family_modal.dart';
 import 'package:piyomiru_application/screens/parent/home_parent_screen.dart';
 
 //////////package:piyomiru_application/screens/parent/home_parent_screen.dartから呼ばれています！//////////
@@ -39,7 +42,6 @@ class _FamilyListScreenState extends ConsumerState<FamilyListScreen> {
     Users().getkidsUsers(widget.familyId).then((value) => {
           setState(() {
             familyList = value;
-            print('家族：$familyList');
           }),
         });
 
@@ -65,6 +67,7 @@ class _FamilyListScreenState extends ConsumerState<FamilyListScreen> {
     DateFormat outputFormat = DateFormat('yyyy/MM/dd H:m');
 
     final familyIdState = ref.watch(familyProvider);
+    final pushState = ref.watch(pushProvider);
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -161,13 +164,81 @@ class _FamilyListScreenState extends ConsumerState<FamilyListScreen> {
                               child: const Addlistitem());
                         }
 
-                        return Listitem(
-                            userId: 1, //仮
-                            editable: false,
-                            image: passengers_list[index].image,
-                            name: familyList[index],
-                            ride: true,
-                            datetime: outputFormat.format(DateTime.now()));
+                        return Stack(
+                          children: [
+                            ListitemFamily(
+                                userId: 1, //仮
+                                editable: false,
+                                image: passengers_list[index].image,
+                                name: familyList[index],
+                                ride: true,
+                                datetime: outputFormat.format(DateTime.now())),
+                            Positioned(
+                              top: 30,
+                              right: 40,
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (pushState[index] % 2 == 0) {
+                                    showDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          FamilyModal(
+                                        image: passengers_list[index].image,
+                                        name: familyList[index],
+                                        index: index,
+                                      ),
+                                    );
+                                  } else {
+                                    showDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          FamilyComp2Modal(
+                                        image: passengers_list[index].image,
+                                        name: familyList[index],
+                                        index: index,
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Container(
+                                      width: 55,
+                                      height: 55,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        boxShadow: [
+                                          // ボタン下
+                                          BoxShadow(
+                                              color: pushState[index] % 2 == 1
+                                                  ? const Color(0xFF80BADB)
+                                                  : const Color(0xFF72C37A),
+                                              offset: const Offset(0, 5)),
+
+                                          // ボタン上
+                                          BoxShadow(
+                                            color: pushState[index] % 2 == 1
+                                                ? const Color(0xFFA4DEFF)
+                                                : const Color(0xFFA9EFB0),
+                                            //blurRadius: 0,
+                                            offset: Offset(0, 0),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    pushState[index] % 2 == 1
+                                        ? Image.asset('assets/images/home.png')
+                                        : Image.asset(
+                                            'assets/images/bus_fami.png')
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
                       },
                     ),
                   )

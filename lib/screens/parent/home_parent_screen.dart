@@ -1,9 +1,11 @@
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:piyomiru_application/api/buses.dart';
 import 'package:piyomiru_application/api/operation.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/provider/provider.dart';
 import 'package:piyomiru_application/screens/driver/home/add_bus_modal.dart';
 
 import 'package:piyomiru_application/screens/driver/operation/operation_screen.dart';
@@ -17,7 +19,7 @@ import 'package:piyomiru_application/screens/parent/passengers_parent_screen.dar
 import 'package:piyomiru_application/screens/parent/stop_parent_screen.dart';
 import 'package:piyomiru_application/screens/setting_screen.dart';
 
-class HomeParentScreen extends StatefulWidget {
+class HomeParentScreen extends ConsumerStatefulWidget {
   HomeParentScreen({Key? key, required this.familyId}) : super(key: key);
 
   List<String> busList = [];
@@ -28,7 +30,7 @@ class HomeParentScreen extends StatefulWidget {
   _HomeParentScreenState createState() => _HomeParentScreenState();
 }
 
-class _HomeParentScreenState extends State<HomeParentScreen> {
+class _HomeParentScreenState extends ConsumerState<HomeParentScreen> {
   List<bool> statusList = [];
 
   @override
@@ -61,6 +63,8 @@ class _HomeParentScreenState extends State<HomeParentScreen> {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
 
+    final familyNotifier = ref.watch(familyProvider.notifier);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: kBackgroundColor,
@@ -81,6 +85,7 @@ class _HomeParentScreenState extends State<HomeParentScreen> {
         actions: [
           GestureDetector(
             onTap: () {
+              familyNotifier.state = widget.familyId;
               Navigator.push(
                 context,
                 MaterialPageRoute(

@@ -59,3 +59,8 @@ final StateProvider<int> bus3Provider = StateProvider((ref) {
 final StateProvider<List<int>> pushProvider = StateProvider((ref) {
   return List.generate(10, (i) => 0);
 });
+
+//更新可能な値：お見送りかお迎えか
+final StateProvider<bool> setoffProvider = StateProvider((ref) {
+  return true;
+});

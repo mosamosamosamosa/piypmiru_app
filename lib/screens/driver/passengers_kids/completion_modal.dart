@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:piyomiru_application/api/passenger.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/provider/provider.dart';
 import 'package:piyomiru_application/screens/driver/passengers_kids/passengers_list_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/driving_screen.dart';
 
-class CompletionModal extends StatelessWidget {
+class CompletionModal extends ConsumerStatefulWidget {
   CompletionModal(
       {Key? key,
+      required this.name,
+      required this.busName,
+      required this.image,
       required this.passId,
       required this.userId,
-      required this.name,
-      required this.image,
       required this.operationId,
-      required this.busId,
-      required this.busName})
+      required this.busId})
       : super(key: key);
 
   final String image;
@@ -24,10 +26,17 @@ class CompletionModal extends StatelessWidget {
   final int busId;
   final String busName;
 
+  // createState()　で"State"（Stateを継承したクラス）を返す
+  @override
+  _CompletionModalState createState() => _CompletionModalState();
+}
+
+class _CompletionModalState extends ConsumerState<CompletionModal> {
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
+    final setoffState = ref.watch(setoffProvider);
 
     return Dialog(
       alignment: Alignment.center,
@@ -77,7 +86,7 @@ class CompletionModal extends StatelessWidget {
                             color: Color(0XFFD9D9D9),
                             borderRadius: BorderRadius.circular(10)),
                       ),
-                      Image.asset('assets/images/$image'),
+                      Image.asset('assets/images/${widget.image}'),
                     ],
                   ),
                   SizedBox(width: 12),
@@ -92,7 +101,7 @@ class CompletionModal extends StatelessWidget {
                             borderRadius: BorderRadius.circular(5)),
                       ),
                       Text(
-                        "$name",
+                        "${widget.name}",
                         style: const TextStyle(
                           fontSize: 24,
                           color: kFontColor,
@@ -135,20 +144,21 @@ class CompletionModal extends StatelessWidget {
                     onTap: () async {
                       //降車処理
 
-                      var f =
-                          Passenger().putPassenger(passId, userId, operationId);
+                      var f = Passenger().putPassenger(
+                          widget.passId, widget.userId, widget.operationId);
 
                       f.then((value) => {
-                            print("passId:$passId"),
-                            print("userId:$userId"),
+                            // print("passId:$passId"),
+                            // print("userId:$userId"),
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => PassengerListScreen(
-                                      busId: busId,
+                                      busId: widget.busId,
                                       drive: true,
-                                      operationId: operationId,
-                                      busName: busName)),
+                                      operationId: widget.operationId,
+                                      busName: widget.busName,
+                                      setoff: setoffState)),
                             )
                           });
                     },

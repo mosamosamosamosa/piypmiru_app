@@ -17,12 +17,15 @@ class StartDriveModal extends ConsumerStatefulWidget {
 }
 
 class _StartDriveModalState extends ConsumerState<StartDriveModal> {
+  bool selectA = false;
+  bool selectB = false;
   @override
   Widget build(BuildContext context) {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
 
     final opeNotifier = ref.watch(opeProvider.notifier);
+    final setoffNotifier = ref.watch(setoffProvider.notifier);
 
     return Dialog(
       alignment: Alignment.center,
@@ -51,13 +54,94 @@ class _StartDriveModalState extends ConsumerState<StartDriveModal> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             //crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 30),
+              //SizedBox(height: 30),
               const Text(
-                "本当に運転を開始しますか？",
+                "用途を選択してください",
                 style: TextStyle(
                     fontSize: 22, color: kFontColor, fontFamily: 'KiwiMaru-R'),
               ),
-              SizedBox(height: 42),
+              //SizedBox(height: 42),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      setoffNotifier.state = true;
+                      setState(() {
+                        selectA = true;
+                        selectB = false;
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        selectA
+                            ? Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  color: kSubBackgroundColor,
+                                  shape: BoxShape.circle,
+                                ),
+                              )
+                            : Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  color: Color(0XFFD9D9D9),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                        SizedBox(width: 5),
+                        Text(
+                          "お迎え",
+                          style: const TextStyle(
+                              fontSize: 22,
+                              color: kFontColor,
+                              fontFamily: 'KiwiMaru-R'),
+                        ),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setoffNotifier.state = false;
+                      setState(() {
+                        selectA = false;
+                        selectB = true;
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        !selectB
+                            ? Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  color: Color(0XFFD9D9D9),
+                                  shape: BoxShape.circle,
+                                ),
+                              )
+                            : Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  color: kSubBackgroundColor,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                        SizedBox(width: 5),
+                        Text(
+                          "お見送り",
+                          style: const TextStyle(
+                              fontSize: 22,
+                              color: kFontColor,
+                              fontFamily: 'KiwiMaru-R'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -103,6 +187,7 @@ class _StartDriveModalState extends ConsumerState<StartDriveModal> {
                                                 OperationScreen(
                                                   busName: widget.busName,
                                                   operationId: value,
+                                                  setoff: selectA,
                                                 )),
                                       )
                                     })
@@ -131,7 +216,7 @@ class _StartDriveModalState extends ConsumerState<StartDriveModal> {
                   ),
                 ],
               ),
-              SizedBox(height: 20)
+              //SizedBox(height: 20)
             ],
           ),
         ],

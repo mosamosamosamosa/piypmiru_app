@@ -13,6 +13,7 @@ import 'package:piyomiru_application/components/bus_iten_family.dart';
 import 'package:piyomiru_application/constants.dart';
 import 'package:piyomiru_application/screens/parent/family_comp_modal.dart';
 import 'package:piyomiru_application/screens/parent/nfc_scan_modal.dart';
+import 'package:piyomiru_application/screens/parent/notstart_modal.dart';
 import 'package:piyomiru_application/screens/parent/write_nfc_in_flutter.dart';
 
 class FamilyModal extends StatefulWidget {
@@ -118,11 +119,24 @@ class _FamilyModalState extends State<FamilyModal> {
                         SizedBox(width: 12),
                         GestureDetector(
                           onTap: () {
-                            setState(() {
-                              _selected = List.generate(3, (i) => false);
-                              _selected[index] = true;
-                              busName = busList[index];
-                            });
+                            if (statusList[index]) {
+                              setState(() {
+                                _selected = List.generate(3, (i) => false);
+                                _selected[index] = true;
+                                busName = busList[index];
+                              });
+                            } else {
+                              setState(() {
+                                busName = busList[index];
+                              });
+                              showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      NostartModal(
+                                        busName: busName,
+                                      ));
+                            }
                           },
                           child: Stack(
                             alignment: Alignment.bottomCenter,

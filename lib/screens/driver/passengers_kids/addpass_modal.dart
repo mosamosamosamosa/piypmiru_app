@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:piyomiru_application/api/passenger.dart';
 import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/constants.dart';
+import 'package:piyomiru_application/provider/provider.dart';
 import 'package:piyomiru_application/screens/driver/home/home_driver_screen.dart';
 import 'package:piyomiru_application/screens/driver/passengers_kids/passengers_list_screen.dart';
 
-class AddpassModal extends StatefulWidget {
+class AddpassModal extends ConsumerStatefulWidget {
   AddpassModal(
       {Key? key,
       required this.operationId,
@@ -18,10 +20,10 @@ class AddpassModal extends StatefulWidget {
   final int busId;
   final String busName;
   @override
-  State<AddpassModal> createState() => _AddpassModalState();
+  _AddpassModalState createState() => _AddpassModalState();
 }
 
-class _AddpassModalState extends State<AddpassModal> {
+class _AddpassModalState extends ConsumerState<AddpassModal> {
   String name = '';
   int userId = 0;
   @override
@@ -29,6 +31,8 @@ class _AddpassModalState extends State<AddpassModal> {
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
     //final controller = TextEditingController();
+
+    final setoffState = ref.watch(setoffProvider);
 
     return SingleChildScrollView(
       child: Dialog(
@@ -133,7 +137,8 @@ class _AddpassModalState extends State<AddpassModal> {
                                                 busId: widget.busId,
                                                 drive: true,
                                                 operationId: widget.operationId,
-                                                busName: widget.busName)),
+                                                busName: widget.busName,
+                                                setoff: setoffState)),
                                   ))
                             });
                       } else {

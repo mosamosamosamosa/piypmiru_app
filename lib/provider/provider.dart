@@ -39,3 +39,23 @@ final StateProvider<String> mailProvider = StateProvider((ref) {
 final StateProvider<String> groupProvider = StateProvider((ref) {
   return '';
 });
+
+//更新可能な値：１号車
+final StateProvider<int> bus1Provider = StateProvider((ref) {
+  return 0;
+});
+
+//更新可能な値：2号車
+final StateProvider<int> bus2Provider = StateProvider((ref) {
+  return 0;
+});
+
+//更新可能な値：3号車
+final StateProvider<int> bus3Provider = StateProvider((ref) {
+  return 0;
+});
+
+//更新可能な値：リスト
+final StateProvider<List<int>> pushProvider = StateProvider((ref) {
+  return List.generate(10, (i) => 0);
+});

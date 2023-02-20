@@ -31,6 +31,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    FirebaseMessaging.instance
+        .requestPermission(alert: true, announcement: true, badge: true);
 
     _firebaseMessaging.getToken().then((value) {
       print("トークン:$value");
@@ -42,6 +44,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       AndroidNotification? android = message.notification?.android;
 
       if (notification != null && android != null) {
+        print("分岐までこれた:${channel.id}!");
         flutterLocalNotificationsPlugin.show(
             notification.hashCode,
             notification.title,
@@ -54,6 +57,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 icon: 'launch_background',
               ),
             ));
+        print(channel.id);
       }
     });
   }

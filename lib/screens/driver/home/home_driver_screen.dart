@@ -63,6 +63,9 @@ class _HomeDriverScreenState extends ConsumerState<HomeDriverScreen> {
     print(widget.busList);
     double deviceW = MediaQuery.of(context).size.width;
     double deviceH = MediaQuery.of(context).size.height;
+
+    final setoffState = ref.watch(setoffProvider);
+
     String group_name = groups_list[0].name;
 
     final opeState = ref.watch(opeProvider);
@@ -176,7 +179,8 @@ class _HomeDriverScreenState extends ConsumerState<HomeDriverScreen> {
                             MaterialPageRoute(
                                 builder: (context) => OperationScreen(
                                     busName: widget.busList[index],
-                                    operationId: opeState)),
+                                    operationId: opeState,
+                                    setoff: setoffState)),
                           );
                         }
 

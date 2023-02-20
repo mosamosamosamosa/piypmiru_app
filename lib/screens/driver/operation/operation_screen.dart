@@ -23,11 +23,16 @@ import 'package:piyomiru_application/screens/setting_screen.dart';
 
 //バス運行中画面
 class OperationScreen extends ConsumerStatefulWidget {
-  OperationScreen({Key? key, required this.busName, required this.operationId})
+  OperationScreen(
+      {Key? key,
+      required this.busName,
+      required this.operationId,
+      required this.setoff})
       : super(key: key);
 
   final String busName;
   final int operationId;
+  final bool setoff;
   @override
   _OperationScreenState createState() => _OperationScreenState();
 }
@@ -267,6 +272,7 @@ class _OperationScreenState extends ConsumerState<OperationScreen> {
                                           busId: busId,
                                           operationId: widget.operationId,
                                           busName: widget.busName,
+                                          setoff: widget.setoff,
                                         )),
                               ),
                             });

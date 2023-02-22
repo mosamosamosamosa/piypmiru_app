@@ -2,6 +2,7 @@ import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:piyomiru_application/api/operation.dart';
 import 'package:piyomiru_application/api/passenger.dart';
 import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/components/actionbutton.dart';
@@ -51,6 +52,7 @@ class _PassengerListScreenState extends ConsumerState<PassengerListScreen> {
   String action = "編集";
   var userId;
 
+  int count = 0;
   var passengerList;
 
   @override
@@ -64,6 +66,14 @@ class _PassengerListScreenState extends ConsumerState<PassengerListScreen> {
               passengerList = value;
               print('乗客:$passengerList');
             }
+          })
+        });
+    Operation().getCountOperation(widget.operationId).then((value) => {
+          setState(() {
+            print("取ってこれた値");
+            print(widget.operationId);
+            print(count);
+            count = value;
           })
         });
     super.initState();
@@ -101,13 +111,16 @@ class _PassengerListScreenState extends ConsumerState<PassengerListScreen> {
 
     setState(() {
       if (widget.setoff == true) {
-        if (widget.busName == "1号車") {
-          text = " / 出席園児：$bus1State人";
-        } else if (widget.busName == "2号車") {
-          text = " / 出席園児：$bus2State人";
-        } else if (widget.busName == "3号車") {
-          text = " / 出席園児：$bus3State人";
-        }
+        // if (widget.busName == "1号車") {
+        //   text = " / 出席園児：$bus1State人";
+        // } else if (widget.busName == "2号車") {
+        //   text = " / 出席園児：$bus2State人";
+        // } else if (widget.busName == "3号車") {
+        //   text = " / 出席園児：$bus3State人";
+        // }
+        print("この時点でのcount");
+        print(count);
+        text = " / 出席園児：$count人";
       } else {
         text = "";
       }

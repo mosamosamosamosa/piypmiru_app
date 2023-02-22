@@ -338,4 +338,33 @@ class Users {
       print(response.reasonPhrase);
     }
   }
+
+  putUsers(int userId, String name, String email, bool driver, bool passenger,
+      dynamic familyId) async {
+    print("呼び出されました");
+    var headers = {'Content-Type': 'application/json'};
+    var request =
+        http.Request('PUT', Uri.parse('${Clients().url}/users/$userId'));
+    print(familyId);
+    request.body = json.encode({
+      "name": name,
+      "email": email,
+      "password": 12345678,
+      "driver": driver,
+      "passengers": false,
+      "serial_number": null,
+      "group_id": 7,
+      "family_id": familyId,
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("成功の方に来ました");
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
 }

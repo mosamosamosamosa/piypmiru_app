@@ -174,14 +174,24 @@ class _HomeDriverScreenState extends ConsumerState<HomeDriverScreen> {
                                     )),
                           );
                         } else {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => OperationScreen(
-                                    busName: widget.busList[index],
-                                    operationId: opeState,
-                                    setoff: setoffState)),
-                          );
+                          Buses()
+                              .getIdBuses(widget.busList[index])
+                              .then((value) => {
+                                    Operation()
+                                        .getIdOperation(value)
+                                        .then((value) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                OperationScreen(
+                                                    busName:
+                                                        widget.busList[index],
+                                                    operationId: value,
+                                                    setoff: setoffState)),
+                                      );
+                                    })
+                                  });
                         }
 
                         // Buses()

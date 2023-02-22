@@ -16,8 +16,8 @@ final StateProvider<String> nameProvider = StateProvider((ref) {
 });
 
 //更新可能な値:familyID
-final StateProvider<int> familyProvider = StateProvider((ref) {
-  return 0;
+final StateProvider<dynamic> familyProvider = StateProvider((ref) {
+  return null;
 });
 
 //更新可能な値:operationId

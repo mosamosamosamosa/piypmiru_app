@@ -35,25 +35,25 @@ List<Groups> groups_list = [
   Groups(id: 1, name: "ぴよみる幼稚園", timestamp: DateTime.now(), address: "大阪"),
 ];
 
-class Operations {
-  final int id, start, end, bus_id;
-  final DateTime timestamp;
+// class Operations {
+//   final int id, start, end, bus_id;
+//   final DateTime timestamp;
 
-  Operations({
-    required this.id,
-    required this.bus_id,
-    required this.timestamp,
-    required this.start,
-    required this.end,
-  });
-}
+//   Operations({
+//     required this.id,
+//     required this.bus_id,
+//     required this.timestamp,
+//     required this.start,
+//     required this.end,
+//   });
+// }
 
-List<Operations> operations_list = [
-  Operations(id: 1, start: 1, end: 0, timestamp: DateTime.now(), bus_id: 1),
-  Operations(id: 2, start: 1, end: 0, timestamp: DateTime.now(), bus_id: 2),
-  Operations(id: 3, start: 0, end: 1, timestamp: DateTime.now(), bus_id: 3),
-  Operations(id: 4, start: 0, end: 1, timestamp: DateTime.now(), bus_id: 4),
-];
+// List<Operations> operations_list = [
+//   Operations(id: 1, start: 1, end: 0, timestamp: DateTime.now(), bus_id: 1),
+//   Operations(id: 2, start: 1, end: 0, timestamp: DateTime.now(), bus_id: 2),
+//   Operations(id: 3, start: 0, end: 1, timestamp: DateTime.now(), bus_id: 3),
+//   Operations(id: 4, start: 0, end: 1, timestamp: DateTime.now(), bus_id: 4),
+// ];
 
 class Passengers {
   final String name, image;

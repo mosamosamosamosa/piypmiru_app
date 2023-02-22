@@ -257,6 +257,9 @@ class _OperationScreenState extends ConsumerState<OperationScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
+                      print("==================");
+                      print(widget.operationId);
+
                       setState(() {
                         var f = Passenger().getAllPassenger(widget.operationId);
 

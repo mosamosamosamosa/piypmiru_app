@@ -6,6 +6,7 @@ import 'package:piyomiru_application/provider/provider.dart';
 import 'package:piyomiru_application/screens/driver/register_kids/registeredkids_screen.dart';
 import 'package:piyomiru_application/screens/driver/start_drive/driving_screen.dart';
 import 'package:piyomiru_application/screens/parent/family_list.dart';
+import 'package:piyomiru_application/api/operation.dart';
 
 class FamilyCompModal extends ConsumerStatefulWidget {
   FamilyCompModal(
@@ -13,19 +14,24 @@ class FamilyCompModal extends ConsumerStatefulWidget {
       required this.name,
       required this.busName,
       required this.image,
-      required this.index})
+      required this.index,
+      required this.operationId,
+      required this.busId})
       : super(key: key);
 
   final String name;
   final String busName;
   final String image;
   final int index;
+  final int operationId;
+  final int busId;
   // createState()　で"State"（Stateを継承したクラス）を返す
   @override
   _FamilyCompModalState createState() => _FamilyCompModalState();
 }
 
 class _FamilyCompModalState extends ConsumerState<FamilyCompModal> {
+  int count = 0;
   @override
   Widget build(BuildContext context) {
     // 状態管理している値を操作できるようにする
@@ -156,24 +162,39 @@ class _FamilyCompModalState extends ConsumerState<FamilyCompModal> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      pushNotifier.state[widget.index]++;
+                      // pushNotifier.state[widget.index]++;
 
-                      if (widget.busName == "1号車") {
-                        bus1Notifier.state++;
-                        print(bus1State);
-                      } else if (widget.busName == "2号車") {
-                        bus2Notifier.state++;
-                        print(bus1State);
-                      } else if (widget.busName == "3号車") {
-                        bus3Notifier.state++;
-                        print(bus1State);
-                      }
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                FamilyListScreen(familyId: familyState)),
-                      );
+                      // if (widget.busName == "1号車") {
+                      //   bus1Notifier.state++;
+                      //   print(bus1State);
+                      // } else if (widget.busName == "2号車") {
+                      //   bus2Notifier.state++;
+                      //   print(bus2State);
+                      // } else if (widget.busName == "３号車") {
+                      //   bus3Notifier.state++;
+                      //   print(bus3State);
+                      // }
+                      print("オンタップに来た＝＝＝＝＝");
+                      Operation()
+                          .getCountOperation(widget.operationId)
+                          .then((value) => {
+                                print(widget.operationId),
+                                value += 1,
+                                print(value),
+                                Operation()
+                                    .putOperation(widget.operationId,
+                                        widget.busId, value++)
+                                    .then((value) => {
+                                          pushNotifier.state[widget.index]++,
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    FamilyListScreen(
+                                                        familyId: familyState)),
+                                          )
+                                        })
+                              });
                     },
                     child: Stack(
                       alignment: Alignment.center,

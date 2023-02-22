@@ -100,4 +100,46 @@ class Operation {
       return operationId;
     }
   }
+
+  putOperation(int operationId, int busId, int count) async {
+    var headers_ = {'Content-Type': 'application/json'};
+    var request = http.Request(
+        'PUT', Uri.parse('${Clients().url}/operation/$operationId'));
+    request.body = json.encode(
+        {"start": true, "end": false, "bus_id": busId, "attendance": count});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  getCountOperation(int operationId) async {
+    print("カウント取りに来ました");
+    late Map<String, dynamic> operationMap;
+
+    var request = http.Request(
+        'GET', Uri.parse('${Clients().url}/operation/$operationId'));
+
+    http.StreamedResponse stream_response = await request.send();
+    var response = await http.Response.fromStream(stream_response);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      operationMap = jsonDecode(response.body);
+      print(jsonDecode(response.body));
+
+      if (operationMap['attendance'] == null) {
+        print("nullの時");
+        return 0;
+      }
+      print(operationMap['attendance']);
+      return operationMap['attendance'];
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
 }

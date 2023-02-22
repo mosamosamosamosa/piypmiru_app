@@ -30,6 +30,7 @@ class FamilyModal extends StatefulWidget {
 }
 
 class _FamilyModalState extends State<FamilyModal> {
+  int busId = 0;
   List<bool> _selected = List.generate(3, (i) => false);
   String busName = '';
   bool select = false;
@@ -213,15 +214,25 @@ class _FamilyModalState extends State<FamilyModal> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (BuildContext context) => FamilyCompModal(
-                                busName: busName,
-                                image: widget.image,
-                                name: widget.name,
-                                index: widget.index,
-                              ));
+                      Buses().getIdBuses(busName).then((value) => {
+                            setState(() {
+                              busId = value;
+                            }),
+                            Operation().getIdOperation(busId).then((value) => {
+                                  showDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          FamilyCompModal(
+                                            busName: busName,
+                                            image: widget.image,
+                                            name: widget.name,
+                                            index: widget.index,
+                                            busId: busId,
+                                            operationId: value,
+                                          ))
+                                })
+                          });
                     },
                     child: Stack(
                       alignment: Alignment.center,

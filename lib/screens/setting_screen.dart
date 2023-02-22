@@ -106,7 +106,7 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                             borderRadius: BorderRadius.circular(20)),
                       ),
                       const Text(
-                        'プロフィール変更',
+                        'プロフィール編集',
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,

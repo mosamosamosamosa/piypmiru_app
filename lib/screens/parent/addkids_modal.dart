@@ -191,7 +191,7 @@ class _AddkidsModalState extends State<AddkidsModal> {
 
                       if (name.isNotEmpty) {
                         Users()
-                            .postkidsUser(name, widget.familyId, 7)
+                            .postkidsUser(name, widget.familyId)
                             .then((value) => {
                                   print("id: $value"),
                                   setState(() {

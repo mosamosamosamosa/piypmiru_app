@@ -106,7 +106,7 @@ class _FamilyListScreenState extends ConsumerState<FamilyListScreen> {
         ),
         child: Stack(
           children: [
-            familyList == null || familyList.isEmpty
+            familyList == null || familyList == 0 || familyList == []
                 ? SizedBox(
                     height: deviceH,
                     width: deviceW,

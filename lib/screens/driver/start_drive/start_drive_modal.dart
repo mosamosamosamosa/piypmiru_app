@@ -172,37 +172,53 @@ class _StartDriveModalState extends ConsumerState<StartDriveModal> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Buses().getIdBuses(widget.busName).then((value) => {
-                            Operation()
-                                .postOperation(true, false, value)
-                                .then((value) => {
-                                      print("opeId:$value"),
-                                      setState(() {
-                                        opeNotifier.state = value;
-                                      }),
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                OperationScreen(
-                                                  busName: widget.busName,
-                                                  operationId: value,
-                                                  setoff: selectA,
-                                                )),
-                                      )
-                                    })
-                          });
+                      if (selectA || selectB) {
+                        Buses().getIdBuses(widget.busName).then((value) => {
+                              Operation()
+                                  .postOperation(true, false, value)
+                                  .then((value) => {
+                                        print("opeId:$value"),
+                                        setState(() {
+                                          opeNotifier.state = value;
+                                        }),
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  OperationScreen(
+                                                    busName: widget.busName,
+                                                    operationId: value,
+                                                    setoff: selectA,
+                                                  )),
+                                        )
+                                      })
+                            });
+                      }
                     },
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        Container(
-                          height: 50,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            color: kStartColor,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+                        Stack(
+                          children: [
+                            Container(
+                              height: 50,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                color: kStartColor,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            selectA || selectB
+                                ? Container()
+                                : Container(
+                                    height: 50,
+                                    width: 120,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color:
+                                            Color(0xF403F4C).withOpacity(0.4)),
+                                  )
+                          ],
                         ),
                         const Text(
                           "開始",

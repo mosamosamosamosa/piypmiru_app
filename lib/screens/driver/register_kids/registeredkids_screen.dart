@@ -46,7 +46,7 @@ class _RegisterkidsScreenState extends ConsumerState<RegisterkidsScreen> {
   void _onReflesh() {
     Users().getkidsAllUsers().then((value) => {
           setState(() {
-            if (value == null || value == 0) {
+            if (value == null || value == 0 || value == []) {
               print("nullです");
               kidsList = 0;
             } else {
@@ -107,66 +107,67 @@ class _RegisterkidsScreenState extends ConsumerState<RegisterkidsScreen> {
         ],
       ),
       body: CustomRefreshIndicator(
-        onRefresh: () async {
-          _onReflesh();
-        },
-        builder: MaterialIndicatorDelegate(
-          builder: (context, controller) {
-            return Image.asset('assets/images/hiyoko_anzen.png');
+          onRefresh: () async {
+            _onReflesh();
           },
-        ),
-        child: kidsList == 0 || kidsList == null
-            ? SizedBox(
-                height: deviceH,
-                width: deviceW,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: deviceH * 0.12),
-                    const Text(
-                      "登録園児はまだいません",
-                      style: TextStyle(
-                          color: kFontColor,
-                          fontSize: 20,
-                          fontFamily: 'KiwiMaru-L'),
+          builder: MaterialIndicatorDelegate(
+            builder: (context, controller) {
+              return Image.asset('assets/images/hiyoko_anzen.png');
+            },
+          ),
+          child: Stack(children: [
+            kidsList == [] || kidsList == null || kidsList == 0
+                ? SizedBox(
+                    height: deviceH,
+                    width: deviceW,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: deviceH * 0.12),
+                        const Text(
+                          "登録園児はまだいません",
+                          style: TextStyle(
+                              color: kFontColor,
+                              fontSize: 20,
+                              fontFamily: 'KiwiMaru-L'),
+                        ),
+                        SizedBox(height: deviceH * 0.12),
+                        Image.asset('assets/images/kids_trio.png'),
+                      ],
                     ),
-                    SizedBox(height: deviceH * 0.12),
-                    Image.asset('assets/images/kids_trio.png'),
-                  ],
-                ),
-              )
-            : ListView.builder(
-                padding: EdgeInsets.only(top: deviceH * 0.012),
-                itemCount: kidsList.length,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, index) {
-                  // if (index == kidsList.length) {
-                  //   return GestureDetector(
-                  //       onTap: () async {
-                  //         String name = await showDialog(
-                  //           barrierDismissible: false,
-                  //           context: context,
-                  //           builder: (BuildContext context) => AddlistModal(),
-                  //         );
-                  //         //リストに追加
-                  //         print(name);
-                  //       },
-                  //       child: Container(
-                  //           padding: EdgeInsets.only(top: deviceH * 0.012),
-                  //           child: const Addlistitem()));
-                  // }
+                  )
+                : ListView.builder(
+                    padding: EdgeInsets.only(top: deviceH * 0.012),
+                    itemCount: kidsList.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, index) {
+                      // if (index == kidsList.length) {
+                      //   return GestureDetector(
+                      //       onTap: () async {
+                      //         String name = await showDialog(
+                      //           barrierDismissible: false,
+                      //           context: context,
+                      //           builder: (BuildContext context) => AddlistModal(),
+                      //         );
+                      //         //リストに追加
+                      //         print(name);
+                      //       },
+                      //       child: Container(
+                      //           padding: EdgeInsets.only(top: deviceH * 0.012),
+                      //           child: const Addlistitem()));
+                      // }
 
-                  return Listitem(
-                      //仮
-                      userId: 0,
-                      editable: editable,
-                      image: users_list[index].image,
-                      name: kidsList[index],
-                      ride: false,
-                      datetime: outputFormat.format(DateTime.now()));
-                },
-              ),
-      ),
+                      return Listitem(
+                          //仮
+                          userId: 0,
+                          editable: editable,
+                          image: users_list[index].image,
+                          name: kidsList[index],
+                          ride: false,
+                          datetime: outputFormat.format(DateTime.now()));
+                    },
+                  ),
+          ])),
     );
   }
 }

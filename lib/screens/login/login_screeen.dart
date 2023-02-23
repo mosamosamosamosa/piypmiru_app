@@ -12,6 +12,7 @@ import 'package:piyomiru_application/provider/provider.dart';
 import 'package:piyomiru_application/screens/driver/home/home_driver_screen.dart';
 import 'package:piyomiru_application/screens/parent/home_parent_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:email_validator/email_validator.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -23,8 +24,13 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool pushN = false;
   bool pushP = false;
+  bool loginState = true;
+  bool mailAdressValidation = false;
   String name = '';
   var busList;
+  final controllerN = TextEditingController();
+  // final controllerP = TextEditingController();
+  FocusNode _focusNode = FocusNode();
 
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
@@ -83,6 +89,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         body: Stack(
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   margin: EdgeInsets.only(top: deviceH * 1 / 6),
@@ -97,8 +104,27 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                 ),
                 SizedBox(height: deviceH * 0.06),
-                Stack(
+                !loginState?
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Image.asset('assets/images/sannkaku_keikoku.png'),
+                    Text(
+                      "メールアドレスまたはパスワードが正しくありません",
+                      style: TextStyle(
+                          fontSize: 11,
+                          color: errorColor,
+                          fontFamily: 'KiwiMaru-L'
+                      ),
+                    )
+                  ],
+                )
+                :SizedBox(height: deviceH * 0.026),
+
+                Stack(//////////メールアドレス入力ボックス//////////
+                  children: [
+                    //!loginState || !mailAdressValidation?
+                    !loginState?
                     Container(
                       height: deviceH * 0.10,
                       width: deviceW * 0.78,
@@ -106,12 +132,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         color: kInputColor,
                         borderRadius: BorderRadius.circular(20),
                         border:
-                            Border.all(width: 3, color: kSubBackgroundColor),
+                        Border.all(width: 1, color: errorColor),
                       ),
                       child: Container(
                         alignment: Alignment.bottomCenter,
                         child: TextField(
-                          //controller: controllerN,
+                          controller: controllerN,
+                          autofocus: true,
+                          focusNode: _focusNode,
+                          textInputAction: TextInputAction.next,
                           style: const TextStyle(
                             fontSize: 24,
                             color: kFontColor,
@@ -136,8 +165,72 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           },
                         ),
                       ),
+                    )
+                    :Container(
+                      height: deviceH * 0.10,
+                      width: deviceW * 0.78,
+                      decoration: BoxDecoration(
+                        color: kInputColor,
+                        borderRadius: BorderRadius.circular(20),
+                        border:
+                        Border.all(width: 3, color: kSubBackgroundColor),
+                      ),
+                      child: Container(
+                        alignment: Alignment.bottomCenter,
+                        child: TextField(
+                          //controller: controllerN,
+                          autofocus: true,
+                          focusNode: _focusNode,
+                          textInputAction: TextInputAction.next,
+                          style: const TextStyle(
+                            fontSize: 24,
+                            color: kFontColor,
+                          ),
+                          cursorColor: kFontColor,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.only(left: 24),
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                          ),
+                          onChanged: (value) {
+                            if (EmailValidator.validate(value)) {
+                              setState(() {
+                                mailAdressValidation = true;
+                              });
+                            } else {
+                              setState(() {
+                                mailAdressValidation = false;
+                              });
+                            }
+
+                            if (value.isNotEmpty) {
+                              setState(() {
+                                pushN = true;
+                                name = value;
+                              });
+                            } else {
+                              setState(() {
+                                pushN = false;
+                              });
+                            }
+                          },
+                        ),
+                      ),
                     ),
+                    //!loginState || !mailAdressValidation?
+                    !loginState?
                     const Positioned(
+                      top: 11,
+                      left: 20,
+                      child: Text(
+                        "メールアドレス",
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: errorColor,
+                            fontFamily: 'KiwiMaru-L'),
+                      ),
+                    )
+                    :const Positioned(
                       top: 11,
                       left: 20,
                       child: Text(
@@ -147,12 +240,53 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             color: kFontColor,
                             fontFamily: 'KiwiMaru-L'),
                       ),
-                    ),
+                    )
                   ],
-                ),
-                SizedBox(height: deviceH * 0.03),
-                Stack(
+                ),//////////メールアドレス入力ボックス//////////
+
+                !mailAdressValidation?
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: errorColor,
+                          ),
+                          height: 15,
+                          width: 15,
+                        ),
+                        Text(
+                          "×",
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.white,
+                              fontFamily: 'KiwiMaru-R'
+                          ),
+                        )
+                      ],
+                    ),
+                    Text(
+                      "メールアドレスのフォーマットで入力してください　",
+                      style: TextStyle(
+                          fontSize: 11,
+                          color: errorColor,
+                          fontFamily: 'KiwiMaru-L'
+                      ),
+                    )
+                  ],
+                )
+                :SizedBox(height: deviceH * 0.024),
+
+                SizedBox(height: deviceH * 0.03),
+
+                Stack(//////////パスワード入力ボックス//////////
+                  children: [
+
+                    !loginState?
                     Container(
                       height: deviceH * 0.10,
                       width: deviceW * 0.78,
@@ -160,7 +294,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         color: kInputColor,
                         borderRadius: BorderRadius.circular(20),
                         border:
-                            Border.all(width: 3, color: kSubBackgroundColor),
+                        Border.all(width: 1, color: errorColor),
                       ),
                       child: Container(
                         alignment: Alignment.bottomCenter,
@@ -187,14 +321,64 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               setState(() {
                                 pushP = false;
                               });
-                            }
-
-                            ;
+                            };
+                          },
+                        ),
+                      ),
+                    )
+                    :Container(
+                      height: deviceH * 0.10,
+                      width: deviceW * 0.78,
+                      decoration: BoxDecoration(
+                        color: kInputColor,
+                        borderRadius: BorderRadius.circular(20),
+                        border:
+                        Border.all(width: 3, color: kSubBackgroundColor),
+                      ),
+                      child: Container(
+                        alignment: Alignment.bottomCenter,
+                        child: TextField(
+                          //controller: controllerP,
+                          obscureText: true,
+                          style: const TextStyle(
+                            fontSize: 24,
+                            color: kFontColor,
+                            fontFamily: 'KiwiMaru-R',
+                          ),
+                          cursorColor: kFontColor,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.only(left: 24),
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                          ),
+                          onChanged: (value) {
+                            if (value.isNotEmpty) {
+                              setState(() {
+                                pushP = true;
+                              });
+                            } else {
+                              setState(() {
+                                pushP = false;
+                              });
+                            };
                           },
                         ),
                       ),
                     ),
+
+                    !loginState?
                     const Positioned(
+                      top: 11,
+                      left: 20,
+                      child: Text(
+                        "パスワード",
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: errorColor,
+                            fontFamily: 'KiwiMaru-L'),
+                      ),
+                    )
+                    :const Positioned(
                       top: 11,
                       left: 20,
                       child: Text(
@@ -204,65 +388,72 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             color: kFontColor,
                             fontFamily: 'KiwiMaru-L'),
                       ),
-                    ),
+                    )
                   ],
-                ),
+                ),//////////パスワード入力ボックス//////////
               ],
             ),
             pushN && pushP
                 ? Positioned(
-                    bottom: deviceH * 1 / 8,
-                    left: 0,
-                    right: 0,
-                    child: GestureDetector(
-                        onTap: () {
-                          Users().getMailIdUsers(name).then((value) => {
-                                userIdNotifier.state = value,
-                                Users().getroleUser(value).then((value) => {
-                                      roleNotifier.state = value,
-                                      if (value == true)
-                                        {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      HomeDriverScreen()))
-                                        }
-                                      else
-                                        {
-                                          Users()
-                                              .getFamilyUsers(name)
-                                              .then((value) => {
-                                                    familyIdNotifier.state =
-                                                        value,
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                HomeParentScreen(
-                                                                    familyId:
-                                                                        value)))
-                                                  })
-                                        }
-                                    })
-                              });
-                        },
-                        child: NomalButton(
-                          text: "ログイン",
-                          pushable: true,
-                        )),
-                  )
+              bottom: deviceH * 1 / 8,
+              left: 0,
+              right: 0,
+              child: GestureDetector(
+                  onTap: () {
+                    Users().getMailIdUsers(name).then((value) => {
+                      userIdNotifier.state = value,
+                      Users().getroleUser(value).then((value) => {
+                        roleNotifier.state = value,
+                        if (value == true)
+                          {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        HomeDriverScreen()))
+                          }
+                        else
+                          {
+                            Users()
+                                .getFamilyUsers(name)
+                                .then((value) => {
+                              familyIdNotifier.state =
+                                  value,
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          HomeParentScreen(
+                                              familyId:
+                                              value)))
+                            })
+                          }
+                      })
+                    });
+                    //ログイン失敗時ここに抜ける
+                    loginState = false;
+                    // controllerN.clear();
+                    // controllerP.clear();
+                    _focusNode.requestFocus();
+                    print(mailAdressValidation);
+                    print(loginState);
+                  },
+                  child: NomalButton(
+                    text: "ログイン",
+                    pushable: true,
+                  )),
+            )
                 : Positioned(
-                    bottom: deviceH * 1 / 8,
-                    left: 0,
-                    right: 0,
-                    child: GestureDetector(
-                        onTap: () {},
-                        child: NomalButton(
-                          text: "ログイン",
-                          pushable: false,
-                        )),
-                  ),
+              bottom: deviceH * 1 / 8,
+              left: 0,
+              right: 0,
+              child: GestureDetector(
+                  onTap: () {},
+                  child: NomalButton(
+                    text: "ログイン",
+                    pushable: false,
+                  )),
+            ),
             Container(
                 alignment: Alignment.bottomCenter,
                 margin: EdgeInsets.only(bottom: deviceH * 1 / 16),

@@ -14,3 +14,4 @@ const kStartColor = Color(0XFFED6D47);
 const kBackgroundColors = [Color(0XFFA0D8EF), Color(0xFFFFFAE3)];
 const kStopBackgroundColors = [Color(0XFF00679E), Color(0xFFFFFAE3)];
 const kFrameColor = Color(0XFF8A7B73);
+const errorColor = Color(0XFFFF0000);

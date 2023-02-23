@@ -262,84 +262,93 @@ class _PassengerListScreenState extends ConsumerState<PassengerListScreen> {
                               fontSize: 18,
                               fontFamily: 'KiwiMaru-L'),
                         ),
-                        ListView.builder(
-                          //padding: EdgeInsets.only(top: deviceH * 0.06),
-                          itemCount: passengerList.length + 1,
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, index) {
-                            if (index == passengerList.length) {
-                              return GestureDetector(
-                                  onTap: () async {
-                                    showDialog(
-                                        barrierDismissible: false,
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            AddpassModal(
-                                              operationId: widget.operationId,
-                                              busId: widget.busId,
-                                              busName: widget.busName,
-                                            ));
-                                  },
-                                  child: const Addlistitem());
-                            }
+                        Flexible(
+                          child: SingleChildScrollView(
+                            child: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              //padding: EdgeInsets.only(top: deviceH * 0.06),
+                              itemCount: passengerList.length + 1,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, index) {
+                                if (index == passengerList.length) {
+                                  return GestureDetector(
+                                      onTap: () async {
+                                        showDialog(
+                                            barrierDismissible: false,
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                AddpassModal(
+                                                  operationId:
+                                                      widget.operationId,
+                                                  busId: widget.busId,
+                                                  busName: widget.busName,
+                                                ));
+                                      },
+                                      child: const Addlistitem());
+                                }
 
-                            return Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Listitem(
-                                    userId: passengerList[index]['id'],
-                                    editable: editable,
-                                    image: passengers_list[index].image,
-                                    //passenger
-                                    name: passengerList[index]['name'],
-                                    ride: true,
-                                    datetime: outputFormat.format(
-                                        DateTime.parse(
-                                            passengerList[index]['created']))),
-                                editable
-                                    ? Positioned(
-                                        right: 8,
-                                        top: -10,
-                                        child: GestureDetector(
-                                            onTap: () async {
-                                              var g = Passenger()
-                                                  .getnamePassenger(
-                                                      passengerList[index]
-                                                          ['name'],
-                                                      widget.operationId);
-                                              g.then((value) => {
-                                                    userId = value,
-                                                    print(userId),
-                                                    showDialog(
-                                                      barrierDismissible: false,
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          CompletionModal(
-                                                        passId: userId,
-                                                        userId:
-                                                            passengerList[index]
-                                                                ['id'],
-                                                        name:
-                                                            passengerList[index]
-                                                                ['name'],
-                                                        image: passengers_list[
-                                                                index]
-                                                            .image,
-                                                        operationId:
-                                                            widget.operationId,
-                                                        busId: widget.busId,
-                                                        busName: widget.busName,
-                                                      ),
-                                                    )
-                                                  });
-                                            },
-                                            child: Image.asset(
-                                                'assets/images/minus.png')))
-                                    : Container()
-                              ],
-                            );
-                          },
+                                return Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Listitem(
+                                        userId: passengerList[index]['id'],
+                                        editable: editable,
+                                        image: passengers_list[index].image,
+                                        //passenger
+                                        name: passengerList[index]['name'],
+                                        ride: true,
+                                        datetime: outputFormat.format(
+                                            DateTime.parse(passengerList[index]
+                                                ['created']))),
+                                    editable
+                                        ? Positioned(
+                                            right: 8,
+                                            top: -10,
+                                            child: GestureDetector(
+                                                onTap: () async {
+                                                  var g = Passenger()
+                                                      .getnamePassenger(
+                                                          passengerList[index]
+                                                              ['name'],
+                                                          widget.operationId);
+                                                  g.then((value) => {
+                                                        userId = value,
+                                                        print(userId),
+                                                        showDialog(
+                                                          barrierDismissible:
+                                                              false,
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                                  context) =>
+                                                              CompletionModal(
+                                                            passId: userId,
+                                                            userId:
+                                                                passengerList[
+                                                                        index]
+                                                                    ['id'],
+                                                            name: passengerList[
+                                                                index]['name'],
+                                                            image:
+                                                                passengers_list[
+                                                                        index]
+                                                                    .image,
+                                                            operationId: widget
+                                                                .operationId,
+                                                            busId: widget.busId,
+                                                            busName:
+                                                                widget.busName,
+                                                          ),
+                                                        )
+                                                      });
+                                                },
+                                                child: Image.asset(
+                                                    'assets/images/minus.png')))
+                                        : Container()
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
                         ),
                       ],
                     ),

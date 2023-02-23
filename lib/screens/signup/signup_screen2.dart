@@ -1,5 +1,6 @@
 // ignore_for_file: await_only_futures
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:piyomiru_application/api/buses.dart';
@@ -24,6 +25,8 @@ class SignupScreen2 extends ConsumerStatefulWidget {
 }
 
 class _SignupScreen2 extends ConsumerState<SignupScreen2> {
+  final _emailTextController = TextEditingController();
+
   bool pushN = false;
   bool pushP = false;
   bool pushM = false;
@@ -33,6 +36,9 @@ class _SignupScreen2 extends ConsumerState<SignupScreen2> {
   String name = "";
   String email = "";
   String password = "";
+
+  bool eEmail = true;
+  bool ePasssame = true;
 
   @override
   Widget build(BuildContext context) {
@@ -95,14 +101,14 @@ class _SignupScreen2 extends ConsumerState<SignupScreen2> {
                     clipBehavior: Clip.none,
                     children: [
                       Container(
-                        height: deviceH * 0.1,
+                        height: deviceH * 0.09,
                         width: deviceW * 0.78,
                         alignment: Alignment.bottomCenter,
                         decoration: BoxDecoration(
                           color: kInputColor,
                           borderRadius: BorderRadius.circular(20),
-                          border:
-                              Border.all(width: 3, color: kSubBackgroundColor),
+                          border: Border.all(
+                              width: 1.5, color: kSubBackgroundColor),
                         ),
                         child: TextField(
                           //controller: controllerN,
@@ -152,52 +158,77 @@ class _SignupScreen2 extends ConsumerState<SignupScreen2> {
                   Stack(
                     //メールアドレス入力ボックス
                     children: [
-                      Container(
-                        height: deviceH * 0.10,
-                        width: deviceW * 0.78,
-                        decoration: BoxDecoration(
-                          color: kInputColor,
-                          borderRadius: BorderRadius.circular(20),
-                          border:
-                              Border.all(width: 3, color: kSubBackgroundColor),
-                        ),
-                        child: Container(
-                          alignment: Alignment.bottomCenter,
-                          child: TextField(
-                            //controller: controllerN,
-                            style: const TextStyle(
-                              fontSize: 24,
-                              color: kFontColor,
+                      Column(
+                        children: [
+                          Container(
+                            height: deviceH * 0.09,
+                            width: deviceW * 0.78,
+                            decoration: BoxDecoration(
+                              color: kInputColor,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                  width: 1.5,
+                                  color: eEmail
+                                      ? kSubBackgroundColor
+                                      : Color(0xFFFF00000)),
                             ),
-                            cursorColor: kFontColor,
-                            decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.only(left: 24),
-                              enabledBorder: InputBorder.none,
-                              focusedBorder: InputBorder.none,
+                            child: Container(
+                              alignment: Alignment.bottomCenter,
+                              child: TextField(
+                                controller: _emailTextController,
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  color: kFontColor,
+                                ),
+                                keyboardType: TextInputType.emailAddress,
+                                cursorColor: kFontColor,
+                                decoration: const InputDecoration(
+                                  contentPadding: EdgeInsets.only(left: 24),
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                ),
+                                onChanged: (value) {
+                                  if (value.isNotEmpty) {
+                                    setState(() {
+                                      eEmail = EmailValidator.validate(value);
+                                      pushM = true;
+                                      email = value;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      pushM = false;
+                                    });
+                                  }
+                                },
+                              ),
                             ),
-                            onChanged: (value) {
-                              if (value.isNotEmpty) {
-                                setState(() {
-                                  pushM = true;
-                                  email = value;
-                                });
-                              } else {
-                                setState(() {
-                                  pushM = false;
-                                });
-                              }
-                            },
                           ),
-                        ),
+                          eEmail
+                              ? Container()
+                              : Row(
+                                  children: [
+                                    SizedBox(width: 40),
+                                    Image.asset(
+                                        'assets/images/batsu_input.png'),
+                                    const Text(
+                                      "メールアドレスのフォーマットで入力してください",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xFFFF0000),
+                                          fontFamily: 'KiwiMaru-L'),
+                                    ),
+                                  ],
+                                ),
+                        ],
                       ),
-                      const Positioned(
+                      Positioned(
                         top: 11,
-                        left: 20,
+                        left: 60,
                         child: Text(
                           "メールアドレス",
                           style: TextStyle(
                               fontSize: 12,
-                              color: kFontColor,
+                              color: eEmail ? kFontColor : Color(0xFFFF0000),
                               fontFamily: 'KiwiMaru-L'),
                         ),
                       ),
@@ -208,13 +239,16 @@ class _SignupScreen2 extends ConsumerState<SignupScreen2> {
                     //パスワード入力ボックス
                     children: [
                       Container(
-                        height: deviceH * 0.10,
+                        height: deviceH * 0.09,
                         width: deviceW * 0.78,
                         decoration: BoxDecoration(
                           color: kInputColor,
                           borderRadius: BorderRadius.circular(20),
-                          border:
-                              Border.all(width: 3, color: kSubBackgroundColor),
+                          border: Border.all(
+                              width: 1.5,
+                              color: ePasssame
+                                  ? kSubBackgroundColor
+                                  : Color(0xFFFF0000)),
                         ),
                         child: Container(
                           alignment: Alignment.bottomCenter,
@@ -246,72 +280,102 @@ class _SignupScreen2 extends ConsumerState<SignupScreen2> {
                           ),
                         ),
                       ),
-                      const Positioned(
+                      Positioned(
                         top: 11,
                         left: 20,
                         child: Text(
                           "パスワード",
                           style: TextStyle(
                               fontSize: 12,
-                              color: kFontColor,
+                              color: ePasssame ? kFontColor : Color(0xFFFF0000),
                               fontFamily: 'KiwiMaru-L'),
                         ),
                       ),
                     ],
                   ),
                   SizedBox(height: deviceH * 0.02),
-                  Stack(
-                    //パスワード確認入力ボックス
+                  Column(
                     children: [
-                      Container(
-                        height: deviceH * 0.10,
-                        width: deviceW * 0.78,
-                        decoration: BoxDecoration(
-                          color: kInputColor,
-                          borderRadius: BorderRadius.circular(20),
-                          border:
-                              Border.all(width: 3, color: kSubBackgroundColor),
-                        ),
-                        child: Container(
-                          alignment: Alignment.bottomCenter,
-                          child: TextField(
-                            //controller: controllerN,
-                            obscureText: true,
-                            style: const TextStyle(
-                              fontSize: 24,
-                              color: kFontColor,
+                      Stack(
+                        //パスワード確認入力ボックス
+                        children: [
+                          Container(
+                            height: deviceH * 0.09,
+                            width: deviceW * 0.78,
+                            decoration: BoxDecoration(
+                              color: kInputColor,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                  width: 1.5,
+                                  color: ePasssame
+                                      ? kSubBackgroundColor
+                                      : Color(0xFFFF0000)),
                             ),
-                            cursorColor: kFontColor,
-                            decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.only(left: 24),
-                              enabledBorder: InputBorder.none,
-                              focusedBorder: InputBorder.none,
+                            child: Container(
+                              alignment: Alignment.bottomCenter,
+                              child: TextField(
+                                //controller: controllerN,
+                                obscureText: true,
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  color: kFontColor,
+                                ),
+                                cursorColor: kFontColor,
+                                decoration: const InputDecoration(
+                                  contentPadding: EdgeInsets.only(left: 24),
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                ),
+                                onChanged: (value) {
+                                  if (value.isNotEmpty) {
+                                    if (password == value) {
+                                      setState(() {
+                                        pushPConf = true;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        ePasssame = false;
+                                      });
+                                    }
+                                  } else {
+                                    setState(() {
+                                      pushPConf = false;
+                                    });
+                                  }
+                                },
+                              ),
                             ),
-                            onChanged: (value) {
-                              if (value.isNotEmpty && password == value) {
-                                setState(() {
-                                  pushPConf = true;
-                                });
-                              } else {
-                                setState(() {
-                                  pushPConf = false;
-                                });
-                              }
-                            },
                           ),
-                        ),
+                          Positioned(
+                            top: 11,
+                            left: 20,
+                            child: Text(
+                              "パスワード確認",
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: ePasssame
+                                      ? kFontColor
+                                      : Color(0xFFFF0000),
+                                  fontFamily: 'KiwiMaru-L'),
+                            ),
+                          ),
+                        ],
                       ),
-                      const Positioned(
-                        top: 11,
-                        left: 20,
-                        child: Text(
-                          "パスワード確認",
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: kFontColor,
-                              fontFamily: 'KiwiMaru-L'),
-                        ),
-                      ),
+                      ePasssame
+                          ? Container()
+                          : Row(
+                              children: [
+                                SizedBox(width: 40),
+                                Image.asset('assets/images/batsu_input.png'),
+                                const Text(
+                                  "再入力パスワードが違います。再度入力してください",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xFFFF0000),
+                                      fontFamily: 'KiwiMaru-L'),
+                                ),
+                              ],
+                            ),
                     ],
                   ),
                 ],
@@ -324,39 +388,49 @@ class _SignupScreen2 extends ConsumerState<SignupScreen2> {
                     right: 0,
                     child: GestureDetector(
                         onTap: () async {
-                          Users()
-                              .postUser(name, email, password, widget.driver,
-                                  widget.groupId)
-                              .then((value) => {
-                                    setState(() {
-                                      userIdNotifier.state = value;
-                                    }),
-                                    if (widget.driver)
-                                      {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomeDriverScreen()),
-                                        )
-                                      }
-                                    else
-                                      {
-                                        Families()
-                                            .postFamily(name)
-                                            .then((value) => {
-                                                  familyIdNotifier.state =
-                                                      value,
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              HomeParentScreen(
-                                                                  familyId:
-                                                                      value)))
-                                                })
-                                      }
-                                  });
+                          print("こっち来て");
+                          if (eEmail) {
+                            print("こっち来ても歌");
+                            Users()
+                                .postUser(name, email, password, widget.driver,
+                                    widget.groupId)
+                                .then((value) => {
+                                      setState(() {
+                                        userIdNotifier.state = value;
+                                      }),
+                                      if (widget.driver)
+                                        {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomeDriverScreen()),
+                                          )
+                                        }
+                                      else
+                                        {
+                                          Families()
+                                              .postFamily(name)
+                                              .then((value) => {
+                                                    familyIdNotifier.state =
+                                                        value,
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                HomeParentScreen(
+                                                                    familyId:
+                                                                        value)))
+                                                  })
+                                        }
+                                    });
+                          } else {
+                            print(eEmail);
+                            setState(() {
+                              eEmail = false;
+                            });
+                            print("ここまできた");
+                          }
                         },
                         child: NomalButton(
                           text: "新規登録",

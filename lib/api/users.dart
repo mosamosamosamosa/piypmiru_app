@@ -46,7 +46,7 @@ class Users {
   }
 
   //親がNFCで登録したとき
-  postkidsUser(String name, int familyId, int groupId) async {
+  postkidsUser(String name, int familyId) async {
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request('POST', Uri.parse('${Clients().url}/users'));
     request.body = json.encode({
@@ -56,7 +56,7 @@ class Users {
       "driver": false,
       "passengers": true,
       "serial_number": null,
-      "group_id": 7,
+      "group_id": null,
       "family_id": familyId
     });
     request.headers.addAll(headers);

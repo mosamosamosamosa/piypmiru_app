@@ -25,12 +25,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool pushN = false;
   bool pushP = false;
   bool loginState = true;
-  bool mailAdressValidation = false;
+  bool mailAdressValidation = true;
   String name = '';
   var busList;
   final controllerN = TextEditingController();
   // final controllerP = TextEditingController();
-  FocusNode _focusNode = FocusNode();
+  //FocusNode _focusNode = FocusNode();
 
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
@@ -104,42 +104,45 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                 ),
                 SizedBox(height: deviceH * 0.06),
-                !loginState?
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset('assets/images/sannkaku_keikoku.png'),
-                    Text(
-                      "メールアドレスまたはパスワードが正しくありません",
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: errorColor,
-                          fontFamily: 'KiwiMaru-L'
-                      ),
-                    )
-                  ],
-                )
-                :SizedBox(height: deviceH * 0.026),
+                !loginState
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/images/sannkaku_keikoku.png'),
+                          Text(
+                            "メールアドレスまたはパスワードが正しくありません",
+                            style: TextStyle(
+                                fontSize: 11,
+                                color: errorColor,
+                                fontFamily: 'KiwiMaru-L'),
+                          )
+                        ],
+                      )
+                    : SizedBox(height: deviceH * 0.026),
 
-                Stack(//////////メールアドレス入力ボックス//////////
+                Stack(
+                  //////////メールアドレス入力ボックス//////////
                   children: [
                     //!loginState || !mailAdressValidation?
-                    !loginState?
+
                     Container(
                       height: deviceH * 0.10,
                       width: deviceW * 0.78,
                       decoration: BoxDecoration(
                         color: kInputColor,
                         borderRadius: BorderRadius.circular(20),
-                        border:
-                        Border.all(width: 1, color: errorColor),
+                        border: Border.all(
+                            width: 1,
+                            color: !mailAdressValidation || !loginState
+                                ? errorColor
+                                : Colors.transparent),
                       ),
                       child: Container(
                         alignment: Alignment.bottomCenter,
                         child: TextField(
                           controller: controllerN,
-                          autofocus: true,
-                          focusNode: _focusNode,
+                          //autofocus: true,
+                          //focusNode: _focusNode,
                           textInputAction: TextInputAction.next,
                           style: const TextStyle(
                             fontSize: 24,
@@ -154,57 +157,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           onChanged: (value) {
                             if (value.isNotEmpty) {
                               setState(() {
-                                pushN = true;
-                                name = value;
-                              });
-                            } else {
-                              setState(() {
-                                pushN = false;
-                              });
-                            }
-                          },
-                        ),
-                      ),
-                    )
-                    :Container(
-                      height: deviceH * 0.10,
-                      width: deviceW * 0.78,
-                      decoration: BoxDecoration(
-                        color: kInputColor,
-                        borderRadius: BorderRadius.circular(20),
-                        border:
-                        Border.all(width: 3, color: kSubBackgroundColor),
-                      ),
-                      child: Container(
-                        alignment: Alignment.bottomCenter,
-                        child: TextField(
-                          //controller: controllerN,
-                          autofocus: true,
-                          focusNode: _focusNode,
-                          textInputAction: TextInputAction.next,
-                          style: const TextStyle(
-                            fontSize: 24,
-                            color: kFontColor,
-                          ),
-                          cursorColor: kFontColor,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 24),
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                          ),
-                          onChanged: (value) {
-                            if (EmailValidator.validate(value)) {
-                              setState(() {
-                                mailAdressValidation = true;
-                              });
-                            } else {
-                              setState(() {
-                                mailAdressValidation = false;
-                              });
-                            }
-
-                            if (value.isNotEmpty) {
-                              setState(() {
+                                mailAdressValidation =
+                                    EmailValidator.validate(value);
                                 pushN = true;
                                 name = value;
                               });
@@ -217,84 +171,73 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       ),
                     ),
-                    //!loginState || !mailAdressValidation?
-                    !loginState?
-                    const Positioned(
-                      top: 11,
-                      left: 20,
-                      child: Text(
-                        "メールアドレス",
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: errorColor,
-                            fontFamily: 'KiwiMaru-L'),
-                      ),
-                    )
-                    :const Positioned(
-                      top: 11,
-                      left: 20,
-                      child: Text(
-                        "メールアドレス",
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: kFontColor,
-                            fontFamily: 'KiwiMaru-L'),
-                      ),
-                    )
-                  ],
-                ),//////////メールアドレス入力ボックス//////////
 
-                !mailAdressValidation?
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Stack(
-                      alignment: AlignmentDirectional.center,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: errorColor,
-                          ),
-                          height: 15,
-                          width: 15,
-                        ),
-                        Text(
-                          "×",
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.white,
-                              fontFamily: 'KiwiMaru-R'
-                          ),
-                        )
-                      ],
-                    ),
-                    Text(
-                      "メールアドレスのフォーマットで入力してください　",
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: errorColor,
-                          fontFamily: 'KiwiMaru-L'
+                    Positioned(
+                      top: 11,
+                      left: 20,
+                      child: Text(
+                        "メールアドレス",
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: !mailAdressValidation || !loginState
+                                ? errorColor
+                                : kFontColor,
+                            fontFamily: 'KiwiMaru-L'),
                       ),
                     )
                   ],
-                )
-                :SizedBox(height: deviceH * 0.024),
+                ), //////////メールアドレス入力ボックス//////////
+
+                !mailAdressValidation
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Stack(
+                            alignment: AlignmentDirectional.center,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: errorColor,
+                                ),
+                                height: 15,
+                                width: 15,
+                              ),
+                              Text(
+                                "×",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontFamily: 'KiwiMaru-R'),
+                              )
+                            ],
+                          ),
+                          Text(
+                            "メールアドレスのフォーマットで入力してください　",
+                            style: TextStyle(
+                                fontSize: 11,
+                                color: errorColor,
+                                fontFamily: 'KiwiMaru-L'),
+                          )
+                        ],
+                      )
+                    : SizedBox(height: deviceH * 0.024),
 
                 SizedBox(height: deviceH * 0.03),
 
-                Stack(//////////パスワード入力ボックス//////////
+                Stack(
+                  //////////パスワード入力ボックス//////////
                   children: [
-
-                    !loginState?
                     Container(
                       height: deviceH * 0.10,
                       width: deviceW * 0.78,
                       decoration: BoxDecoration(
                         color: kInputColor,
                         borderRadius: BorderRadius.circular(20),
-                        border:
-                        Border.all(width: 1, color: errorColor),
+                        border: Border.all(
+                            width: 1,
+                            color:
+                                loginState ? Colors.transparent : errorColor),
                       ),
                       child: Container(
                         alignment: Alignment.bottomCenter,
@@ -321,139 +264,91 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               setState(() {
                                 pushP = false;
                               });
-                            };
-                          },
-                        ),
-                      ),
-                    )
-                    :Container(
-                      height: deviceH * 0.10,
-                      width: deviceW * 0.78,
-                      decoration: BoxDecoration(
-                        color: kInputColor,
-                        borderRadius: BorderRadius.circular(20),
-                        border:
-                        Border.all(width: 3, color: kSubBackgroundColor),
-                      ),
-                      child: Container(
-                        alignment: Alignment.bottomCenter,
-                        child: TextField(
-                          //controller: controllerP,
-                          obscureText: true,
-                          style: const TextStyle(
-                            fontSize: 24,
-                            color: kFontColor,
-                            fontFamily: 'KiwiMaru-R',
-                          ),
-                          cursorColor: kFontColor,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 24),
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                          ),
-                          onChanged: (value) {
-                            if (value.isNotEmpty) {
-                              setState(() {
-                                pushP = true;
-                              });
-                            } else {
-                              setState(() {
-                                pushP = false;
-                              });
-                            };
+                            }
+                            ;
                           },
                         ),
                       ),
                     ),
-
-                    !loginState?
-                    const Positioned(
+                    Positioned(
                       top: 11,
                       left: 20,
                       child: Text(
                         "パスワード",
                         style: TextStyle(
                             fontSize: 12,
-                            color: errorColor,
-                            fontFamily: 'KiwiMaru-L'),
-                      ),
-                    )
-                    :const Positioned(
-                      top: 11,
-                      left: 20,
-                      child: Text(
-                        "パスワード",
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: kFontColor,
+                            color: loginState ? kFontColor : errorColor,
                             fontFamily: 'KiwiMaru-L'),
                       ),
                     )
                   ],
-                ),//////////パスワード入力ボックス//////////
+                ), //////////パスワード入力ボックス//////////
               ],
             ),
             pushN && pushP
                 ? Positioned(
-              bottom: deviceH * 1 / 8,
-              left: 0,
-              right: 0,
-              child: GestureDetector(
-                  onTap: () {
-                    Users().getMailIdUsers(name).then((value) => {
-                      userIdNotifier.state = value,
-                      Users().getroleUser(value).then((value) => {
-                        roleNotifier.state = value,
-                        if (value == true)
-                          {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        HomeDriverScreen()))
-                          }
-                        else
-                          {
-                            Users()
-                                .getFamilyUsers(name)
-                                .then((value) => {
-                              familyIdNotifier.state =
-                                  value,
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          HomeParentScreen(
-                                              familyId:
-                                              value)))
-                            })
-                          }
-                      })
-                    });
-                    //ログイン失敗時ここに抜ける
-                    loginState = false;
-                    // controllerN.clear();
-                    // controllerP.clear();
-                    _focusNode.requestFocus();
-                    print(mailAdressValidation);
-                    print(loginState);
-                  },
-                  child: NomalButton(
-                    text: "ログイン",
-                    pushable: true,
-                  )),
-            )
+                    bottom: deviceH * 1 / 8,
+                    left: 0,
+                    right: 0,
+                    child: GestureDetector(
+                        onTap: () {
+                          Users().getMailIdUsers(name).then((value) => {
+                                userIdNotifier.state = value,
+                                Users().getroleUser(value).then((value) => {
+                                      roleNotifier.state = value,
+                                      if (value == true)
+                                        {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HomeDriverScreen()))
+                                        }
+                                      else
+                                        {
+                                          Users()
+                                              .getFamilyUsers(name)
+                                              .then((value) => {
+                                                    familyIdNotifier.state =
+                                                        value,
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                HomeParentScreen(
+                                                                    familyId:
+                                                                        value)))
+                                                  })
+                                        }
+                                    })
+                              });
+
+                          setState(() {
+                            loginState = false;
+                          });
+
+                          // controllerN.clear();
+                          // controllerP.clear();
+                          //_focusNode.requestFocus();
+                          print(mailAdressValidation);
+                          print(loginState);
+                        },
+                        child: NomalButton(
+                          text: "ログイン",
+                          pushable: true,
+                        )),
+                  )
                 : Positioned(
-              bottom: deviceH * 1 / 8,
-              left: 0,
-              right: 0,
-              child: GestureDetector(
-                  onTap: () {},
-                  child: NomalButton(
-                    text: "ログイン",
-                    pushable: false,
-                  )),
-            ),
+                    bottom: deviceH * 1 / 8,
+                    left: 0,
+                    right: 0,
+                    child: GestureDetector(
+                        onTap: () {},
+                        child: NomalButton(
+                          text: "ログイン",
+                          pushable: false,
+                        )),
+                  ),
             Container(
                 alignment: Alignment.bottomCenter,
                 margin: EdgeInsets.only(bottom: deviceH * 1 / 16),

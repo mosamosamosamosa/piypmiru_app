@@ -4,7 +4,8 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nfc_in_flutter/nfc_in_flutter.dart';
+// import 'package:nfc_in_flutter/nfc_in_flutter.dart';
+import 'package:nfc_manager/nfc_manager.dart';
 import 'package:piyomiru_application/api/passenger.dart';
 import 'package:piyomiru_application/api/users.dart';
 import 'package:piyomiru_application/constants.dart';
@@ -23,7 +24,6 @@ class AddkidsModal extends StatefulWidget {
 
 class _AddkidsModalState extends State<AddkidsModal> {
   String name = '';
-  StreamSubscription<NDEFMessage>? _stream;
   List<RecordEditor> _records = [];
   bool _hasClosedWriteDialog = false;
   int userId = 0;
@@ -42,12 +42,9 @@ class _AddkidsModalState extends State<AddkidsModal> {
   void _write(BuildContext context) async {
     print("書き込みメソッド呼び出されました");
 
-    List<NDEFRecord> records = _records.map((record) {
+    List<NdefRecord> records = _records.map((record) {
       print("受け取れたID:${userId}");
-      return NDEFRecord.type(
-        payloadController.text,
-        userId.toString(),
-      );
+      return NdefRecord.createMime(payloadController.text, Uint8List.fromList(userId.toString().codeUnits));
     }).toList();
 
     // void _write(BuildContext context) async {
@@ -63,7 +60,8 @@ class _AddkidsModalState extends State<AddkidsModal> {
     //   }).toList();
 
     print("レコードの内容：$records");
-    NDEFMessage message = NDEFMessage.withRecords(records);
+
+    // NDEFMessage message = NDEFMessage.withRecords(records);
 
     // Show dialog on Android (iOS has it's own one)
     if (Platform.isAndroid) {
@@ -76,16 +74,39 @@ class _AddkidsModalState extends State<AddkidsModal> {
     }
 
     // Write to the first tag scanned
-    await NFC.writeNDEF(message).first;
-    if (!_hasClosedWriteDialog) {
-      _audio.play('piyo.mov');
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) =>
-            NfcScanModal(kidName: name, success: true),
-      );
-    }
+
+    NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+      final ndef = Ndef.from(tag);
+      if (ndef == null) {
+        NfcManager.instance.stopSession();
+      }
+      try {
+        final message = NdefMessage(records);
+        await ndef?.write(message);
+        NfcManager.instance.stopSession();
+        if (!_hasClosedWriteDialog) {
+          _audio.play('piyo.mov');
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (BuildContext context) =>
+                NfcScanModal(kidName: name, success: true),
+          );
+        }
+      } catch (e) {
+        NfcManager.instance.stopSession(errorMessage: "書き込みに失敗しました");
+      }
+    });
+    // await NFC.writeNDEF(message).first;
+    // if (!_hasClosedWriteDialog) {
+    //   _audio.play('piyo.mov');
+    //   showDialog(
+    //     barrierDismissible: false,
+    //     context: context,
+    //     builder: (BuildContext context) =>
+    //         NfcScanModal(kidName: name, success: true),
+    //   );
+    // }
   }
 
   @override

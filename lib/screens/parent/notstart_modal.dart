@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nfc_in_flutter/nfc_in_flutter.dart';
 import 'package:piyomiru_application/api/buses.dart';
 import 'package:piyomiru_application/api/operation.dart';
 import 'package:piyomiru_application/api/passenger.dart';
@@ -29,7 +28,7 @@ class _NostartModalState extends State<NostartModal> {
   String busName = '';
   bool select = false;
   String name = '';
-  StreamSubscription<NDEFMessage>? _stream;
+  // StreamSubscription<NDEFMessage>? _stream;
   List<RecordEditor> _records = [];
   bool _hasClosedWriteDialog = false;
   int userId = 0;

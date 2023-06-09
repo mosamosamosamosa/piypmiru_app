@@ -3,14 +3,11 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nfc_in_flutter/nfc_in_flutter.dart';
+import 'package:nfc_manager/nfc_manager.dart';
 import 'package:piyomiru_application/api/passenger.dart';
 import 'package:piyomiru_application/api/users.dart';
-//import 'package:nfc_in_flutter/nfc_in_flutter.dart';
 import 'package:piyomiru_application/constants.dart';
-import 'package:piyomiru_application/nfc/nfc_scan.dart';
 import 'package:piyomiru_application/provider/provider.dart';
-import 'package:piyomiru_application/screens/driver/nfc/nfc_success_modal.dart';
 
 class NfcScanSampModal extends ConsumerStatefulWidget {
   NfcScanSampModal(
@@ -30,7 +27,7 @@ class NfcScanSampModal extends ConsumerStatefulWidget {
 }
 
 class _NfcScanSampModalState extends ConsumerState<NfcScanSampModal> {
-  StreamSubscription<NDEFMessage>? _stream;
+  // StreamSubscription<NDEFMessage>? _stream;
   bool _supportsNFC = false;
   bool _reading = false;
 
@@ -44,66 +41,96 @@ class _NfcScanSampModalState extends ConsumerState<NfcScanSampModal> {
 
   void _startScanning() {
     setState(() {
-      _stream = NFC
-          .readNDEF(alertMessage: "Custom message with readNDEF#alertMessage")
-          .listen((NDEFMessage message) {
-        if (message.isEmpty) {
-          print("Read empty NDEF message");
-          return;
-        }
-        print("Read NDEF message with ${message.records.length} records");
-        for (NDEFRecord record in message.records) {
+      NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+        // NfcTag
+        final ndef = Ndef.from(tag);
+        for (final record in ndef?.cachedMessage?.records ?? []) {
           setState(() {
             print("id:${record.data}");
             userId = int.parse(record.data);
             Users().getUser(userId).then((value) => {
-                  setState(() {
-                    name = value;
+              setState(() {
+                name = value;
 
-                    widget.success = true;
-                    _audio.play('piyo.mov');
-                  })
-                });
+                widget.success = true;
+                _audio.play('piyo.mov');
+              })
+            });
           });
-
-          print(name);
-          print(
-              "Record '${record.id ?? "[NO ID]"}' with TNF '${record.tnf}', type '${record.type}', payload '${record.payload}' and data '${record.data}' and language code '${record.languageCode}'");
         }
-      }, onError: (error) {
-        setState(() {
-          _stream = null;
-        });
-        if (error is NFCUserCanceledSessionException) {
-          print("user canceled");
-        } else if (error is NFCSessionTimeoutException) {
-          print("session timed out");
-        } else {
-          print("error: $error");
-        }
-      }, onDone: () {
-        setState(() {
-          print("終了");
-          _stream = null;
-        });
       });
+      // _stream = NFC
+      //     .readNDEF(alertMessage: "Custom message with readNDEF#alertMessage", readerMode: NFCDispatchReaderMode())
+      //     .listen((NDEFMessage message) {
+      //   if (message.isEmpty) {
+      //     print("Read empty NDEF message");
+      //     return;
+      //   }
+      //   print("Read NDEF message with ${message.records.length} records");
+      //   for (NDEFRecord record in message.records) {
+      //     setState(() {
+      //       print("id:${record.data}");
+      //       userId = int.parse(record.data);
+      //       Users().getUser(userId).then((value) => {
+      //             setState(() {
+      //               name = value;
+      //
+      //               widget.success = true;
+      //               _audio.play('piyo.mov');
+      //             })
+      //           });
+      //     });
+      //
+      //     print(name);
+      //     print(
+      //         "Record '${record.id ?? "[NO ID]"}' with TNF '${record.tnf}', type '${record.type}', payload '${record.payload}' and data '${record.data}' and language code '${record.languageCode}'");
+      //   }
+      // }, onError: (error) {
+      //   setState(() {
+      //     _stream = null;
+      //   });
+      //   if (error is NFCUserCanceledSessionException) {
+      //     print("user canceled");
+      //   } else if (error is NFCSessionTimeoutException) {
+      //     print("session timed out");
+      //   } else {
+      //     print("error: $error");
+      //   }
+      // }, onDone: () {
+      //   setState(() {
+      //     print("終了");
+      //     _stream = null;
+      //   });
+      // });
     });
   }
 
   void _stopScanning() {
-    _stream?.cancel();
-    setState(() {
-      _stream = null;
-    });
+    // _stream?.cancel();
+
+    // TODO: yabakattarakesu
+    NfcManager.instance.stopSession();
+    //
+    // setState(() {
+    //   // _stream = null;
+    // });
+  }
+
+  @override
+  void dispose() {
+    _stopScanning();
+    super.dispose();
   }
 
   @override
   void initState() {
-    if (_stream == null) {
-      _startScanning();
-    } else {
-      _stopScanning();
-    }
+    _startScanning();
+    //
+    // if (_stream == null) {
+    //   _startScanning();
+    // } else {
+    //   _stopScanning();
+    // }
     super.initState();
     // Check if the device supports NFC reading
   }

@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nfc_in_flutter/nfc_in_flutter.dart';
+// import 'package:nfc_in_flutter/nfc_in_flutter.dart';
+import 'package:nfc_manager/nfc_manager.dart';
 import 'package:piyomiru_application/api/buses.dart';
 import 'package:piyomiru_application/api/operation.dart';
 import 'package:piyomiru_application/api/passenger.dart';
@@ -38,7 +39,7 @@ class OperationScreen extends ConsumerStatefulWidget {
 }
 
 class _OperationScreenState extends ConsumerState<OperationScreen> {
-  StreamSubscription<NDEFMessage>? _stream;
+  // StreamSubscription<NDEFMessage>? _stream;
 
   var idList;
   var kidsList;
@@ -49,64 +50,79 @@ class _OperationScreenState extends ConsumerState<OperationScreen> {
 
   void _startScanning() {
     setState(() {
-      _stream = NFC
-          .readNDEF(alertMessage: "Custom message with readNDEF#alertMessage")
-          .listen((NDEFMessage message) {
-        if (message.isEmpty) {
+      NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+        final message = Ndef.from(tag);
+        if (message == null || message.cachedMessage?.records.isEmpty == true) {
           print("Read empty NDEF message");
           return;
         }
-        print("Read NDEF message with ${message.records.length} records");
-        for (NDEFRecord record in message.records) {
+        for (final record in message.cachedMessage?.records ?? []) {
           setState(() {
             userId = record.payload as int;
           });
           print(
               "Record '${record.id ?? "[NO ID]"}' with TNF '${record.tnf}', type '${record.type}', payload '${record.payload}' and data '${record.data}' and language code '${record.languageCode}'");
         }
-      }, onError: (error) {
-        setState(() {
-          _stream = null;
-        });
-        if (error is NFCUserCanceledSessionException) {
-          print("user canceled");
-        } else if (error is NFCSessionTimeoutException) {
-          print("session timed out");
-        } else {
-          print("error: $error");
-        }
-      }, onDone: () {
-        setState(() {
-          _stream = null;
-        });
       });
+      // _stream = NFC
+      //     .readNDEF(alertMessage: "Custom message with readNDEF#alertMessage")
+      //     .listen((NDEFMessage message) {
+      //   if (message.isEmpty) {
+      //     print("Read empty NDEF message");
+      //     return;
+      //   }
+      //   print("Read NDEF message with ${message.records.length} records");
+      //   for (NDEFRecord record in message.records) {
+      //     setState(() {
+      //       userId = record.payload as int;
+      //     });
+      //     print(
+      //         "Record '${record.id ?? "[NO ID]"}' with TNF '${record.tnf}', type '${record.type}', payload '${record.payload}' and data '${record.data}' and language code '${record.languageCode}'");
+      //   }
+      // }, onError: (error) {
+      //   setState(() {
+      //     _stream = null;
+      //   });
+      //   if (error is NFCUserCanceledSessionException) {
+      //     print("user canceled");
+      //   } else if (error is NFCSessionTimeoutException) {
+      //     print("session timed out");
+      //   } else {
+      //     print("error: $error");
+      //   }
+      // }, onDone: () {
+      //   setState(() {
+      //     _stream = null;
+      //   });
+      // });
     });
   }
 
   void _stopScanning() {
-    _stream?.cancel();
-    setState(() {
-      _stream = null;
-    });
+    // _stream?.cancel();
+    NfcManager.instance.stopSession();
+    // setState(() {
+    //   _stream = null;
+    // });
   }
-
-  void _toggleScan() {
-    if (_stream == null) {
-      _startScanning();
-      Passenger().getAllPassenger(widget.operationId).then((passengerList) => {
-            showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (BuildContext context) => NfcScanSampModal(
-                  passengers: passengerList,
-                  operationId: widget.operationId,
-                  success: false),
-            )
-          });
-    } else {
-      _stopScanning();
-    }
-  }
+  //
+  // void _toggleScan() {
+  //   if (_stream == null) {
+  //     _startScanning();
+  //     Passenger().getAllPassenger(widget.operationId).then((passengerList) => {
+  //           showDialog(
+  //             barrierDismissible: false,
+  //             context: context,
+  //             builder: (BuildContext context) => NfcScanSampModal(
+  //                 passengers: passengerList,
+  //                 operationId: widget.operationId,
+  //                 success: false),
+  //           )
+  //         });
+  //   } else {
+  //     _stopScanning();
+  //   }
+  // }
 
   @override
   void initState() {

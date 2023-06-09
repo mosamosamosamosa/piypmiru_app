@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nfc_in_flutter/nfc_in_flutter.dart';
-import 'package:flutter/material.dart';
 
 //import 'package:nfc_in_flutter/nfc_in_flutter.dart';
 import 'package:piyomiru_application/provider/provider.dart';
@@ -34,8 +31,6 @@ class _NfcScanModalState extends ConsumerState<NfcScanModal> {
   bool failed = false;
   String enId = '';
   //var enId;
-
-  StreamSubscription<NDEFMessage>? _stream;
   bool _hasClosedWriteDialog = false;
 
   @override
@@ -190,7 +185,6 @@ class _NfcScanModalState extends ConsumerState<NfcScanModal> {
                         //////////!success&&!failedならスキャンボタン表示//////////
                         onTap: () {
                           _hasClosedWriteDialog = true;
-                          _stream?.cancel();
                           Navigator.of(context).pop();
                           Navigator.of(context).pop();
                         },
